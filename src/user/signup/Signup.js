@@ -108,11 +108,21 @@ class Signup extends Component {
       this.state.name.validateStatus === "success" &&
       this.state.username.validateStatus === "success" &&
       this.state.email.validateStatus === "success" &&
-      this.state.service_address.validateStatus === "success" &&
-      this.state.service_name.validateStatus === "success" &&
-      this.state.cui.validateStatus === "success" &&
       this.state.phone.validateStatus === "success" &&
       this.state.password.validateStatus === "success"
+    );
+  }
+
+  isFormInvalidStaff() {
+    return !(
+      this.state.name.validateStatus === "success" &&
+      this.state.username.validateStatus === "success" &&
+      this.state.email.validateStatus === "success" &&
+      this.state.phone.validateStatus === "success" &&
+      this.state.password.validateStatus === "success" &&
+      this.state.service_name.validateStatus === "success" &&
+      this.state.service_address.validateStatus === "success" &&
+      this.state.cui.validateStatus === "success"
     );
   }
 
@@ -418,7 +428,7 @@ class Signup extends Component {
                     htmlType="submit"
                     size="large"
                     className="signup-form-button"
-                    disabled={this.isFormInvalid()}
+                    disabled={this.isFormInvalidStaff()}
                   >
                     Inscriete
                   </Button>
