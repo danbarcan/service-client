@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
-import "./AppHeader.css";
+import "./AppFooter.css";
 import pollIcon from "../poll.svg";
 import { Layout, Menu, Dropdown, Icon } from "antd";
 const Header = Layout.Header;
 
-class AppHeader extends Component {
+class AppFooter extends Component {
   constructor(props) {
     super(props);
     this.handleMenuClick = this.handleMenuClick.bind(this);
@@ -53,7 +53,7 @@ class AppHeader extends Component {
     }
 
     return (
-      <Header className="app-header">
+      <Header className="app-footer">
         <div className="container">
           <div className="app-title">
             <Link to="/">Serviceul Meu</Link>
@@ -105,4 +105,4 @@ function ProfileDropdownMenu(props) {
   );
 }
 
-export default withRouter(AppHeader);
+export default withRouter(AppFooter);

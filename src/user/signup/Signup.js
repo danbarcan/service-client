@@ -1,355 +1,627 @@
-import React, { Component } from 'react';
-import { signup, checkUsernameAvailability, checkEmailAvailability } from '../../util/APIUtils';
-import './Signup.css';
-import { Link } from 'react-router-dom';
-import { 
-    NAME_MIN_LENGTH, NAME_MAX_LENGTH, 
-    USERNAME_MIN_LENGTH, USERNAME_MAX_LENGTH,
-    EMAIL_MAX_LENGTH,
-    PASSWORD_MIN_LENGTH, PASSWORD_MAX_LENGTH
-} from '../../constants';
+import React, { Component } from "react";
+import {
+  signup,
+  checkUsernameAvailability,
+  checkEmailAvailability
+} from "../../util/APIUtils";
+import "./Signup.css";
+import { Link } from "react-router-dom";
+import {
+  NAME_MIN_LENGTH,
+  NAME_MAX_LENGTH,
+  USERNAME_MIN_LENGTH,
+  USERNAME_MAX_LENGTH,
+  EMAIL_MAX_LENGTH,
+  PASSWORD_MIN_LENGTH,
+  PASSWORD_MAX_LENGTH,
+  PHONE_MAX_LENGTH,
+  PHONE_MIN_LENGTH
+} from "../../constants";
 
-import { Form, Input, Button, notification } from 'antd';
+import { Form, Input, Button, notification } from "antd";
 const FormItem = Form.Item;
 
 class Signup extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            name: {
-                value: ''
-            },
-            username: {
-                value: ''
-            },
-            email: {
-                value: ''
-            },
-            password: {
-                value: ''
-            }
-        }
-        this.handleInputChange = this.handleInputChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.validateUsernameAvailability = this.validateUsernameAvailability.bind(this);
-        this.validateEmailAvailability = this.validateEmailAvailability.bind(this);
-        this.isFormInvalid = this.isFormInvalid.bind(this);
-    }
+  constructor(props) {
+    super(props);
+    this.state = {
+      name: {
+        value: ""
+      },
+      username: {
+        value: ""
+      },
+      email: {
+        value: ""
+      },
+      password: {
+        value: ""
+      },
+      phone: {
+        value: ""
+      },
+      service_name: {
+        value: ""
+      },
+      service_address: {
+        value: ""
+      },
+      cui: {
+        value: ""
+      }
+    };
+    this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.validateUsernameAvailability = this.validateUsernameAvailability.bind(
+      this
+    );
+    this.validateEmailAvailability = this.validateEmailAvailability.bind(this);
+    this.isFormInvalid = this.isFormInvalid.bind(this);
+  }
 
-    handleInputChange(event, validationFun) {
-        const target = event.target;
-        const inputName = target.name;        
-        const inputValue = target.value;
+  handleInputChange(event, validationFun) {
+    const target = event.target;
+    const inputName = target.name;
+    const inputValue = target.value;
 
-        this.setState({
-            [inputName] : {
-                value: inputValue,
-                ...validationFun(inputValue)
-            }
+    this.setState({
+      [inputName]: {
+        value: inputValue,
+        ...validationFun(inputValue)
+      }
+    });
+  }
+
+  handleSubmit(event) {
+    event.preventDefault();
+
+    const signupRequest = {
+      name: this.state.name.value,
+      email: this.state.email.value,
+      username: this.state.username.value,
+      password: this.state.password.value,
+      phone: this.state.phone.value,
+      service_name: this.state.service_name,
+      service_address: this.state.service_address,
+      cui: this.state.cui
+    };
+    signup(signupRequest)
+      .then(response => {
+        notification.success({
+          message: "Polling App",
+          description:
+            "Thank you! You're successfully registered. Please Login to continue!"
         });
-    }
-
-    handleSubmit(event) {
-        event.preventDefault();
-    
-        const signupRequest = {
-            name: this.state.name.value,
-            email: this.state.email.value,
-            username: this.state.username.value,
-            password: this.state.password.value
-        };
-        signup(signupRequest)
-        .then(response => {
-            notification.success({
-                message: 'Polling App',
-                description: "Thank you! You're successfully registered. Please Login to continue!",
-            });          
-            this.props.history.push("/login");
-        }).catch(error => {
-            notification.error({
-                message: 'Polling App',
-                description: error.message || 'Sorry! Something went wrong. Please try again!'
-            });
+        this.props.history.push("/login");
+      })
+      .catch(error => {
+        notification.error({
+          message: "Polling App",
+          description:
+            error.message || "Sorry! Something went wrong. Please try again!"
         });
-    }
+      });
+  }
 
-    isFormInvalid() {
-        return !(this.state.name.validateStatus === 'success' &&
-            this.state.username.validateStatus === 'success' &&
-            this.state.email.validateStatus === 'success' &&
-            this.state.password.validateStatus === 'success'
-        );
-    }
+  isFormInvalid() {
+    return !(
+      this.state.name.validateStatus === "success" &&
+      this.state.username.validateStatus === "success" &&
+      this.state.email.validateStatus === "success" &&
+      this.state.phone.validateStatus === "success" &&
+      this.state.password.validateStatus === "success"
+    );
+  }
 
-    render() {
-        return (
-            <div className="signup-container">
-                <h1 className="page-title">Sign Up</h1>
-                <div className="signup-content">
-                    <Form onSubmit={this.handleSubmit} className="signup-form">
-                        <FormItem 
-                            label="Full Name"
-                            validateStatus={this.state.name.validateStatus}
-                            help={this.state.name.errorMsg}>
-                            <Input 
-                                size="large"
-                                name="name"
-                                autoComplete="off"
-                                placeholder="Your full name"
-                                value={this.state.name.value} 
-                                onChange={(event) => this.handleInputChange(event, this.validateName)} />    
-                        </FormItem>
-                        <FormItem label="Username"
-                            hasFeedback
-                            validateStatus={this.state.username.validateStatus}
-                            help={this.state.username.errorMsg}>
-                            <Input 
-                                size="large"
-                                name="username" 
-                                autoComplete="off"
-                                placeholder="A unique username"
-                                value={this.state.username.value} 
-                                onBlur={this.validateUsernameAvailability}
-                                onChange={(event) => this.handleInputChange(event, this.validateUsername)} />    
-                        </FormItem>
-                        <FormItem 
-                            label="Email"
-                            hasFeedback
-                            validateStatus={this.state.email.validateStatus}
-                            help={this.state.email.errorMsg}>
-                            <Input 
-                                size="large"
-                                name="email" 
-                                type="email" 
-                                autoComplete="off"
-                                placeholder="Your email"
-                                value={this.state.email.value} 
-                                onBlur={this.validateEmailAvailability}
-                                onChange={(event) => this.handleInputChange(event, this.validateEmail)} />    
-                        </FormItem>
-                        <FormItem 
-                            label="Password"
-                            validateStatus={this.state.password.validateStatus}
-                            help={this.state.password.errorMsg}>
-                            <Input 
-                                size="large"
-                                name="password" 
-                                type="password"
-                                autoComplete="off"
-                                placeholder="A password between 6 to 20 characters" 
-                                value={this.state.password.value} 
-                                onChange={(event) => this.handleInputChange(event, this.validatePassword)} />    
-                        </FormItem>
-                        <FormItem>
-                            <Button type="primary" 
-                                htmlType="submit" 
-                                size="large" 
-                                className="signup-form-button"
-                                disabled={this.isFormInvalid()}>Sign up</Button>
-                            Already registed? <Link to="/login">Login now!</Link>
-                        </FormItem>
-                    </Form>
-                </div>
+  render() {
+    return (
+      <div className="signup-container">
+        <ul class="nav nav-tabs nav-fill">
+          <li class="nav-item">
+            <a
+              class="nav-link active"
+              id="home-tab"
+              data-toggle="tab"
+              href="#home"
+              role="tab"
+              aria-controls="home"
+              aria-selected="true"
+            >
+              Membru
+            </a>
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              id="profile-tab"
+              data-toggle="tab"
+              href="#profile"
+              role="tab"
+              aria-controls="profile"
+              aria-selected="false"
+            >
+              Service
+            </a>
+          </li>
+        </ul>
+
+        <div class="tab-content" id="myTabContent">
+          <div
+            class="tab-pane fade show active"
+            id="home"
+            role="tabpanel"
+            aria-labelledby="home-tab"
+          >
+            <h1 className="page-title">Inscriete ! </h1>
+            <div className="signup-content">
+              <Form onSubmit={this.handleSubmit} className="signup-form">
+                <FormItem
+                  label="Nume"
+                  validateStatus={this.state.name.validateStatus}
+                  help={this.state.name.errorMsg}
+                >
+                  <Input
+                    size="large"
+                    name="name"
+                    autoComplete="off"
+                    placeholder="Nume si Prenume"
+                    value={this.state.name.value}
+                    onChange={event =>
+                      this.handleInputChange(event, this.validateName)
+                    }
+                  />
+                </FormItem>
+                <FormItem
+                  label="Nume de utilizator"
+                  hasFeedback
+                  validateStatus={this.state.username.validateStatus}
+                  help={this.state.username.errorMsg}
+                >
+                  <Input
+                    size="large"
+                    name="username"
+                    autoComplete="off"
+                    placeholder="Nume de utilizator"
+                    value={this.state.username.value}
+                    onBlur={this.validateUsernameAvailability}
+                    onChange={event =>
+                      this.handleInputChange(event, this.validateUsername)
+                    }
+                  />
+                </FormItem>
+                <FormItem
+                  label="Email"
+                  hasFeedback
+                  validateStatus={this.state.email.validateStatus}
+                  help={this.state.email.errorMsg}
+                >
+                  <Input
+                    size="large"
+                    name="email"
+                    type="email"
+                    autoComplete="off"
+                    placeholder="Adresa de email"
+                    value={this.state.email.value}
+                    onBlur={this.validateEmailAvailability}
+                    onChange={event =>
+                      this.handleInputChange(event, this.validateEmail)
+                    }
+                  />
+                </FormItem>
+                <FormItem
+                  label="Telefon"
+                  hasFeedback
+                  validateStatus={this.state.phone.validateStatus}
+                  help={this.state.phone.errorMsg}
+                >
+                  <Input
+                    size="large"
+                    name="phone"
+                    type="number"
+                    autoComplete="off"
+                    placeholder="Telefon"
+                    value={this.state.phone.value}
+                    onChange={event =>
+                      this.handleInputChange(event, this.validatePhone)
+                    }
+                  />
+                </FormItem>
+                <FormItem
+                  label="Parola"
+                  validateStatus={this.state.password.validateStatus}
+                  help={this.state.password.errorMsg}
+                >
+                  <Input
+                    size="large"
+                    name="password"
+                    type="password"
+                    autoComplete="off"
+                    placeholder="Parola trebuie sa contina intre 6 si 20 de caractere"
+                    value={this.state.password.value}
+                    onChange={event =>
+                      this.handleInputChange(event, this.validatePassword)
+                    }
+                  />
+                </FormItem>
+                <FormItem>
+                  <Button
+                    type="primary"
+                    htmlType="submit"
+                    size="large"
+                    className="signup-form-button"
+                    disabled={this.isFormInvalid()}
+                  >
+                    Inscriete
+                  </Button>
+                  Deja inscris ? <Link to="/login">Logheazate!</Link>
+                </FormItem>
+              </Form>
             </div>
-        );
+          </div>
+          <div
+            class="tab-pane fade"
+            id="profile"
+            role="tabpanel"
+            aria-labelledby="profile-tab"
+          >
+            <h1 className="page-title">Inscriete ca Service! </h1>
+            <div className="signup-content">
+              <Form onSubmit={this.handleSubmit} className="signup-form">
+                <FormItem
+                  label="Nume"
+                  validateStatus={this.state.name.validateStatus}
+                  help={this.state.name.errorMsg}
+                >
+                  <Input
+                    size="large"
+                    name="name"
+                    autoComplete="off"
+                    placeholder="Nume si Prenume"
+                    value={this.state.name.value}
+                    onChange={event =>
+                      this.handleInputChange(event, this.validateName)
+                    }
+                  />
+                </FormItem>
+                <FormItem
+                  label="Nume de utilizator"
+                  hasFeedback
+                  validateStatus={this.state.username.validateStatus}
+                  help={this.state.username.errorMsg}
+                >
+                  <Input
+                    size="large"
+                    name="username"
+                    autoComplete="off"
+                    placeholder="Nume de utilizator"
+                    onBlur={this.validateUsernameAvailability}
+                    onChange={event =>
+                      this.handleInputChange(event, this.validateUsername)
+                    }
+                  />
+                </FormItem>
+                <FormItem
+                  label="Email"
+                  hasFeedback
+                  validateStatus={this.state.email.validateStatus}
+                  help={this.state.email.errorMsg}
+                >
+                  <Input
+                    size="large"
+                    name="email"
+                    type="email"
+                    autoComplete="off"
+                    placeholder="Adresa de email"
+                    value={this.state.email.value}
+                    onBlur={this.validateEmailAvailability}
+                    onChange={event =>
+                      this.handleInputChange(event, this.validateEmail)
+                    }
+                  />
+                </FormItem>
+                <FormItem
+                  label="Telefon"
+                  hasFeedback
+                  validateStatus={this.state.phone.validateStatus}
+                  help={this.state.phone.errorMsg}
+                >
+                  <Input
+                    size="large"
+                    name="phone"
+                    type="number"
+                    autoComplete="off"
+                    placeholder="Telefon"
+                    value={this.state.phone.value}
+                    onChange={event =>
+                      this.handleInputChange(event, this.validatePhone)
+                    }
+                  />
+                </FormItem>
+                <FormItem
+                  label="Parola"
+                  validateStatus={this.state.password.validateStatus}
+                  help={this.state.password.errorMsg}
+                >
+                  <Input
+                    size="large"
+                    name="password"
+                    type="password"
+                    autoComplete="off"
+                    placeholder="Parola trebuie sa contina intre 6 si 20 de caractere"
+                    value={this.state.password.value}
+                    onChange={event =>
+                      this.handleInputChange(event, this.validatePassword)
+                    }
+                  />
+                </FormItem>
+                <h2> Detaliile Firmei</h2>
+                <FormItem label="Nume Service" hasFeedback>
+                  <Input
+                    size="large"
+                    name="service-name"
+                    type="text"
+                    value={this.state.service_name.value}
+                    autoComplete="off"
+                    placeholder="Nume Service"
+                  />
+                </FormItem>
+                <FormItem label="Adresa" hasFeedback>
+                  <Input
+                    size="large"
+                    name="service-name"
+                    type="text"
+                    value={this.state.service_address.value}
+                    autoComplete="off"
+                    placeholder="Adresa"
+                  />
+                </FormItem>
+                <FormItem label="CUI" hasFeedback>
+                  <Input
+                    size="large"
+                    name="service-name"
+                    type="text"
+                    value={this.state.cui.value}
+                    autoComplete="off"
+                    placeholder="CUI"
+                  />
+                </FormItem>
+
+                <FormItem>
+                  <Button
+                    type="primary"
+                    htmlType="submit"
+                    size="large"
+                    className="signup-form-button"
+                    disabled={this.isFormInvalid()}
+                  >
+                    Inscriete
+                  </Button>
+                  Deja inscris ? <Link to="/login">Logheazate!</Link>
+                </FormItem>
+              </Form>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Validation Functions
+
+  validateName = name => {
+    if (name.length < NAME_MIN_LENGTH) {
+      return {
+        validateStatus: "error",
+        errorMsg: `Numele este prea scurt (Minim ${NAME_MIN_LENGTH} caractere necesare.)`
+      };
+    } else if (name.length > NAME_MAX_LENGTH) {
+      return {
+        validationStatus: "error",
+        errorMsg: `Numele este prea lung (Maxim ${NAME_MAX_LENGTH} caractere.)`
+      };
+    } else {
+      return {
+        validateStatus: "success",
+        errorMsg: null
+      };
+    }
+  };
+
+  validatePhone = phone => {
+    if (phone.length < PHONE_MIN_LENGTH) {
+      return {
+        validateStatus: "error",
+        errorMsg: `Numarul de telefon este prea scurt.`
+      };
+    } else if (phone.length > PHONE_MAX_LENGTH) {
+      return {
+        validationStatus: "error",
+        errorMsg: `Numarul de telefon este prea lung.`
+      };
+    } else {
+      return {
+        validateStatus: "success",
+        errorMsg: null
+      };
+    }
+  };
+
+  validateEmail = email => {
+    if (!email) {
+      return {
+        validateStatus: "error",
+        errorMsg: "Emailul este obligatoriu"
+      };
     }
 
-    // Validation Functions
-
-    validateName = (name) => {
-        if(name.length < NAME_MIN_LENGTH) {
-            return {
-                validateStatus: 'error',
-                errorMsg: `Name is too short (Minimum ${NAME_MIN_LENGTH} characters needed.)`
-            }
-        } else if (name.length > NAME_MAX_LENGTH) {
-            return {
-                validationStatus: 'error',
-                errorMsg: `Name is too long (Maximum ${NAME_MAX_LENGTH} characters allowed.)`
-            }
-        } else {
-            return {
-                validateStatus: 'success',
-                errorMsg: null,
-              };            
-        }
+    const EMAIL_REGEX = RegExp("[^@ ]+@[^@ ]+\\.[^@ ]+");
+    if (!EMAIL_REGEX.test(email)) {
+      return {
+        validateStatus: "error",
+        errorMsg: "Email nu este valid"
+      };
     }
 
-    validateEmail = (email) => {
-        if(!email) {
-            return {
-                validateStatus: 'error',
-                errorMsg: 'Email may not be empty'                
-            }
-        }
-
-        const EMAIL_REGEX = RegExp('[^@ ]+@[^@ ]+\\.[^@ ]+');
-        if(!EMAIL_REGEX.test(email)) {
-            return {
-                validateStatus: 'error',
-                errorMsg: 'Email not valid'
-            }
-        }
-
-        if(email.length > EMAIL_MAX_LENGTH) {
-            return {
-                validateStatus: 'error',
-                errorMsg: `Email is too long (Maximum ${EMAIL_MAX_LENGTH} characters allowed)`
-            }
-        }
-
-        return {
-            validateStatus: null,
-            errorMsg: null
-        }
+    if (email.length > EMAIL_MAX_LENGTH) {
+      return {
+        validateStatus: "error",
+        errorMsg: `Emailul este prea lung`
+      };
     }
 
-    validateUsername = (username) => {
-        if(username.length < USERNAME_MIN_LENGTH) {
-            return {
-                validateStatus: 'error',
-                errorMsg: `Username is too short (Minimum ${USERNAME_MIN_LENGTH} characters needed.)`
-            }
-        } else if (username.length > USERNAME_MAX_LENGTH) {
-            return {
-                validationStatus: 'error',
-                errorMsg: `Username is too long (Maximum ${USERNAME_MAX_LENGTH} characters allowed.)`
-            }
-        } else {
-            return {
-                validateStatus: null,
-                errorMsg: null
-            }
+    return {
+      validateStatus: null,
+      errorMsg: null
+    };
+  };
+
+  validateUsername = username => {
+    if (username.length < USERNAME_MIN_LENGTH) {
+      return {
+        validateStatus: "error",
+        errorMsg: `Numele de utilizator este prea scurt. (Minim ${USERNAME_MIN_LENGTH} caractere.)`
+      };
+    } else if (username.length > USERNAME_MAX_LENGTH) {
+      return {
+        validationStatus: "error",
+        errorMsg: `Numele de utilizator este prea scurt. (Maxim ${USERNAME_MAX_LENGTH} caractere.)`
+      };
+    } else {
+      return {
+        validateStatus: null,
+        errorMsg: null
+      };
+    }
+  };
+
+  validateUsernameAvailability() {
+    // First check for client side errors in username
+    const usernameValue = this.state.username.value;
+    const usernameValidation = this.validateUsername(usernameValue);
+
+    if (usernameValidation.validateStatus === "error") {
+      this.setState({
+        username: {
+          value: usernameValue,
+          ...usernameValidation
         }
+      });
+      return;
     }
 
-    validateUsernameAvailability() {
-        // First check for client side errors in username
-        const usernameValue = this.state.username.value;
-        const usernameValidation = this.validateUsername(usernameValue);
+    this.setState({
+      username: {
+        value: usernameValue,
+        validateStatus: "validating",
+        errorMsg: null
+      }
+    });
 
-        if(usernameValidation.validateStatus === 'error') {
-            this.setState({
-                username: {
-                    value: usernameValue,
-                    ...usernameValidation
-                }
-            });
-            return;
-        }
-
-        this.setState({
+    checkUsernameAvailability(usernameValue)
+      .then(response => {
+        if (response.available) {
+          this.setState({
             username: {
-                value: usernameValue,
-                validateStatus: 'validating',
-                errorMsg: null
+              value: usernameValue,
+              validateStatus: "success",
+              errorMsg: null
             }
-        });
-
-        checkUsernameAvailability(usernameValue)
-        .then(response => {
-            if(response.available) {
-                this.setState({
-                    username: {
-                        value: usernameValue,
-                        validateStatus: 'success',
-                        errorMsg: null
-                    }
-                });
-            } else {
-                this.setState({
-                    username: {
-                        value: usernameValue,
-                        validateStatus: 'error',
-                        errorMsg: 'This username is already taken'
-                    }
-                });
-            }
-        }).catch(error => {
-            // Marking validateStatus as success, Form will be recchecked at server
-            this.setState({
-                username: {
-                    value: usernameValue,
-                    validateStatus: 'success',
-                    errorMsg: null
-                }
-            });
-        });
-    }
-
-    validateEmailAvailability() {
-        // First check for client side errors in email
-        const emailValue = this.state.email.value;
-        const emailValidation = this.validateEmail(emailValue);
-
-        if(emailValidation.validateStatus === 'error') {
-            this.setState({
-                email: {
-                    value: emailValue,
-                    ...emailValidation
-                }
-            });    
-            return;
-        }
-
-        this.setState({
-            email: {
-                value: emailValue,
-                validateStatus: 'validating',
-                errorMsg: null
-            }
-        });
-
-        checkEmailAvailability(emailValue)
-        .then(response => {
-            if(response.available) {
-                this.setState({
-                    email: {
-                        value: emailValue,
-                        validateStatus: 'success',
-                        errorMsg: null
-                    }
-                });
-            } else {
-                this.setState({
-                    email: {
-                        value: emailValue,
-                        validateStatus: 'error',
-                        errorMsg: 'This Email is already registered'
-                    }
-                });
-            }
-        }).catch(error => {
-            // Marking validateStatus as success, Form will be recchecked at server
-            this.setState({
-                email: {
-                    value: emailValue,
-                    validateStatus: 'success',
-                    errorMsg: null
-                }
-            });
-        });
-    }
-
-    validatePassword = (password) => {
-        if(password.length < PASSWORD_MIN_LENGTH) {
-            return {
-                validateStatus: 'error',
-                errorMsg: `Password is too short (Minimum ${PASSWORD_MIN_LENGTH} characters needed.)`
-            }
-        } else if (password.length > PASSWORD_MAX_LENGTH) {
-            return {
-                validationStatus: 'error',
-                errorMsg: `Password is too long (Maximum ${PASSWORD_MAX_LENGTH} characters allowed.)`
-            }
+          });
         } else {
-            return {
-                validateStatus: 'success',
-                errorMsg: null,
-            };            
+          this.setState({
+            username: {
+              value: usernameValue,
+              validateStatus: "error",
+              errorMsg: "Acest nume de utilizator este deja inregistrat."
+            }
+          });
         }
+      })
+      .catch(error => {
+        // Marking validateStatus as success, Form will be recchecked at server
+        this.setState({
+          username: {
+            value: usernameValue,
+            validateStatus: "success",
+            errorMsg: null
+          }
+        });
+      });
+  }
+
+  validateEmailAvailability() {
+    // First check for client side errors in email
+    const emailValue = this.state.email.value;
+    const emailValidation = this.validateEmail(emailValue);
+
+    if (emailValidation.validateStatus === "error") {
+      this.setState({
+        email: {
+          value: emailValue,
+          ...emailValidation
+        }
+      });
+      return;
     }
 
+    this.setState({
+      email: {
+        value: emailValue,
+        validateStatus: "validating",
+        errorMsg: null
+      }
+    });
+
+    checkEmailAvailability(emailValue)
+      .then(response => {
+        if (response.available) {
+          this.setState({
+            email: {
+              value: emailValue,
+              validateStatus: "success",
+              errorMsg: null
+            }
+          });
+        } else {
+          this.setState({
+            email: {
+              value: emailValue,
+              validateStatus: "error",
+              errorMsg: "Adresa de email este deja inregistrata."
+            }
+          });
+        }
+      })
+      .catch(error => {
+        // Marking validateStatus as success, Form will be recchecked at server
+        this.setState({
+          email: {
+            value: emailValue,
+            validateStatus: "success",
+            errorMsg: null
+          }
+        });
+      });
+  }
+
+  validatePassword = password => {
+    if (password.length < PASSWORD_MIN_LENGTH) {
+      return {
+        validateStatus: "error",
+        errorMsg: `Parola este prea scurta. (Minimul este de  ${PASSWORD_MIN_LENGTH} caractere.)`
+      };
+    } else if (password.length > PASSWORD_MAX_LENGTH) {
+      return {
+        validationStatus: "error",
+        errorMsg: `Parola este prea lunga. (Maximul este de ${PASSWORD_MAX_LENGTH} caractere.)`
+      };
+    } else {
+      return {
+        validateStatus: "success",
+        errorMsg: null
+      };
+    }
+  };
 }
 
 export default Signup;
