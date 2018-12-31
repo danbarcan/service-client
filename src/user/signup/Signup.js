@@ -81,9 +81,9 @@ class Signup extends Component {
       username: this.state.username.value,
       password: this.state.password.value,
       phone: this.state.phone.value,
-      service_name: this.state.service_name,
-      service_address: this.state.service_address,
-      cui: this.state.cui
+      service_name: this.state.service_name.value,
+      service_address: this.state.service_address.value,
+      cui: this.state.cui.value
     };
     signup(signupRequest)
       .then(response => {
@@ -108,6 +108,9 @@ class Signup extends Component {
       this.state.name.validateStatus === "success" &&
       this.state.username.validateStatus === "success" &&
       this.state.email.validateStatus === "success" &&
+      this.state.service_address.validateStatus === "success" &&
+      this.state.service_name.validateStatus === "success" &&
+      this.state.cui.validateStatus === "success" &&
       this.state.phone.validateStatus === "success" &&
       this.state.password.validateStatus === "success"
     );
@@ -355,34 +358,57 @@ class Signup extends Component {
                   />
                 </FormItem>
                 <h2> Detaliile Firmei</h2>
-                <FormItem label="Nume Service" hasFeedback>
+                <FormItem
+                  label="Nume Service"
+                  validateStatus={this.state.service_name.validateStatus}
+                  help={this.state.service_name.errorMsg}
+                >
                   <Input
                     size="large"
-                    name="service-name"
+                    name="service_name"
                     type="text"
-                    value={this.state.service_name.value}
                     autoComplete="off"
                     placeholder="Nume Service"
+                    value={this.state.service_name.value}
+                    onChange={event =>
+                      this.handleInputChange(event, this.validateServiceName)
+                    }
                   />
                 </FormItem>
-                <FormItem label="Adresa" hasFeedback>
+
+                <FormItem
+                  label="Adresa"
+                  validateStatus={this.state.service_address.validateStatus}
+                  help={this.state.service_address.errorMsg}
+                >
                   <Input
                     size="large"
-                    name="service-name"
+                    name="service_address"
                     type="text"
-                    value={this.state.service_address.value}
                     autoComplete="off"
                     placeholder="Adresa"
+                    value={this.state.service_address.value}
+                    onChange={event =>
+                      this.handleInputChange(event, this.validateServiceAddress)
+                    }
                   />
                 </FormItem>
-                <FormItem label="CUI" hasFeedback>
+
+                <FormItem
+                  label="CUI"
+                  validateStatus={this.state.cui.validateStatus}
+                  help={this.state.cui.errorMsg}
+                >
                   <Input
                     size="large"
-                    name="service-name"
+                    name="cui"
                     type="text"
-                    value={this.state.cui.value}
                     autoComplete="off"
-                    placeholder="CUI"
+                    placeholder="C.U.I"
+                    value={this.state.cui.value}
+                    onChange={event =>
+                      this.handleInputChange(event, this.validateCUI)
+                    }
                   />
                 </FormItem>
 
@@ -418,6 +444,48 @@ class Signup extends Component {
       return {
         validationStatus: "error",
         errorMsg: `Numele este prea lung (Maxim ${NAME_MAX_LENGTH} caractere.)`
+      };
+    } else {
+      return {
+        validateStatus: "success",
+        errorMsg: null
+      };
+    }
+  };
+
+  validateServiceName = service_name => {
+    if (!service_name) {
+      return {
+        validateStatus: "error",
+        errorMsg: "Numele Serviceului este obligatoriu. "
+      };
+    } else {
+      return {
+        validateStatus: "success",
+        errorMsg: null
+      };
+    }
+  };
+
+  validateServiceAddress = service_address => {
+    if (!service_address) {
+      return {
+        validateStatus: "error",
+        errorMsg: "Adresa serviceului este obligatorie. "
+      };
+    } else {
+      return {
+        validateStatus: "success",
+        errorMsg: null
+      };
+    }
+  };
+
+  validateCUI = cui => {
+    if (!cui) {
+      return {
+        validateStatus: "error",
+        errorMsg: "Codul unic de identificare este obligatoriu. "
       };
     } else {
       return {
