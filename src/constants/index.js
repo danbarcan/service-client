@@ -1,5 +1,5 @@
 export const API_BASE_URL = "https://serice-api.herokuapp.com";
-//export const API_BASE_URL = '/api';
+//export const API_BASE_URL = 'http://localhost:9876';
 export const ACCESS_TOKEN = "accessToken";
 
 export const POLL_LIST_SIZE = 30;
