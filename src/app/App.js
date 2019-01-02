@@ -2,12 +2,13 @@ import React, { Component } from "react";
 import "./App.css";
 import { Route, withRouter, Switch } from "react-router-dom";
 
-import { getCurrentUser } from "../util/APIUtils";
+import { getCurrentUser, createJob } from "../util/APIUtils";
 import { ACCESS_TOKEN } from "../constants";
 
 import PollList from "../poll/PollList";
 import NewPoll from "../poll/NewPoll";
 import Login from "../user/login/Login";
+import Job from "../user/signup/Job";
 import Signup from "../user/signup/Signup";
 import Profile from "../user/profile/Profile";
 import AppHeader from "../common/AppHeader";
@@ -105,6 +106,7 @@ class App extends Component {
         <Content className="app-content">
           <div className="container">
             <h1> Serviceul Meu</h1>
+            <Route path="/" component={Job} />
             <Switch>
               <Route
                 exact
