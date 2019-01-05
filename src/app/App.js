@@ -18,12 +18,14 @@ import LoadingIndicator from "../common/LoadingIndicator";
 import PrivateRoute from "../common/PrivateRoute";
 
 import { Layout, notification } from "antd";
+import JobList from "../poll/JobList";
 const { Content } = Layout;
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      currentUserName: null,
       currentUser: null,
       isAuthenticated: false,
       isLoading: false
@@ -47,6 +49,8 @@ class App extends Component {
       .then(response => {
         this.setState({
           currentUser: response,
+          currentUserRole: response.role,
+          currentUserName: response.name,
           isAuthenticated: true,
           isLoading: false
         });
@@ -74,7 +78,7 @@ class App extends Component {
       isAuthenticated: false
     });
 
-    this.props.history.push(redirectTo);
+    this.props.history.push("/");
 
     notification[notificationType]({
       message: "Polling App",
@@ -88,6 +92,7 @@ class App extends Component {
       description: "You're successfully logged in."
     });
     this.loadCurrentUser();
+
     this.props.history.push("/");
   }
 
@@ -95,61 +100,116 @@ class App extends Component {
     if (this.state.isLoading) {
       return <LoadingIndicator />;
     }
-    return (
-      <Layout className="app-container">
-        <AppHeader
-          isAuthenticated={this.state.isAuthenticated}
-          currentUser={this.state.currentUser}
-          onLogout={this.handleLogout}
-        />
+    if (this.state.currentUserRole == "ROLE_USER") {
+      return (
+        <Layout className="app-container">
+          <AppHeader
+            isAuthenticated={this.state.isAuthenticated}
+            currentUser={this.state.currentUser}
+            onLogout={this.handleLogout}
+          />
 
-        <Content className="app-content">
-          <div className="container">
-            <h1> Serviceul Meu</h1>
+          <Content className="app-content">
+            <div className="container" />
+            <h3>User Dashboard</h3>
+            <h3> Bine ai venit, {this.state.currentUserName}</h3>
+
             <Route path="/" component={Job} />
-            <Switch>
-              <Route
-                exact
-                path="/"
-                render={props => (
-                  <PollList
-                    isAuthenticated={this.state.isAuthenticated}
-                    currentUser={this.state.currentUser}
-                    handleLogout={this.handleLogout}
-                    {...props}
-                  />
-                )}
-              />
-              <Route
-                path="/login"
-                render={props => (
-                  <Login onLogin={this.handleLogin} {...props} />
-                )}
-              />
-              <Route path="/signup" component={Signup} />
-              <Route
-                path="/users/:username"
-                render={props => (
-                  <Profile
-                    isAuthenticated={this.state.isAuthenticated}
-                    currentUser={this.state.currentUser}
-                    {...props}
-                  />
-                )}
-              />
-              <PrivateRoute
-                authenticated={this.state.isAuthenticated}
-                path="/poll/new"
-                component={NewPoll}
-                handleLogout={this.handleLogout}
-              />
-              <Route component={NotFound} />
-            </Switch>
-          </div>
-        </Content>
-        <AppFooter />
-      </Layout>
-    );
+
+            <h2 />
+          </Content>
+          <AppFooter />
+        </Layout>
+      );
+    } else if (this.state.currentUserRole == "ROLE_ADMIN") {
+      return (
+        <Layout className="app-container">
+          <AppHeader
+            isAuthenticated={this.state.isAuthenticated}
+            currentUser={this.state.currentUser}
+            onLogout={this.handleLogout}
+          />
+
+          <Content className="app-content">
+            <div className="container" />
+            <h3>Admin Dashboard</h3>
+          </Content>
+          <AppFooter />
+        </Layout>
+      );
+    } else if (this.state.currentUserRole == "ROLE_SERVICE") {
+      return (
+        <Layout className="app-container">
+          <AppHeader
+            isAuthenticated={this.state.isAuthenticated}
+            currentUser={this.state.currentUser}
+            onLogout={this.handleLogout}
+          />
+
+          <Content className="app-content">
+            <div className="container" />
+            <h3>Services Dashboard</h3>
+            <JobList />
+          </Content>
+          <AppFooter />
+        </Layout>
+      );
+    } else {
+      return (
+        <Layout className="app-container">
+          <AppHeader
+            isAuthenticated={this.state.isAuthenticated}
+            currentUser={this.state.currentUser}
+            onLogout={this.handleLogout}
+          />
+
+          <Content className="app-content">
+            <div className="container">
+              <h1> Serviceul meu {this.state.currentUserName}, </h1>
+              <Switch>
+                <Route
+                  exact
+                  path="/"
+                  render={props => (
+                    <PollList
+                      isAuthenticated={this.state.isAuthenticated}
+                      currentUser={this.state.currentUser}
+                      handleLogout={this.handleLogout}
+                      {...props}
+                    />
+                  )}
+                />
+                <Route
+                  path="/login"
+                  render={props => (
+                    <Login onLogin={this.handleLogin} {...props} />
+                  )}
+                />
+                <Route path="/signup" component={Signup} />
+                <Route
+                  path="/users/:username"
+                  render={props => (
+                    <Profile
+                      isAuthenticated={this.state.isAuthenticated}
+                      currentUser={this.state.currentUser}
+                      {...props}
+                    />
+                  )}
+                />
+                <PrivateRoute
+                  authenticated={this.state.isAuthenticated}
+                  path="/poll/new"
+                  component={NewPoll}
+                  handleLogout={this.handleLogout}
+                />
+                <Route component={NotFound} />
+              </Switch>
+            </div>
+          </Content>
+          <AppFooter />
+        </Layout>
+      );
+    }
   }
 }
 

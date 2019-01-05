@@ -135,8 +135,15 @@ export function getUserVotedPolls(username, page, size) {
 
 export function createJob(jobRequest) {
   return request({
-    url: API_BASE_URL + "/users/job",
+    url: API_BASE_URL + "/users/job/",
     method: "POST",
     body: JSON.stringify(jobRequest)
+  });
+}
+
+export function getAllJobs() {
+  return request({
+    url: API_BASE_URL + "/services/jobs",
+    method: "GET"
   });
 }
