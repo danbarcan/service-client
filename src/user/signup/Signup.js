@@ -18,6 +18,8 @@ import {
   PHONE_MIN_LENGTH
 } from "../../constants";
 
+import { Tab, Tabs, Nav, NavItem, Row, Col } from "react-bootstrap";
+
 import { Form, Input, Button, notification } from "antd";
 
 const FormItem = Form.Item;
@@ -130,315 +132,297 @@ class Signup extends Component {
   render() {
     return (
       <div className="signup-container">
-        <ul class="nav nav-tabs nav-fill">
-          <li class="nav-item">
-            <a
-              class="nav-link active"
-              id="home-tab"
-              data-toggle="tab"
-              href="#home"
-              role="tab"
-              aria-controls="home"
-              aria-selected="true"
-            >
-              Membru
-            </a>
-          </li>
-          <li class="nav-item">
-            <a
-              class="nav-link"
-              id="profile-tab"
-              data-toggle="tab"
-              href="#profile"
-              role="tab"
-              aria-controls="profile"
-              aria-selected="false"
-            >
-              Service
-            </a>
-          </li>
-        </ul>
-
-        <div class="tab-content" id="myTabContent">
-          <div
-            class="tab-pane fade show active"
-            id="home"
-            role="tabpanel"
-            aria-labelledby="home-tab"
-          >
-            <h1 className="page-title">Inscriete ! </h1>
-            <div className="signup-content">
-              <Form onSubmit={this.handleSubmit} className="signup-form">
-                <FormItem
-                  label="Nume"
-                  validateStatus={this.state.name.validateStatus}
-                  help={this.state.name.errorMsg}
-                >
-                  <Input
-                    size="large"
-                    name="name"
-                    autoComplete="off"
-                    placeholder="Nume si Prenume"
-                    value={this.state.name.value}
-                    onChange={event =>
-                      this.handleInputChange(event, this.validateName)
-                    }
-                  />
-                </FormItem>
-                <FormItem
-                  label="Nume de utilizator"
-                  hasFeedback
-                  validateStatus={this.state.username.validateStatus}
-                  help={this.state.username.errorMsg}
-                >
-                  <Input
-                    size="large"
-                    name="username"
-                    autoComplete="off"
-                    placeholder="Nume de utilizator"
-                    value={this.state.username.value}
-                    onBlur={this.validateUsernameAvailability}
-                    onChange={event =>
-                      this.handleInputChange(event, this.validateUsername)
-                    }
-                  />
-                </FormItem>
-                <FormItem
-                  label="Email"
-                  hasFeedback
-                  validateStatus={this.state.email.validateStatus}
-                  help={this.state.email.errorMsg}
-                >
-                  <Input
-                    size="large"
-                    name="email"
-                    type="email"
-                    autoComplete="off"
-                    placeholder="Adresa de email"
-                    value={this.state.email.value}
-                    onBlur={this.validateEmailAvailability}
-                    onChange={event =>
-                      this.handleInputChange(event, this.validateEmail)
-                    }
-                  />
-                </FormItem>
-                <FormItem
-                  label="Telefon"
-                  hasFeedback
-                  validateStatus={this.state.phone.validateStatus}
-                  help={this.state.phone.errorMsg}
-                >
-                  <Input
-                    size="large"
-                    name="phone"
-                    type="number"
-                    autoComplete="off"
-                    placeholder="Telefon"
-                    value={this.state.phone.value}
-                    onChange={event =>
-                      this.handleInputChange(event, this.validatePhone)
-                    }
-                  />
-                </FormItem>
-                <FormItem
-                  label="Parola"
-                  validateStatus={this.state.password.validateStatus}
-                  help={this.state.password.errorMsg}
-                >
-                  <Input
-                    size="large"
-                    name="password"
-                    type="password"
-                    autoComplete="off"
-                    placeholder="Parola trebuie sa contina intre 6 si 20 de caractere"
-                    value={this.state.password.value}
-                    onChange={event =>
-                      this.handleInputChange(event, this.validatePassword)
-                    }
-                  />
-                </FormItem>
-                <FormItem>
-                  <Button
-                    type="primary"
-                    htmlType="submit"
-                    size="large"
-                    className="signup-form-button"
-                    disabled={this.isFormInvalid()}
-                  >
-                    Inscriete
-                  </Button>
-                  Deja inscris ? <Link to="/login">Logheazate!</Link>
-                </FormItem>
-              </Form>
-            </div>
-          </div>
-          <div
-            class="tab-pane fade"
-            id="profile"
-            role="tabpanel"
-            aria-labelledby="profile-tab"
-          >
-            <h1 className="page-title">Inscriete ca Service! </h1>
-            <div className="signup-content">
-              <Form onSubmit={this.handleSubmit} className="signup-form">
-                <FormItem
-                  label="Nume"
-                  validateStatus={this.state.name.validateStatus}
-                  help={this.state.name.errorMsg}
-                >
-                  <Input
-                    size="large"
-                    name="name"
-                    autoComplete="off"
-                    placeholder="Nume si Prenume"
-                    value={this.state.name.value}
-                    onChange={event =>
-                      this.handleInputChange(event, this.validateName)
-                    }
-                  />
-                </FormItem>
-                <FormItem
-                  label="Nume de utilizator"
-                  hasFeedback
-                  validateStatus={this.state.username.validateStatus}
-                  help={this.state.username.errorMsg}
-                >
-                  <Input
-                    size="large"
-                    name="username"
-                    autoComplete="off"
-                    placeholder="Nume de utilizator"
-                    onBlur={this.validateUsernameAvailability}
-                    onChange={event =>
-                      this.handleInputChange(event, this.validateUsername)
-                    }
-                  />
-                </FormItem>
-                <FormItem
-                  label="Email"
-                  hasFeedback
-                  validateStatus={this.state.email.validateStatus}
-                  help={this.state.email.errorMsg}
-                >
-                  <Input
-                    size="large"
-                    name="email"
-                    type="email"
-                    autoComplete="off"
-                    placeholder="Adresa de email"
-                    value={this.state.email.value}
-                    onBlur={this.validateEmailAvailability}
-                    onChange={event =>
-                      this.handleInputChange(event, this.validateEmail)
-                    }
-                  />
-                </FormItem>
-                <FormItem
-                  label="Telefon"
-                  hasFeedback
-                  validateStatus={this.state.phone.validateStatus}
-                  help={this.state.phone.errorMsg}
-                >
-                  <Input
-                    size="large"
-                    name="phone"
-                    type="number"
-                    autoComplete="off"
-                    placeholder="Telefon"
-                    value={this.state.phone.value}
-                    onChange={event =>
-                      this.handleInputChange(event, this.validatePhone)
-                    }
-                  />
-                </FormItem>
-                <FormItem
-                  label="Parola"
-                  validateStatus={this.state.password.validateStatus}
-                  help={this.state.password.errorMsg}
-                >
-                  <Input
-                    size="large"
-                    name="password"
-                    type="password"
-                    autoComplete="off"
-                    placeholder="Parola trebuie sa contina intre 6 si 20 de caractere"
-                    value={this.state.password.value}
-                    onChange={event =>
-                      this.handleInputChange(event, this.validatePassword)
-                    }
-                  />
-                </FormItem>
-                <h2> Detaliile Firmei</h2>
-                <FormItem
-                  label="Nume Service"
-                  validateStatus={this.state.service_name.validateStatus}
-                  help={this.state.service_name.errorMsg}
-                >
-                  <Input
-                    size="large"
-                    name="service_name"
-                    type="text"
-                    autoComplete="off"
-                    placeholder="Nume Service"
-                    value={this.state.service_name.value}
-                    onChange={event =>
-                      this.handleInputChange(event, this.validateServiceName)
-                    }
-                  />
-                </FormItem>
-
-                <FormItem
-                  label="Adresa"
-                  validateStatus={this.state.service_address.validateStatus}
-                  help={this.state.service_address.errorMsg}
-                >
-                  <Input
-                    size="large"
-                    name="service_address"
-                    type="text"
-                    autoComplete="off"
-                    placeholder="Adresa"
-                    value={this.state.service_address.value}
-                    onChange={event =>
-                      this.handleInputChange(event, this.validateServiceAddress)
-                    }
-                  />
-                </FormItem>
-
-                <FormItem
-                  label="CUI"
-                  validateStatus={this.state.cui.validateStatus}
-                  help={this.state.cui.errorMsg}
-                >
-                  <Input
-                    size="large"
-                    name="cui"
-                    type="text"
-                    autoComplete="off"
-                    placeholder="C.U.I"
-                    value={this.state.cui.value}
-                    onChange={event =>
-                      this.handleInputChange(event, this.validateCUI)
-                    }
-                  />
-                </FormItem>
-
-                <FormItem>
-                  <Button
-                    type="primary"
-                    htmlType="submit"
-                    size="large"
-                    className="signup-form-button"
-                    disabled={this.isFormInvalidStaff()}
-                  >
-                    Inscriete
-                  </Button>
-                  Deja inscris ? <Link to="/login">Logheazate!</Link>
-                </FormItem>
-              </Form>
-            </div>
-          </div>
-        </div>
+        <Tab.Container defaultActiveKey={1} id="uncontrolled-tab-example">
+          <Row className="clearfix">
+            <Col sm={12}>
+              <Nav bsStyle="tabs">
+                <NavItem eventKey={1} className="login-tab">
+                  Membru
+                </NavItem>
+                <NavItem eventKey={2} className="login-tab">
+                  Service
+                </NavItem>
+              </Nav>
+            </Col>
+            <Col sm={12}>
+              <Tab.Content>
+                <Tab.Pane eventKey={1}>
+                  <h1 className="page-title">Inscriete ! </h1>
+                  <div className="signup-content">
+                    <Form onSubmit={this.handleSubmit} className="signup-form">
+                      <FormItem
+                        label="Nume"
+                        validateStatus={this.state.name.validateStatus}
+                        help={this.state.name.errorMsg}
+                      >
+                        <Input
+                          size="large"
+                          name="name"
+                          autoComplete="off"
+                          placeholder="Nume si Prenume"
+                          value={this.state.name.value}
+                          onChange={event =>
+                            this.handleInputChange(event, this.validateName)
+                          }
+                        />
+                      </FormItem>
+                      <FormItem
+                        label="Nume de utilizator"
+                        hasFeedback
+                        validateStatus={this.state.username.validateStatus}
+                        help={this.state.username.errorMsg}
+                      >
+                        <Input
+                          size="large"
+                          name="username"
+                          autoComplete="off"
+                          placeholder="Nume de utilizator"
+                          value={this.state.username.value}
+                          onBlur={this.validateUsernameAvailability}
+                          onChange={event =>
+                            this.handleInputChange(event, this.validateUsername)
+                          }
+                        />
+                      </FormItem>
+                      <FormItem
+                        label="Email"
+                        hasFeedback
+                        validateStatus={this.state.email.validateStatus}
+                        help={this.state.email.errorMsg}
+                      >
+                        <Input
+                          size="large"
+                          name="email"
+                          type="email"
+                          autoComplete="off"
+                          placeholder="Adresa de email"
+                          value={this.state.email.value}
+                          onBlur={this.validateEmailAvailability}
+                          onChange={event =>
+                            this.handleInputChange(event, this.validateEmail)
+                          }
+                        />
+                      </FormItem>
+                      <FormItem
+                        label="Telefon"
+                        hasFeedback
+                        validateStatus={this.state.phone.validateStatus}
+                        help={this.state.phone.errorMsg}
+                      >
+                        <Input
+                          size="large"
+                          name="phone"
+                          type="number"
+                          autoComplete="off"
+                          placeholder="Telefon"
+                          value={this.state.phone.value}
+                          onChange={event =>
+                            this.handleInputChange(event, this.validatePhone)
+                          }
+                        />
+                      </FormItem>
+                      <FormItem
+                        label="Parola"
+                        validateStatus={this.state.password.validateStatus}
+                        help={this.state.password.errorMsg}
+                      >
+                        <Input
+                          size="large"
+                          name="password"
+                          type="password"
+                          autoComplete="off"
+                          placeholder="Parola trebuie sa contina intre 6 si 20 de caractere"
+                          value={this.state.password.value}
+                          onChange={event =>
+                            this.handleInputChange(event, this.validatePassword)
+                          }
+                        />
+                      </FormItem>
+                      <FormItem>
+                        <Button
+                          type="primary"
+                          htmlType="submit"
+                          size="large"
+                          className="signup-form-button"
+                          disabled={this.isFormInvalid()}
+                        >
+                          Inscriete
+                        </Button>
+                        Deja inscris ? <Link to="/login">Logheazate!</Link>
+                      </FormItem>
+                    </Form>
+                  </div>
+                </Tab.Pane>
+                <Tab.Pane eventKey={2}>
+                  <h1 className="page-title">Inscriete ca Service! </h1>
+                  <div className="signup-content">
+                    <Form onSubmit={this.handleSubmit} className="signup-form">
+                      <FormItem
+                        label="Nume"
+                        validateStatus={this.state.name.validateStatus}
+                        help={this.state.name.errorMsg}
+                      >
+                        <Input
+                          size="large"
+                          name="name"
+                          autoComplete="off"
+                          placeholder="Nume si Prenume"
+                          value={this.state.name.value}
+                          onChange={event =>
+                            this.handleInputChange(event, this.validateName)
+                          }
+                        />
+                      </FormItem>
+                      <FormItem
+                        label="Nume de utilizator"
+                        hasFeedback
+                        validateStatus={this.state.username.validateStatus}
+                        help={this.state.username.errorMsg}
+                      >
+                        <Input
+                          size="large"
+                          name="username"
+                          autoComplete="off"
+                          placeholder="Nume de utilizator"
+                          onBlur={this.validateUsernameAvailability}
+                          onChange={event =>
+                            this.handleInputChange(event, this.validateUsername)
+                          }
+                        />
+                      </FormItem>
+                      <FormItem
+                        label="Email"
+                        hasFeedback
+                        validateStatus={this.state.email.validateStatus}
+                        help={this.state.email.errorMsg}
+                      >
+                        <Input
+                          size="large"
+                          name="email"
+                          type="email"
+                          autoComplete="off"
+                          placeholder="Adresa de email"
+                          value={this.state.email.value}
+                          onBlur={this.validateEmailAvailability}
+                          onChange={event =>
+                            this.handleInputChange(event, this.validateEmail)
+                          }
+                        />
+                      </FormItem>
+                      <FormItem
+                        label="Telefon"
+                        hasFeedback
+                        validateStatus={this.state.phone.validateStatus}
+                        help={this.state.phone.errorMsg}
+                      >
+                        <Input
+                          size="large"
+                          name="phone"
+                          type="number"
+                          autoComplete="off"
+                          placeholder="Telefon"
+                          value={this.state.phone.value}
+                          onChange={event =>
+                            this.handleInputChange(event, this.validatePhone)
+                          }
+                        />
+                      </FormItem>
+                      <FormItem
+                        label="Parola"
+                        validateStatus={this.state.password.validateStatus}
+                        help={this.state.password.errorMsg}
+                      >
+                        <Input
+                          size="large"
+                          name="password"
+                          type="password"
+                          autoComplete="off"
+                          placeholder="Parola trebuie sa contina intre 6 si 20 de caractere"
+                          value={this.state.password.value}
+                          onChange={event =>
+                            this.handleInputChange(event, this.validatePassword)
+                          }
+                        />
+                      </FormItem>
+                      <h2> Detaliile Firmei</h2>
+                      <FormItem
+                        label="Nume Service"
+                        validateStatus={this.state.service_name.validateStatus}
+                        help={this.state.service_name.errorMsg}
+                      >
+                        <Input
+                          size="large"
+                          name="service_name"
+                          type="text"
+                          autoComplete="off"
+                          placeholder="Nume Service"
+                          value={this.state.service_name.value}
+                          onChange={event =>
+                            this.handleInputChange(
+                              event,
+                              this.validateServiceName
+                            )
+                          }
+                        />
+                      </FormItem>
+                      <FormItem
+                        label="Adresa"
+                        validateStatus={
+                          this.state.service_address.validateStatus
+                        }
+                        help={this.state.service_address.errorMsg}
+                      >
+                        <Input
+                          size="large"
+                          name="service_address"
+                          type="text"
+                          autoComplete="off"
+                          placeholder="Adresa"
+                          value={this.state.service_address.value}
+                          onChange={event =>
+                            this.handleInputChange(
+                              event,
+                              this.validateServiceAddress
+                            )
+                          }
+                        />
+                      </FormItem>
+                      <FormItem
+                        label="CUI"
+                        validateStatus={this.state.cui.validateStatus}
+                        help={this.state.cui.errorMsg}
+                      >
+                        <Input
+                          size="large"
+                          name="cui"
+                          type="text"
+                          autoComplete="off"
+                          placeholder="C.U.I"
+                          value={this.state.cui.value}
+                          onChange={event =>
+                            this.handleInputChange(event, this.validateCUI)
+                          }
+                        />
+                      </FormItem>
+                      <FormItem>
+                        <Button
+                          type="primary"
+                          htmlType="submit"
+                          size="large"
+                          className="signup-form-button"
+                          disabled={this.isFormInvalidStaff()}
+                        >
+                          Inscriete
+                        </Button>
+                        Deja inscris ? <Link to="/login">Logheazate!</Link>
+                      </FormItem>
+                    </Form>
+                  </div>
+                </Tab.Pane>
+              </Tab.Content>
+            </Col>
+          </Row>
+        </Tab.Container>
       </div>
     );
   }

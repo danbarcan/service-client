@@ -89,7 +89,7 @@ class Job extends Component {
         <div className="signup-content">
           <Form onSubmit={this.handleSubmit} className="signup-form">
             <FormItem
-              label="Make"
+              label="Marca"
               hasFeedback
               validateStatus={this.state.make.validateStatus}
               help={this.state.make.errorMsg}
@@ -167,7 +167,7 @@ class Job extends Component {
                 className="signup-form-button"
                 // disabled={this.isFormInvalid()}
               >
-                Inscriete
+                Trimite
               </Button>
             </FormItem>
           </Form>

@@ -17,8 +17,9 @@ import NotFound from "../common/NotFound";
 import LoadingIndicator from "../common/LoadingIndicator";
 import PrivateRoute from "../common/PrivateRoute";
 
-import { Layout, notification } from "antd";
+import { Layout, notification, Button } from "antd";
 import JobList from "../poll/JobList";
+import AddCar from "../util/AddCar";
 const { Content } = Layout;
 
 class App extends Component {
@@ -100,7 +101,7 @@ class App extends Component {
     if (this.state.isLoading) {
       return <LoadingIndicator />;
     }
-    if (this.state.currentUserRole == "ROLE_USER") {
+    if (this.state.currentUserRole === "ROLE_USER") {
       return (
         <Layout className="app-container">
           <AppHeader
@@ -113,7 +114,9 @@ class App extends Component {
             <div className="container" />
             <h3>User Dashboard</h3>
             <h3> Bine ai venit, {this.state.currentUserName}</h3>
-
+            <hr />
+            <AddCar />
+            <hr />
             <Route path="/" component={Job} />
 
             <h2 />
@@ -121,7 +124,7 @@ class App extends Component {
           <AppFooter />
         </Layout>
       );
-    } else if (this.state.currentUserRole == "ROLE_ADMIN") {
+    } else if (this.state.currentUserRole === "ROLE_ADMIN") {
       return (
         <Layout className="app-container">
           <AppHeader
@@ -137,7 +140,7 @@ class App extends Component {
           <AppFooter />
         </Layout>
       );
-    } else if (this.state.currentUserRole == "ROLE_SERVICE") {
+    } else if (this.state.currentUserRole === "ROLE_SERVICE") {
       return (
         <Layout className="app-container">
           <AppHeader
@@ -165,7 +168,7 @@ class App extends Component {
 
           <Content className="app-content">
             <div className="container">
-              <h1> Serviceul meu {this.state.currentUserName}, </h1>
+              <h1> Serviceul meu {this.state.currentUserName} </h1>
               <Switch>
                 <Route
                   exact

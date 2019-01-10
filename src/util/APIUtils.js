@@ -147,3 +147,11 @@ export function getAllJobs() {
     method: "GET"
   });
 }
+
+export function addCar(carRequest) {
+  return request({
+    url: API_BASE_URL + "/users/addCar/",
+    method: "POST",
+    body: JSON.stringify(carRequest)
+  });
+}

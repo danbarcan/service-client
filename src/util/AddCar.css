@@ -1,0 +1,7 @@
+.car-container {
+  width: 200px;
+  height: 200px;
+  border: 1px solid black;
+  background-color: light-grey;
+  font-size: 20px;
+}
