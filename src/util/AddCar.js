@@ -3,7 +3,9 @@ import {
   signup,
   checkUsernameAvailability,
   checkEmailAvailability,
-  addCar
+  addCar,
+  getCurrentUser,
+  getAllCars
 } from "./APIUtils";
 import { Form, Input, Button, notification } from "antd";
 import { Modal } from "react-bootstrap";
@@ -24,6 +26,8 @@ class AddCar extends Component {
       year: {
         value: ""
       },
+      cars: [],
+      isLoading: false,
 
       show: false
     };
@@ -31,6 +35,7 @@ class AddCar extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleShow = this.handleShow.bind(this);
     this.handleClose = this.handleClose.bind(this);
+    this.getAllCars = this.getAllCars.bind(this);
 
     this.isFormInvalid = this.isFormInvalid.bind(this);
   }
@@ -40,6 +45,29 @@ class AddCar extends Component {
 
   handleShow() {
     this.setState({ show: true });
+  }
+  getAllCars() {
+    let promise;
+    promise = getAllCars(this.props.currentUser.id);
+    if (!promise) {
+      return;
+    }
+
+    this.setState({
+      isLoading: true
+    });
+    promise
+      .then(response => {
+        this.setState({
+          cars: response,
+          isLoading: false
+        });
+      })
+      .catch(error => {
+        this.setState({
+          isLoading: false
+        });
+      });
   }
 
   handleInputChange(event, validationFun) {
@@ -59,6 +87,7 @@ class AddCar extends Component {
     event.preventDefault();
 
     const carRequest = {
+      userId: this.props.currentUser.id,
       make: this.state.make.value,
       model: this.state.model.value,
       year: this.state.year.value
@@ -88,10 +117,34 @@ class AddCar extends Component {
     );
   }
 
+  componentDidMount() {
+    this.getAllCars();
+  }
+
   render() {
     return (
       <div>
-        <h3>Masini adaugate:</h3>
+        <Button bsStyle="primary" bsSize="large" onClick={this.handleShow}>
+          Adaugati Masina
+        </Button>
+
+        {this.state.cars.map(c => (
+          <div class="job-container">
+            <h2>
+              <span>
+                {c.make} {c.model}
+              </span>
+            </h2>
+            <h3>{c.year}</h3>
+            <Button onClick={this.editCar} className="btn btn-warning">
+              Editeaza
+            </Button>
+            <Button onClick={this.deleteCar} className="btn btn-danger">
+              Sterge
+            </Button>
+          </div>
+        ))}
+        <h3>Masinile adaugate:</h3>
         <div className="added-cars">
           <div className="col-md-4">
             <div className="car-container">
@@ -102,9 +155,6 @@ class AddCar extends Component {
             </div>
           </div>
         </div>
-        <Button bsStyle="primary" bsSize="large" onClick={this.handleShow}>
-          Adaugati Masina
-        </Button>
 
         <Modal show={this.state.show} onHide={this.handleClose}>
           <Modal.Header closeButton />

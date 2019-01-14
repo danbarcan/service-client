@@ -92,9 +92,9 @@ export function getCurrentUser() {
   });
 }
 
-export function getUserProfile(username) {
+export function getUserProfile(userId) {
   return request({
-    url: API_BASE_URL + "/users/" + username,
+    url: API_BASE_URL + "/user/profile?id=" + userId,
     method: "GET"
   });
 }
@@ -148,10 +148,25 @@ export function getAllJobs() {
   });
 }
 
+export function getAllCars(userId) {
+  return request({
+    url: API_BASE_URL + "/users/cars?userId=" + userId,
+    method: "GET"
+  });
+}
+
 export function addCar(carRequest) {
   return request({
-    url: API_BASE_URL + "/users/addCar/",
+    url: API_BASE_URL + "/users/car",
     method: "POST",
     body: JSON.stringify(carRequest)
+  });
+}
+
+export function updateCar(carUpdateRequest) {
+  return request({
+    url: API_BASE_URL + "/users/updateCar",
+    method: "POST",
+    body: JSON.stringify(carUpdateRequest)
   });
 }

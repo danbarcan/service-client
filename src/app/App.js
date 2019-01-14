@@ -68,7 +68,6 @@ class App extends Component {
   }
 
   handleLogout(
-    redirectTo = "/",
     notificationType = "success",
     description = "You're successfully logged out."
   ) {
@@ -80,7 +79,7 @@ class App extends Component {
     });
 
     this.props.history.push("/");
-
+    window.location.reload();
     notification[notificationType]({
       message: "Polling App",
       description: description
@@ -115,7 +114,7 @@ class App extends Component {
             <h3>User Dashboard</h3>
             <h3> Bine ai venit, {this.state.currentUserName}</h3>
             <hr />
-            <AddCar />
+            <AddCar currentUser={this.state.currentUser} />
             <hr />
             <Route path="/" component={Job} />
 
@@ -137,7 +136,7 @@ class App extends Component {
             <div className="container" />
             <h3>Admin Dashboard</h3>
           </Content>
-          <AppFooter />
+          <AppFooter currentUser={this.state.currentUser} {...this.state} />
         </Layout>
       );
     } else if (this.state.currentUserRole === "ROLE_SERVICE") {
@@ -189,6 +188,7 @@ class App extends Component {
                   )}
                 />
                 <Route path="/signup" component={Signup} />
+
                 <Route
                   path="/users/:username"
                   render={props => (
@@ -198,12 +198,6 @@ class App extends Component {
                       {...props}
                     />
                   )}
-                />
-                <PrivateRoute
-                  authenticated={this.state.isAuthenticated}
-                  path="/poll/new"
-                  component={NewPoll}
-                  handleLogout={this.handleLogout}
                 />
                 <Route component={NotFound} />
               </Switch>
