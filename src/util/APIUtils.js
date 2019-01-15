@@ -170,3 +170,11 @@ export function updateCar(carUpdateRequest) {
     body: JSON.stringify(carUpdateRequest)
   });
 }
+
+export function deleteCar(carId) {
+  return request({
+    url: API_BASE_URL + "/users/deleteCar?carId=" + carId,
+    method: "POST",
+    body: JSON.stringify(carId)
+  });
+}

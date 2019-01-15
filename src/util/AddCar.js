@@ -5,7 +5,9 @@ import {
   checkEmailAvailability,
   addCar,
   getCurrentUser,
-  getAllCars
+  getAllCars,
+  updateCar,
+  deleteCar
 } from "./APIUtils";
 import { Form, Input, Button, notification } from "antd";
 import { Modal } from "react-bootstrap";
@@ -28,6 +30,7 @@ class AddCar extends Component {
       },
       cars: [],
       isLoading: false,
+      editshow: false,
 
       show: false
     };
@@ -36,11 +39,13 @@ class AddCar extends Component {
     this.handleShow = this.handleShow.bind(this);
     this.handleClose = this.handleClose.bind(this);
     this.getAllCars = this.getAllCars.bind(this);
+    this.editCar = this.editCar.bind(this);
+    this.deleteCar = this.deleteCar.bind(this);
 
     this.isFormInvalid = this.isFormInvalid.bind(this);
   }
   handleClose() {
-    this.setState({ show: false });
+    this.setState({ show: false, editshow: false });
   }
 
   handleShow() {
@@ -70,6 +75,33 @@ class AddCar extends Component {
       });
   }
 
+  editCar(id, make, model, year) {
+    console.log(this.state);
+    this.setState({
+      editshow: true,
+      make: {
+        value: make
+      },
+      model: {
+        value: model
+      },
+      year: {
+        value: year
+      },
+      carId: { value: id }
+    });
+  }
+
+  deleteCar(carId) {
+    console.log(carId);
+
+    if (window.confirm("Sigur doriti sa stergeti aceasta masina ?")) {
+      alert("Va multumim !");
+      deleteCar(carId);
+      //window.location.reload();
+    }
+  }
+
   handleInputChange(event, validationFun) {
     const target = event.target;
     const inputName = target.name;
@@ -85,28 +117,53 @@ class AddCar extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-
-    const carRequest = {
-      userId: this.props.currentUser.id,
-      make: this.state.make.value,
-      model: this.state.model.value,
-      year: this.state.year.value
-    };
-    addCar(carRequest)
-      .then(response => {
-        notification.success({
-          message: "Polling App",
-          description: "Multumim ! Masina a fost adaugat cu success!"
+    if (this.state.show) {
+      const carRequest = {
+        userId: this.props.currentUser.id,
+        make: this.state.make.value,
+        model: this.state.model.value,
+        year: this.state.year.value
+      };
+      addCar(carRequest)
+        .then(response => {
+          notification.success({
+            message: "Polling App",
+            description: "Multumim ! Masina a fost adaugat cu success!"
+          });
+        })
+        .catch(error => {
+          notification.error({
+            message: "Polling App",
+            description:
+              error.message ||
+              "Oups! Ceva nu a mers corect, va rugam reincercati!"
+          });
         });
-      })
-      .catch(error => {
-        notification.error({
-          message: "Polling App",
-          description:
-            error.message ||
-            "Oups! Ceva nu a mers corect, va rugam reincercati!"
+    } else {
+      const carUpdateRequest = {
+        userId: this.props.currentUser.id,
+        id: this.state.carId.value,
+        make: this.state.make.value,
+        model: this.state.model.value,
+        year: this.state.year.value
+      };
+      console.log(carUpdateRequest);
+      updateCar(carUpdateRequest)
+        .then(response => {
+          notification.success({
+            message: "Polling App",
+            description: "Multumim ! Masina a fost adaugat cu success!"
+          });
+        })
+        .catch(error => {
+          notification.error({
+            message: "Polling App",
+            description:
+              error.message ||
+              "Oups! Ceva nu a mers corect, va rugam reincercati!"
+          });
         });
-      });
+    }
   }
 
   isFormInvalid() {
@@ -127,7 +184,7 @@ class AddCar extends Component {
         <Button bsStyle="primary" bsSize="large" onClick={this.handleShow}>
           Adaugati Masina
         </Button>
-
+        <h3>Masinile adaugate:</h3>
         {this.state.cars.map(c => (
           <div class="job-container">
             <h2>
@@ -136,25 +193,20 @@ class AddCar extends Component {
               </span>
             </h2>
             <h3>{c.year}</h3>
-            <Button onClick={this.editCar} className="btn btn-warning">
+            <Button
+              onClick={() => this.editCar(c.id, c.make, c.model, c.year)}
+              className="btn btn-warning"
+            >
               Editeaza
             </Button>
-            <Button onClick={this.deleteCar} className="btn btn-danger">
+            <Button
+              onClick={() => this.deleteCar(c.id)}
+              className="btn btn-danger"
+            >
               Sterge
             </Button>
           </div>
         ))}
-        <h3>Masinile adaugate:</h3>
-        <div className="added-cars">
-          <div className="col-md-4">
-            <div className="car-container">
-              <div className="col-md-6 edit-car">Edit</div>
-              <div className="col-md-6 delete-car">Delete</div>
-              <h3>Audi A3</h3>
-              <h4>2009</h4>
-            </div>
-          </div>
-        </div>
 
         <Modal show={this.state.show} onHide={this.handleClose}>
           <Modal.Header closeButton />
@@ -222,9 +274,89 @@ class AddCar extends Component {
                       htmlType="submit"
                       size="large"
                       className="signup-form-button"
+                      onClick={this.handleClose}
                       // disabled={this.isFormInvalid()}
                     >
                       Adauga
+                    </Button>
+                  </FormItem>
+                </Form>
+              </div>
+            </div>
+          </Modal.Body>
+        </Modal>
+
+        {/* Edit Modal Start here ----> */}
+        <Modal show={this.state.editshow} onHide={this.handleClose}>
+          <Modal.Header closeButton />
+          <Modal.Body>
+            <div className="signup-container">
+              <h1 className="page-title">Editati Masina </h1>
+              <div className="signup-content">
+                <Form onSubmit={this.handleSubmit} className="signup-form">
+                  <FormItem
+                    label="Marca"
+                    hasFeedback
+                    validateStatus={this.state.make.validateStatus}
+                    help={this.state.make.errorMsg}
+                  >
+                    <Input
+                      size="large"
+                      name="make"
+                      autoComplete="off"
+                      placeholder="Marca"
+                      value={this.state.make.value}
+                      onChange={event =>
+                        this.handleInputChange(event, this.validateMake)
+                      }
+                    />
+                  </FormItem>
+                  <FormItem
+                    label="Model"
+                    hasFeedback
+                    validateStatus={this.state.model.validateStatus}
+                    help={this.state.model.errorMsg}
+                  >
+                    <Input
+                      size="large"
+                      name="model"
+                      autoComplete="off"
+                      placeholder="Model"
+                      value={this.state.model.value}
+                      onChange={event =>
+                        this.handleInputChange(event, this.validateModel)
+                      }
+                    />
+                  </FormItem>
+                  <FormItem
+                    label="An"
+                    hasFeedback
+                    validateStatus={this.state.year.validateStatus}
+                    help={this.state.year.errorMsg}
+                  >
+                    <Input
+                      size="large"
+                      name="year"
+                      type="number"
+                      autoComplete="off"
+                      placeholder="An"
+                      value={this.state.year.value}
+                      onChange={event =>
+                        this.handleInputChange(event, this.validateYear)
+                      }
+                    />
+                  </FormItem>
+
+                  <FormItem>
+                    <Button
+                      type="primary"
+                      htmlType="submit"
+                      size="large"
+                      className="signup-form-button"
+                      onClick={this.handleClose}
+                      // disabled={this.isFormInvalid()}
+                    >
+                      Salveaza modificarile
                     </Button>
                   </FormItem>
                 </Form>
