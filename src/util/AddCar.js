@@ -76,7 +76,6 @@ class AddCar extends Component {
   }
 
   editCar(id, make, model, year) {
-    console.log(this.state);
     this.setState({
       editshow: true,
       make: {
@@ -98,7 +97,7 @@ class AddCar extends Component {
     if (window.confirm("Sigur doriti sa stergeti aceasta masina ?")) {
       alert("Va multumim !");
       deleteCar(carId);
-      //window.location.reload();
+      window.location.reload();
     }
   }
 
@@ -117,7 +116,8 @@ class AddCar extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    if (this.state.show) {
+    console.log(this.state);
+    if (!this.state.carId) {
       const carRequest = {
         userId: this.props.currentUser.id,
         make: this.state.make.value,
@@ -139,6 +139,7 @@ class AddCar extends Component {
               "Oups! Ceva nu a mers corect, va rugam reincercati!"
           });
         });
+      window.location.reload();
     } else {
       const carUpdateRequest = {
         userId: this.props.currentUser.id,
@@ -163,6 +164,7 @@ class AddCar extends Component {
               "Oups! Ceva nu a mers corect, va rugam reincercati!"
           });
         });
+      window.location.reload();
     }
   }
 
