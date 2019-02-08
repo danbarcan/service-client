@@ -51,7 +51,10 @@ class Job extends Component {
   handleSubmit(event) {
     event.preventDefault();
 
+    console.log(this.props);
+
     const jobRequest = {
+      userId: this.props.currentUser.id,
       make: this.state.make.value,
       model: this.state.model.value,
       year: this.state.year.value,

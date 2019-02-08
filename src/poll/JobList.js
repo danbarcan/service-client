@@ -73,7 +73,9 @@ class JobList extends Component {
               Job de la <span>{d.user.name} :</span>
             </h2>
             <p>
-              <em>Masina, Model, An:</em>
+              <em>
+                Masina: {d.make}, Model: {d.model}, An: {d.year}:
+              </em>
             </p>
             <p>
               <em>Problema:</em> <span key={d.id}>{d.description}</span>
