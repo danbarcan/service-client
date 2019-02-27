@@ -6,8 +6,6 @@ import { getAvatarColor } from "../../util/Colors";
 import { formatDate } from "../../util/Helpers";
 import LoadingIndicator from "../../common/LoadingIndicator";
 import "./Profile.css";
-import NotFound from "../../common/NotFound";
-import ServerError from "../../common/ServerError";
 
 export class Profile extends Component {
   constructor(props) {
@@ -19,19 +17,7 @@ export class Profile extends Component {
     console.log("rendered");
     return (
       <div id="profile">
-        <h2>HeyHeyHeyHeyHeyHeyHeyHeyHeyHeyHeyHeyHeyHey</h2>
-        <h2>HeyHeyHeyHeyHeyHeyHeyHeyHeyHeyHeyHeyHeyHey</h2>
-        <h2>HeyHeyHeyHeyHeyHeyHeyHeyHeyHeyHeyHeyHeyHey</h2>
-        <h2>HeyHeyHeyHeyHeyHeyHeyHeyHeyHeyHeyHeyHeyHey</h2>
-        <h2>HeyHeyHeyHeyHeyHeyHeyHeyHeyHeyHeyHeyHeyHey</h2>
-        <h2>HeyHeyHeyHeyHeyHeyHeyHeyHeyHeyHeyHeyHeyHey</h2>
-        <h2>HeyHeyHeyHeyHeyHeyHeyHeyHeyHeyHeyHeyHeyHey</h2>
-        <h2>HeyHeyHeyHeyHeyHeyHeyHeyHeyHeyHeyHeyHeyHey</h2>
-        <h2>HeyHeyHeyHeyHeyHeyHeyHeyHeyHeyHeyHeyHeyHey</h2>
-        <h2>HeyHeyHeyHeyHeyHeyHeyHeyHeyHeyHeyHeyHeyHey</h2>
-        <h2>HeyHeyHeyHeyHeyHeyHeyHeyHeyHeyHeyHeyHeyHey</h2>
-        <h2>HeyHeyHeyHeyHeyHeyHeyHeyHeyHeyHeyHeyHeyHey</h2>
-        <h2>HeyHeyHeyHeyHeyHeyHeyHeyHeyHeyHeyHeyHeyHey</h2>
+        <h2> Profil </h2>
       </div>
     );
   }

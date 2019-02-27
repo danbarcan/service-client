@@ -133,6 +133,7 @@ export function getUserVotedPolls(username, page, size) {
   });
 }
 
+//Job Functionality
 export function createJob(jobRequest) {
   return request({
     url: API_BASE_URL + "/users/job/",
@@ -147,6 +148,30 @@ export function getAllJobs() {
     method: "GET"
   });
 }
+
+export function getJobs(userId) {
+  return request({
+    url: API_BASE_URL + "/users/jobs?userId=" + userId,
+    method: "GET"
+  });
+}
+
+export function deleteJob(jobId) {
+  return request({
+    url: API_BASE_URL + "/jobs?deleteJob" + jobId,
+    method: "GET"
+  });
+}
+
+export function updateJob(updateJobRequest) {
+  return request({
+    url: API_BASE_URL + "/jobs/updateJob",
+    method: "POST",
+    body: JSON.stringify(updateJobRequest)
+  });
+}
+
+// Car Functionality
 
 export function getAllCars(userId) {
   return request({
@@ -174,7 +199,6 @@ export function updateCar(carUpdateRequest) {
 export function deleteCar(carId) {
   return request({
     url: API_BASE_URL + "/users/deleteCar?carId=" + carId,
-    method: "POST",
-    body: JSON.stringify(carId)
+    method: "GET"
   });
 }

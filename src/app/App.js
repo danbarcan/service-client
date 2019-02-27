@@ -1,19 +1,11 @@
 import React, { Component } from "react";
 import "./App.css";
-import {
-  Route,
-  withRouter,
-  Switch,
-  BrowserRouter,
-  Router
-} from "react-router-dom";
-import ReactDOM from "react-dom";
+import { Route, withRouter, Switch } from "react-router-dom";
 
-import { getCurrentUser, createJob } from "../util/APIUtils";
+import { getCurrentUser } from "../util/APIUtils";
 import { ACCESS_TOKEN } from "../constants";
 
 import PollList from "../poll/PollList";
-import NewPoll from "../poll/NewPoll";
 import Login from "../user/login/Login";
 import Job from "../user/signup/Job";
 import Signup from "../user/signup/Signup";
@@ -22,7 +14,6 @@ import AppHeader from "../common/AppHeader";
 import AppFooter from "../common/AppFooter";
 import NotFound from "../common/NotFound";
 import LoadingIndicator from "../common/LoadingIndicator";
-import PrivateRoute from "../common/PrivateRoute";
 
 import { Layout, notification, Button } from "antd";
 import JobList from "../poll/JobList";
@@ -117,32 +108,21 @@ class App extends Component {
           />
 
           <Content className="app-content">
-            <Switch>
-              <Route
-                exact
-                path="/Job"
-                render={props => (
-                  <Job {...props} currentUser={this.state.currentUser} />
-                )}
-              />
-
-              <Route exact path="/Profile" component={Profile} />
-            </Switch>
-
             <div className="container" />
             <h3>User Dashboard</h3>
             <h3> Bine ai venit, {this.state.currentUserName}</h3>
             <hr />
-            <AddCar currentUser={this.state.currentUser} />
-            <hr />
-            <Route
-              path="/"
-              render={props => (
-                <Job {...props} currentUser={this.state.currentUser} />
-              )}
-            />
-
-            <h2 />
+            <Switch>
+              <Route
+                exact
+                path="/"
+                render={props => (
+                  <hr />, <AddCar currentUser={this.state.currentUser} />
+                )}
+              />
+              <Route exact path="/Profile" component={Profile} />
+            </Switch>
+            <Job currentUser={this.state.currentUser} />
           </Content>
           <AppFooter />
         </Layout>

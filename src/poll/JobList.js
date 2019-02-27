@@ -1,10 +1,7 @@
 import React, { Component } from "react";
 import { getAllJobs } from "../util/APIUtils";
-import Job from "./Job";
 import LoadingIndicator from "../common/LoadingIndicator";
 import { Button, Icon, notification } from "antd";
-import { POLL_LIST_SIZE } from "../constants";
-import { withRouter } from "react-router-dom";
 import "./PollList.css";
 
 class JobList extends Component {
@@ -60,11 +57,6 @@ class JobList extends Component {
   }
 
   render() {
-    const jobViews = [];
-    console.log(this.state.jobs);
-    const data = this.state.jobs;
-    // const jobsView = data.map(d => <li key={d.id}>{d.description}</li>);
-
     return (
       <div className="polls-container">
         {this.state.jobs.map(d => (

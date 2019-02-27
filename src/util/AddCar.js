@@ -1,14 +1,5 @@
 import React, { Component } from "react";
-import {
-  signup,
-  checkUsernameAvailability,
-  checkEmailAvailability,
-  addCar,
-  getCurrentUser,
-  getAllCars,
-  updateCar,
-  deleteCar
-} from "./APIUtils";
+import { addCar, getAllCars, updateCar, deleteCar } from "./APIUtils";
 import { Form, Input, Button, notification } from "antd";
 import { Modal } from "react-bootstrap";
 import "./AddCar.css";
