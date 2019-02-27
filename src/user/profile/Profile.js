@@ -63,13 +63,9 @@ export class Profile extends React.Component {
       return <NotFound />;
     }
 
-    if (this.state.serverError) {
-      return <ServerError />;
-    }
-
     return (
-      <div className="profile">
-        <h1>{currentUser}</h1>
+      <div className="Profile">
+        <h1>Profile</h1>
         {this.state.user ? (
           <div className="user-profile">
             <div className="user-details">

@@ -76,8 +76,8 @@ function ProfileDropdownMenu(props) {
         <div className="username-info">@{props.currentUser.username}</div>
       </Menu.Item>
       <Menu.Divider />
-      <Menu.Item key="profile" className="dropdown-item">
-        <Link to="/profile">Profile</Link>
+      <Menu.Item key="Profile" className="dropdown-item">
+        <Link to="/Profile">Profile</Link>
       </Menu.Item>
       <Menu.Item key="logout" className="dropdown-item">
         Logout

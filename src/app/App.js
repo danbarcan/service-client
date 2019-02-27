@@ -114,11 +114,17 @@ class App extends Component {
             <h3>User Dashboard</h3>
             <h3> Bine ai venit, {this.state.currentUserName}</h3>
             <hr />
-            <AddCar currentUser={this.state.currentUser} />
-            <hr />
-            <Route path="/" component={Job} />
-
-            <h2 />
+            <Switch>
+              <Route
+                exact
+                path="/"
+                render={props => (
+                  <hr />, <AddCar currentUser={this.state.currentUser} />
+                )}
+              />
+              <Route exact path="/Profile" component={Profile} />
+            </Switch>
+            <Job currentUser={this.state.currentUser} />
           </Content>
           <AppFooter />
         </Layout>
