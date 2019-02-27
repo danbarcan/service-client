@@ -29,11 +29,6 @@ class AppHeader extends Component {
         <Menu.Item key="/">
           <Link to="/Profile">Profile</Link>
         </Menu.Item>,
-        <Menu.Item key="/poll/new">
-          <Link to="/poll/new">
-            <img src={pollIcon} alt="poll" className="poll-icon" />
-          </Link>
-        </Menu.Item>,
         <Menu.Item key="/profile" className="profile-menu">
           <ProfileDropdownMenu
             currentUser={this.props.currentUser}
@@ -48,6 +43,9 @@ class AppHeader extends Component {
         </Menu.Item>,
         <Menu.Item key="/login">
           <Link to="/login">Login</Link>
+        </Menu.Item>,
+        <Menu.Item key="logout">
+          <Link to="/">Logout</Link>
         </Menu.Item>,
         <Menu.Item key="/signup">
           <Link to="/signup">Signup</Link>
