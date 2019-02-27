@@ -5,7 +5,6 @@ import LoadingIndicator from "../common/LoadingIndicator";
 import { Button, Icon, notification } from "antd";
 import { POLL_LIST_SIZE } from "../constants";
 import { withRouter } from "react-router-dom";
-import "./PollList.css";
 
 class JobList extends Component {
   constructor(props) {

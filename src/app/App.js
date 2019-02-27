@@ -5,8 +5,6 @@ import { Route, withRouter, Switch } from "react-router-dom";
 import { getCurrentUser, createJob } from "../util/APIUtils";
 import { ACCESS_TOKEN } from "../constants";
 
-import PollList from "../poll/PollList";
-import NewPoll from "../poll/NewPoll";
 import Login from "../user/login/Login";
 import Job from "../user/signup/Job";
 import Signup from "../user/signup/Signup";
@@ -181,18 +179,6 @@ class App extends Component {
             <div className="container">
               <h1> Serviceul meu {this.state.currentUserName} </h1>
               <Switch>
-                <Route
-                  exact
-                  path="/"
-                  render={props => (
-                    <PollList
-                      isAuthenticated={this.state.isAuthenticated}
-                      currentUser={this.state.currentUser}
-                      handleLogout={this.handleLogout}
-                      {...props}
-                    />
-                  )}
-                />
                 <Route
                   path="/login"
                   render={props => (

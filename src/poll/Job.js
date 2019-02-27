@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import "./Poll.css";
 import { Avatar, Icon } from "antd";
 import { Link } from "react-router-dom";
 import { getAvatarColor } from "../util/Colors";
