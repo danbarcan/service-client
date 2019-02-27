@@ -25,32 +25,6 @@ const request = options => {
   );
 };
 
-export function getAllPolls(page, size) {
-  page = page || 0;
-  size = size || POLL_LIST_SIZE;
-
-  return request({
-    url: API_BASE_URL + "/polls?page=" + page + "&size=" + size,
-    method: "GET"
-  });
-}
-
-export function createPoll(pollData) {
-  return request({
-    url: API_BASE_URL + "/polls",
-    method: "POST",
-    body: JSON.stringify(pollData)
-  });
-}
-
-export function castVote(voteData) {
-  return request({
-    url: API_BASE_URL + "/polls/" + voteData.pollId + "/votes",
-    method: "POST",
-    body: JSON.stringify(voteData)
-  });
-}
-
 export function login(loginRequest) {
   return request({
     url: API_BASE_URL + "/auth/signin",
@@ -95,40 +69,6 @@ export function getCurrentUser() {
 export function getUserProfile(userId) {
   return request({
     url: API_BASE_URL + "/user/profile?id=" + userId,
-    method: "GET"
-  });
-}
-
-export function getUserCreatedPolls(username, page, size) {
-  page = page || 0;
-  size = size || POLL_LIST_SIZE;
-
-  return request({
-    url:
-      API_BASE_URL +
-      "/users/" +
-      username +
-      "/polls?page=" +
-      page +
-      "&size=" +
-      size,
-    method: "GET"
-  });
-}
-
-export function getUserVotedPolls(username, page, size) {
-  page = page || 0;
-  size = size || POLL_LIST_SIZE;
-
-  return request({
-    url:
-      API_BASE_URL +
-      "/users/" +
-      username +
-      "/votes?page=" +
-      page +
-      "&size=" +
-      size,
     method: "GET"
   });
 }
@@ -199,6 +139,43 @@ export function updateCar(carUpdateRequest) {
 export function deleteCar(carId) {
   return request({
     url: API_BASE_URL + "/users/deleteCar?carId=" + carId,
+    method: "GET"
+  });
+}
+
+// Offer functionality
+export function acceptJob() {
+  return request({
+    url: API_BASE_URL + "/services/acceptJob",
+    method: "GET"
+  });
+}
+
+export function createOffer(offerRequest) {
+  return request({
+    url: API_BASE_URL + "/services/offer",
+    method: "POST",
+    body: JSON.stringify(offerRequest)
+  });
+}
+
+export function deleteOffer(offerId) {
+  return request({
+    url: API_BASE_URL + "/services/deleteOffer?offerId=" + offerId,
+    method: "GET"
+  });
+}
+
+export function getOffers() {
+  return request({
+    url: API_BASE_URL + "/users/offers",
+    method: "GET"
+  });
+}
+
+export function acceptOffer(offerId) {
+  return request({
+    url: API_BASE_URL + "/users/acceptOffer?offerId=" + offerId,
     method: "GET"
   });
 }
