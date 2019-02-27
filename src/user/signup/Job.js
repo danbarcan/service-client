@@ -1,12 +1,6 @@
 import React, { Component } from "react";
-import {
-  signup,
-  checkUsernameAvailability,
-  checkEmailAvailability,
-  createJob
-} from "../../util/APIUtils";
+import { createJob, getJobs, deleteJob } from "../../util/APIUtils";
 import "./Signup.css";
-import { Link } from "react-router-dom";
 
 import { Form, Input, Button, notification } from "antd";
 
@@ -27,12 +21,14 @@ class Job extends Component {
       },
       description: {
         value: ""
-      }
+      },
+      jobs: []
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-
+    this.getJobs = this.getJobs.bind(this);
     this.isFormInvalid = this.isFormInvalid.bind(this);
+    this.deleteJob = this.deleteJob.bind(this);
   }
 
   handleInputChange(event, validationFun) {
@@ -51,12 +47,16 @@ class Job extends Component {
   handleSubmit(event) {
     event.preventDefault();
 
+    console.log(this.props);
+
     const jobRequest = {
+      userId: this.props.currentUser.id,
       make: this.state.make.value,
       model: this.state.model.value,
       year: this.state.year.value,
       description: this.state.description.value
     };
+
     createJob(jobRequest)
       .then(response => {
         notification.success({
@@ -72,6 +72,37 @@ class Job extends Component {
         });
       });
   }
+  deleteJob(jobId) {
+    if (window.confirm("Sigur doriti sa stergeti aceasta masina ?")) {
+      alert("Va multumim !");
+      deleteJob(jobId);
+      window.location.reload();
+    }
+  }
+
+  getJobs() {
+    let promise;
+    promise = getJobs(this.props.currentUser.id);
+    if (!promise) {
+      return;
+    }
+
+    this.setState({
+      isLoading: true
+    });
+    promise
+      .then(response => {
+        this.setState({
+          jobs: response,
+          isLoading: false
+        });
+      })
+      .catch(error => {
+        this.setState({
+          isLoading: false
+        });
+      });
+  }
 
   isFormInvalid() {
     return !(
@@ -83,8 +114,31 @@ class Job extends Component {
   }
 
   render() {
+    console.log(this.state);
     return (
       <div className="signup-container">
+        <h3> Probleme active</h3>
+        <div class="active-jobs">
+          {this.state.jobs.map(j => (
+            <div class="job-container">
+              <h2>
+                <span>{j.id}</span>
+              </h2>
+              <Button
+                onClick={() => this.editJob(j.id, j.description)}
+                className="btn btn-warning"
+              >
+                Editeaza
+              </Button>
+              <Button
+                onClick={() => this.deleteJob(j.id)}
+                className="btn btn-danger"
+              >
+                Sterge
+              </Button>
+            </div>
+          ))}
+        </div>
         <h1 className="page-title">Detaliaza problema ! </h1>
         <div className="signup-content">
           <Form onSubmit={this.handleSubmit} className="signup-form">
