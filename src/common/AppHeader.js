@@ -26,9 +26,6 @@ class AppHeader extends Component {
             <Icon type="home" className="nav-icon" />
           </Link>
         </Menu.Item>,
-        <Menu.Item key="/">
-          <Link to="/Profile">Profile</Link>
-        </Menu.Item>,
         <Menu.Item key="/profile" className="profile-menu">
           <ProfileDropdownMenu
             currentUser={this.props.currentUser}
@@ -81,7 +78,11 @@ function ProfileDropdownMenu(props) {
         <div className="username-info">@{props.currentUser.username}</div>
       </Menu.Item>
       <Menu.Divider />
+<<<<<<< HEAD
       <Menu.Item key="profile" className="dropdown-item">
+=======
+      <Menu.Item key="Profile" className="dropdown-item">
+>>>>>>> master
         <Link to="/Profile">Profile</Link>
       </Menu.Item>
       <Menu.Item key="logout" className="dropdown-item">
