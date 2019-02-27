@@ -26,11 +26,7 @@ class AppHeader extends Component {
             <Icon type="home" className="nav-icon" />
           </Link>
         </Menu.Item>,
-        <Menu.Item key="/poll/new">
-          <Link to="/poll/new">
-            <img src={pollIcon} alt="poll" className="poll-icon" />
-          </Link>
-        </Menu.Item>,
+
         <Menu.Item key="/profile" className="profile-menu">
           <ProfileDropdownMenu
             currentUser={this.props.currentUser}
@@ -81,7 +77,7 @@ function ProfileDropdownMenu(props) {
       </Menu.Item>
       <Menu.Divider />
       <Menu.Item key="profile" className="dropdown-item">
-        <Link to={`/users/${props.currentUser.username}`}>Profile</Link>
+        <Link to="/profile">Profile</Link>
       </Menu.Item>
       <Menu.Item key="logout" className="dropdown-item">
         Logout
