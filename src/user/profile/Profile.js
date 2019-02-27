@@ -15,9 +15,12 @@ export class Profile extends Component {
 
   render() {
     console.log("rendered");
+    console.log(this.props.currentUser);
     return (
       <div id="profile">
         <h2> Profil </h2>
+        <h3> Nume utilizator : {this.props.currentUser.username}</h3>
+        Parola curenta : Parola noua :
       </div>
     );
   }
