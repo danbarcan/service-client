@@ -144,12 +144,7 @@ export function deleteCar(carId) {
 }
 
 // Offer functionality
-export function acceptJob() {
-  return request({
-    url: API_BASE_URL + "/services/acceptJob",
-    method: "GET"
-  });
-}
+// Service accepta jobul
 
 export function createOffer(offerRequest) {
   return request({

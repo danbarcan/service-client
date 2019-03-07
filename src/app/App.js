@@ -161,7 +161,22 @@ class App extends Component {
           <Content className="app-content">
             <div className="container" />
             <h3>Services Dashboard</h3>
-            <JobList />
+            <Switch>
+              <Route
+                exact
+                path="/"
+                render={props => (
+                  <hr />, <JobList currentUser={this.state.currentUser} />
+                )}
+              />
+              <Route
+                exact
+                path="/Profile"
+                render={props => (
+                  <hr />, <Profile currentUser={this.state.currentUser} />
+                )}
+              />
+            </Switch>
           </Content>
           <AppFooter />
         </Layout>

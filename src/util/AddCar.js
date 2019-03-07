@@ -31,7 +31,6 @@ class AddCar extends Component {
       cars: [],
       isLoading: false,
       editshow: false,
-
       show: false
     };
     this.handleInputChange = this.handleInputChange.bind(this);
