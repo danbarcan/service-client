@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { createJob, getJobs, deleteJob, getOffers } from "../../util/APIUtils";
+import { createJob, getJobs, deleteJob, getOffers, acceptOffer } from "../../util/APIUtils";
 import "./Signup.css";
 
 import { Form, Input, Button, notification } from "antd";
@@ -32,6 +32,7 @@ class Job extends Component {
     this.deleteJob = this.deleteJob.bind(this);
     this.getJobs = this.getJobs.bind(this);
     this.getOffers = this.getOffers.bind(this);
+    this.acceptOffer = this.acceptOffer.bind(this);
   }
 
   handleInputChange(event, validationFun) {
@@ -66,6 +67,8 @@ class Job extends Component {
           message: "Polling App",
           description: "Thank you! Your job has been succesfully registered. "
         });
+      }).then(function(){
+        window.location.reload();
       })
       .catch(error => {
         notification.error({
@@ -76,10 +79,13 @@ class Job extends Component {
       });
   }
   deleteJob(jobId) {
-    if (window.confirm("Sigur doriti sa stergeti aceasta masina ?")) {
+    if (window.confirm("Sigur doriti sa stergeti aceasta cerere ?")) {
       alert("Va multumim !");
       deleteJob(jobId);
-      window.location.reload();
+      let state = this.state.jobs;
+      let updatedJobs = [...state].filter(jobs => jobs.id !== jobId);
+      state = updatedJobs
+      this.setState({jobs:updatedJobs});
     }
   }
 
@@ -132,6 +138,10 @@ class Job extends Component {
       });
   }
 
+  acceptOffer(offerId) {
+    acceptOffer(offerId)
+  }
+
   isFormInvalid() {
     return !(
       this.state.make.validateStatus === "success" &&
@@ -180,7 +190,7 @@ class Job extends Component {
                 <span>{o.id}</span>
               </h2>
               <Button
-                onClick={() => this.acceptJob(o.id)}
+                onClick={() => this.acceptOffer(o.id)}
                 className="btn btn-primary"
               >
                 Accept

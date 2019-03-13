@@ -98,7 +98,7 @@ export function getJobs(userId) {
 
 export function deleteJob(jobId) {
   return request({
-    url: API_BASE_URL + "/jobs?deleteJob" + jobId,
+    url: API_BASE_URL + "/users/deleteJob?jobId=" + jobId,
     method: "GET"
   });
 }
