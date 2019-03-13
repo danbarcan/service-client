@@ -75,6 +75,8 @@ class AddCar extends Component {
   }
 
   editCar(id, make, model, year) {
+    console.log(this.state);
+
     this.setState({
       editshow: true,
       make: {
@@ -95,10 +97,9 @@ class AddCar extends Component {
       deleteCar(carId);
       alert("Va multumim !")
       let state = this.state.cars;
-      let newJobs = [...state.filter(jobs => jobs.id !== carId)]
-      state = newJobs;
-      this.setState({state});
-      this.forceUpdate();
+      let updatedCars = [...state].filter(jobs => jobs.id !== carId);
+      state = updatedCars
+      this.setState({cars:updatedCars});
     }
 
   }
@@ -132,7 +133,8 @@ class AddCar extends Component {
             message: "Polling App",
             description: "Multumim ! Masina a fost adaugat cu success!"
           })
-        }).then(function(){
+        })
+        .then(function(){
             window.location.reload();
         })
         .catch(error => {
@@ -178,6 +180,7 @@ class AddCar extends Component {
   }
 
   componentDidMount() {
+    console.log(this.state);
     this.getAllCars();
   }
 
