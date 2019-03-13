@@ -159,6 +159,8 @@ class AddCar extends Component {
             message: "Polling App",
             description: "Multumim ! Masina a fost adaugat cu success!"
           });
+        }).then(function(){
+          window.location.reload();
         })
         .catch(error => {
           notification.error({
