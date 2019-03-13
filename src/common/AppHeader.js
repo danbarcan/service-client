@@ -36,14 +36,17 @@ class AppHeader extends Component {
       ];
     } else {
       menuItems = [
+        <Menu.Item key="/home">
+          <Link to="/home">Acasa</Link>
+        </Menu.Item>,
         <Menu.Item key="/contact">
           <Link to="/contact">Contact</Link>
         </Menu.Item>,
         <Menu.Item key="/login">
-          <Link to="/login">Login</Link>
+          <Link to="/login">Logare</Link>
         </Menu.Item>,
         <Menu.Item key="/signup">
-          <Link to="/signup">Signup</Link>
+          <Link to="/signup">Inregistrare</Link>
         </Menu.Item>
       ];
     }

@@ -41,7 +41,7 @@ class AppFooter extends Component {
     } else {
       menuItems = [
         <Menu.Item key="/contact">
-          <Link to="/contact">Contact</Link>
+          <Link to="/contact"></Link>
         </Menu.Item>,
         <Menu.Item key="/login">
           <Link to="/login">Login</Link>
@@ -56,7 +56,7 @@ class AppFooter extends Component {
       <Header className="app-footer">
         <div className="container">
           <div className="app-title">
-            <Link to="/">Serviceul Meu</Link>
+            <Link to="/">&#169; 2018 DDSD</Link>
           </div>
           <Menu
             className="app-menu"

@@ -6,6 +6,8 @@ import { getCurrentUser, createJob } from "../util/APIUtils";
 import { ACCESS_TOKEN } from "../constants";
 
 import Login from "../user/login/Login";
+import Home from "../user/home/Home";
+import Contact from "../user/contact/Contact";
 import Job from "../user/signup/Job";
 import Signup from "../user/signup/Signup";
 import Profile from "../user/profile/Profile";
@@ -192,7 +194,6 @@ class App extends Component {
 
           <Content className="app-content">
             <div className="container">
-              <h1> Serviceul meu {this.state.currentUserName} </h1>
               <Switch>
                 <Route
                   path="/login"
@@ -201,6 +202,10 @@ class App extends Component {
                   )}
                 />
                 <Route path="/signup" component={Signup} />
+                <Route path="/home" component={Home} />
+                <Route path="/contact" component={Contact} />
+
+
 
                 <Route
                   path="/users/:username"
