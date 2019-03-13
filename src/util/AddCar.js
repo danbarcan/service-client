@@ -91,13 +91,16 @@ class AddCar extends Component {
   }
 
   deleteCar(carId) {
-    console.log(carId);
-
     if (window.confirm("Sigur doriti sa stergeti aceasta masina ?")) {
-      alert("Va multumim !");
       deleteCar(carId);
-      window.location.reload();
+      alert("Va multumim !")
+      let state = this.state.cars;
+      let newJobs = [...state.filter(jobs => jobs.id !== carId)]
+      state = newJobs;
+      this.setState({state});
+      this.forceUpdate();
     }
+
   }
 
   handleInputChange(event, validationFun) {
@@ -128,7 +131,9 @@ class AddCar extends Component {
           notification.success({
             message: "Polling App",
             description: "Multumim ! Masina a fost adaugat cu success!"
-          });
+          })
+        }).then(function(){
+            window.location.reload();
         })
         .catch(error => {
           notification.error({
@@ -137,8 +142,7 @@ class AddCar extends Component {
               error.message ||
               "Oups! Ceva nu a mers corect, va rugam reincercati!"
           });
-        });
-      window.location.reload();
+        })
     } else {
       const carUpdateRequest = {
         userId: this.props.currentUser.id,
@@ -147,7 +151,6 @@ class AddCar extends Component {
         model: this.state.model.value,
         year: this.state.year.value
       };
-      console.log(carUpdateRequest);
       updateCar(carUpdateRequest)
         .then(response => {
           notification.success({
@@ -163,7 +166,6 @@ class AddCar extends Component {
               "Oups! Ceva nu a mers corect, va rugam reincercati!"
           });
         });
-      window.location.reload();
     }
   }
 

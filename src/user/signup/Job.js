@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { createJob, getJobs, deleteJob } from "../../util/APIUtils";
+import { createJob, getJobs, deleteJob, getOffers } from "../../util/APIUtils";
 import "./Signup.css";
 
 import { Form, Input, Button, notification } from "antd";
@@ -22,13 +22,16 @@ class Job extends Component {
       description: {
         value: ""
       },
-      jobs: []
+      jobs: [],
+      offers: []
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.getJobs = this.getJobs.bind(this);
     this.isFormInvalid = this.isFormInvalid.bind(this);
     this.deleteJob = this.deleteJob.bind(this);
+    this.getJobs = this.getJobs.bind(this);
+    this.getOffers = this.getOffers.bind(this);
   }
 
   handleInputChange(event, validationFun) {
@@ -82,6 +85,7 @@ class Job extends Component {
 
   getJobs() {
     let promise;
+    console.log(this.props.currentUser.id);
     promise = getJobs(this.props.currentUser.id);
     if (!promise) {
       return;
@@ -104,6 +108,30 @@ class Job extends Component {
       });
   }
 
+  getOffers() {
+    let promise;
+    promise = getOffers(this.props.currentUser.id);
+    if (!promise) {
+      return;
+    }
+
+    this.setState({
+      isLoading: true
+    });
+    promise
+      .then(response => {
+        this.setState({
+          offers: response,
+          isLoading: false
+        });
+      })
+      .catch(error => {
+        this.setState({
+          isLoading: false
+        });
+      });
+  }
+
   isFormInvalid() {
     return !(
       this.state.make.validateStatus === "success" &&
@@ -113,16 +141,21 @@ class Job extends Component {
     );
   }
 
+  componentDidMount(){
+    {this.getJobs()}
+    {this.getOffers()}
+
+  }
   render() {
     console.log(this.state);
     return (
       <div className="signup-container">
         <h3> Probleme active</h3>
-        <div class="active-jobs">
+        <div className="active-jobs">
           {this.state.jobs.map(j => (
-            <div class="job-container">
+            <div className="job-container">
               <h2>
-                <span>{j.id}</span>
+                <span>id: {j.id}, problema: {j.description}</span>
               </h2>
               <Button
                 onClick={() => this.editJob(j.id, j.description)}
@@ -135,6 +168,22 @@ class Job extends Component {
                 className="btn btn-danger"
               >
                 Sterge
+              </Button>
+            </div>
+          ))}
+        </div>
+        <h3> Oferte</h3>
+        <div className="offers">
+        {this.state.offers.map(o => (
+            <div className="offer-container">
+              <h2>
+                <span>{o.id}</span>
+              </h2>
+              <Button
+                onClick={() => this.acceptJob(o.id)}
+                className="btn btn-primary"
+              >
+                Accept
               </Button>
             </div>
           ))}

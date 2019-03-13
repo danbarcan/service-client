@@ -80,7 +80,7 @@ function ProfileDropdownMenu(props) {
         <Link to="/Profile">Profile</Link>
       </Menu.Item>
       <Menu.Item key="logout" className="dropdown-item">
-        Logout
+        <Link to ="/login">Logout</Link>
       </Menu.Item>
     </Menu>
   );

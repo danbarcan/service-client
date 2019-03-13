@@ -161,9 +161,9 @@ export function deleteOffer(offerId) {
   });
 }
 
-export function getOffers() {
+export function getOffers(userId) {
   return request({
-    url: API_BASE_URL + "/users/offers",
+    url: API_BASE_URL + "/users/offers?userId=" + userId,
     method: "GET"
   });
 }

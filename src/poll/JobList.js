@@ -132,7 +132,7 @@ class JobList extends Component {
     return (
       <div className="polls-container">
         {this.state.jobs.map(d => (
-          <div class="job-container">
+          <div className="job-container">
             <h2>
               Job de la <span>{d.user.name} :</span>
             </h2>
