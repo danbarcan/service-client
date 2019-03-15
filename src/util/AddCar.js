@@ -95,13 +95,12 @@ class AddCar extends Component {
   deleteCar(carId) {
     if (window.confirm("Sigur doriti sa stergeti aceasta masina ?")) {
       deleteCar(carId);
-      alert("Va multumim !")
+      alert("Va multumim !");
       let state = this.state.cars;
       let updatedCars = [...state].filter(jobs => jobs.id !== carId);
-      state = updatedCars
-      this.setState({cars:updatedCars});
+      state = updatedCars;
+      this.setState({ cars: updatedCars });
     }
-
   }
 
   handleInputChange(event, validationFun) {
@@ -132,10 +131,10 @@ class AddCar extends Component {
           notification.success({
             message: "Polling App",
             description: "Multumim ! Masina a fost adaugat cu success!"
-          })
+          });
         })
-        .then(function(){
-            window.location.reload();
+        .then(function() {
+          window.location.reload();
         })
         .catch(error => {
           notification.error({
@@ -144,7 +143,7 @@ class AddCar extends Component {
               error.message ||
               "Oups! Ceva nu a mers corect, va rugam reincercati!"
           });
-        })
+        });
     } else {
       const carUpdateRequest = {
         userId: this.props.currentUser.id,
@@ -159,7 +158,8 @@ class AddCar extends Component {
             message: "Polling App",
             description: "Multumim ! Masina a fost adaugat cu success!"
           });
-        }).then(function(){
+        })
+        .then(function() {
           window.location.reload();
         })
         .catch(error => {
@@ -194,7 +194,7 @@ class AddCar extends Component {
         </Button>
         <h3>Masinile adaugate:</h3>
         {this.state.cars.map(c => (
-          <div class="job-container">
+          <div className="job-container">
             <h2>
               <span>
                 {c.make} {c.model}

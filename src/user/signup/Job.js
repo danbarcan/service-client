@@ -1,5 +1,11 @@
 import React, { Component } from "react";
-import { createJob, getJobs, deleteJob, getOffers, acceptOffer } from "../../util/APIUtils";
+import {
+  createJob,
+  getJobs,
+  deleteJob,
+  getOffers,
+  acceptOffer
+} from "../../util/APIUtils";
 import "./Signup.css";
 
 import { Form, Input, Button, notification } from "antd";
@@ -67,7 +73,8 @@ class Job extends Component {
           message: "Polling App",
           description: "Thank you! Your job has been succesfully registered. "
         });
-      }).then(function(){
+      })
+      .then(function() {
         window.location.reload();
       })
       .catch(error => {
@@ -84,8 +91,8 @@ class Job extends Component {
       deleteJob(jobId);
       let state = this.state.jobs;
       let updatedJobs = [...state].filter(jobs => jobs.id !== jobId);
-      state = updatedJobs
-      this.setState({jobs:updatedJobs});
+      state = updatedJobs;
+      this.setState({ jobs: updatedJobs });
     }
   }
 
@@ -139,7 +146,7 @@ class Job extends Component {
   }
 
   acceptOffer(offerId) {
-    acceptOffer(offerId)
+    acceptOffer(offerId);
   }
 
   isFormInvalid() {
@@ -151,10 +158,13 @@ class Job extends Component {
     );
   }
 
-  componentDidMount(){
-    {this.getJobs()}
-    {this.getOffers()}
-
+  componentDidMount() {
+    {
+      this.getJobs();
+    }
+    {
+      this.getOffers();
+    }
   }
   render() {
     console.log(this.state);
@@ -165,7 +175,9 @@ class Job extends Component {
           {this.state.jobs.map(j => (
             <div className="job-container">
               <h2>
-                <span>id: {j.id}, problema: {j.description}</span>
+                <span>
+                  id: {j.id}, problema: {j.description}
+                </span>
               </h2>
               <Button
                 onClick={() => this.editJob(j.id, j.description)}
@@ -184,10 +196,10 @@ class Job extends Component {
         </div>
         <h3> Oferte</h3>
         <div className="offers">
-        {this.state.offers.map(o => (
+          {this.state.offers.map(o => (
             <div className="offer-container">
               <h2>
-                <span>{o.id}</span>
+                <li key={o.id}>{o.id}</li>
               </h2>
               <Button
                 onClick={() => this.acceptOffer(o.id)}

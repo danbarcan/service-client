@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import "./App.css";
 import { Route, withRouter, Switch } from "react-router-dom";
 
-import { getCurrentUser, createJob } from "../util/APIUtils";
+import { getCurrentUser, createJob, getUserProfile } from "../util/APIUtils";
 import { ACCESS_TOKEN } from "../constants";
 
 import Login from "../user/login/Login";
@@ -34,6 +34,7 @@ class App extends Component {
     this.handleLogout = this.handleLogout.bind(this);
     this.loadCurrentUser = this.loadCurrentUser.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
+    this.getUserProfile = this.getUserProfile.bind(this);
 
     notification.config({
       placement: "topRight",
@@ -63,8 +64,13 @@ class App extends Component {
       });
   }
 
+  getUserProfile() {
+    console.log(this.state);
+  }
+
   componentDidMount() {
     this.loadCurrentUser();
+    this.getUserProfile();
   }
 
   handleLogout(
@@ -204,8 +210,6 @@ class App extends Component {
                 <Route path="/signup" component={Signup} />
                 <Route path="/home" component={Home} />
                 <Route path="/contact" component={Contact} />
-
-
 
                 <Route
                   path="/users/:username"
