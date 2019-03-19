@@ -56,9 +56,6 @@ class Job extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-
-    console.log(this.props);
-
     const jobRequest = {
       userId: this.props.currentUser.id,
       make: this.state.make.value,
@@ -98,7 +95,6 @@ class Job extends Component {
 
   getJobs() {
     let promise;
-    console.log(this.props.currentUser.id);
     promise = getJobs(this.props.currentUser.id);
     if (!promise) {
       return;
@@ -167,19 +163,19 @@ class Job extends Component {
     }
   }
   render() {
-    console.log(this.state);
     return (
       <div className="signup-container">
         <h3> Probleme active</h3>
         <div className="active-jobs">
           {this.state.jobs.map(j => (
             <div className="job-container">
-                <span>
+                <h3 key = {j.id}>
                   id: {j.id}, problema: {j.description}
-                </span>
+                </h3>
                 
-                {j.offers.map( o => (
-                <div className="offer-single">
+                {j.acceptService != 'null' &&
+                j.offers.map( o => (
+                <div className="offer-single" >
                   <h3> Oferta de la {o.user.name}</h3>
                   <p>Pret : {o.cost} Durata : {o.duration} ore </p>
                   <p>Descriere : {o.description}</p>
