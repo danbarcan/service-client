@@ -174,42 +174,34 @@ class Job extends Component {
         <div className="active-jobs">
           {this.state.jobs.map(j => (
             <div className="job-container">
-              <h2>
                 <span>
                   id: {j.id}, problema: {j.description}
                 </span>
-              </h2>
-              <Button
-                onClick={() => this.editJob(j.id, j.description)}
-                className="btn btn-warning"
-              >
-                Editeaza
-              </Button>
+                
+                {j.offers.map( o => (
+                <div className="offer-single">
+                  <h3> Oferta de la {o.user.name}</h3>
+                  <p>Pret : {o.cost} Durata : {o.duration} ore </p>
+                  <p>Descriere : {o.description}</p>
+                  <Button
+                  onClick={() => this.acceptOffer(o.id)}
+                  className="btn btn-primary"
+                  >
+                  Accepta Oferta
+                  </Button>
+                </div>
+                ))}
               <Button
                 onClick={() => this.deleteJob(j.id)}
                 className="btn btn-danger"
               >
-                Sterge
+                Sterge Problema
               </Button>
             </div>
           ))}
         </div>
         <h3> Oferte</h3>
-        <div className="offers">
-          {this.state.offers.map(o => (
-            <div className="offer-container">
-              <h2>
-                <li key={o.id}>{o.id}</li>
-              </h2>
-              <Button
-                onClick={() => this.acceptOffer(o.id)}
-                className="btn btn-primary"
-              >
-                Accept
-              </Button>
-            </div>
-          ))}
-        </div>
+          
         <h1 className="page-title">Detaliaza problema ! </h1>
         <div className="signup-content">
           <Form onSubmit={this.handleSubmit} className="signup-form">
