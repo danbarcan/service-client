@@ -189,14 +189,14 @@ class AddCar extends Component {
   render() {
     return (
       <div>
-        <Button bsStyle="primary" bsSize="large" onClick={this.handleShow}>
+        <Button bsstyle="primary" bssize="large" onClick={this.handleShow}>
           Adaugati Masina
         </Button>
         <h3>Masinile adaugate:</h3>
         {this.state.cars.map(c => (
           <div className="job-container">
             <h2>
-              <span>
+              <span key = { c.id}>
                 {c.make} {c.model}
               </span>
             </h2>
