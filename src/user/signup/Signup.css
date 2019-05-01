@@ -1,7 +1,11 @@
 .signup-container {
-  max-width: 420px;
   margin: 0 auto;
   margin-top: 40px;
+  width: 1200px;
+}
+
+.offer-container {
+  margin-left: 100px;
 }
 
 .signup-form-button {

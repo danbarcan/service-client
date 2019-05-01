@@ -83,7 +83,10 @@ function ProfileDropdownMenu(props) {
         <Link to="/Profile">Profile</Link>
       </Menu.Item>
       <Menu.Item key="logout" className="dropdown-item">
-        <Link to ="/login">Logout</Link>
+        <Link to="/login">Logout</Link>
+      </Menu.Item>
+      <Menu.Item key="chat" className="dropdown-item">
+        <Link to="/Chat">Chat</Link>
       </Menu.Item>
     </Menu>
   );

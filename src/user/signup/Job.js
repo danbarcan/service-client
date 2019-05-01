@@ -7,7 +7,7 @@ import {
   acceptOffer
 } from "../../util/APIUtils";
 import "./Signup.css";
-
+import { withRouter } from "react-router-dom";
 import { Form, Input, Button, notification } from "antd";
 
 const FormItem = Form.Item;
@@ -146,7 +146,13 @@ class Job extends Component {
   }
 
   acceptOffer(offerId) {
-    acceptOffer(offerId);
+    acceptOffer(offerId)
+      .then(() => {
+        this.props.history.push("/Chat");
+      })
+      .catch(error => {
+        console.log(error);
+      });
   }
 
   isFormInvalid() {
@@ -180,33 +186,26 @@ class Job extends Component {
                 </span>
               </h2>
               <Button
-                onClick={() => this.editJob(j.id, j.description)}
-                className="btn btn-warning"
-              >
-                Editeaza
-              </Button>
-              <Button
                 onClick={() => this.deleteJob(j.id)}
                 className="btn btn-danger"
               >
                 Sterge
               </Button>
-            </div>
-          ))}
-        </div>
-        <h3> Oferte</h3>
-        <div className="offers">
-          {this.state.offers.map(o => (
-            <div className="offer-container">
-              <h2>
-                <li key={o.id}>{o.id}</li>
-              </h2>
-              <Button
-                onClick={() => this.acceptOffer(o.id)}
-                className="btn btn-primary"
-              >
-                Accept
-              </Button>
+              {j.offers.map(o => (
+                <div className="offer-container">
+                  <h3>Oferta de la {o.user.username}</h3>
+                  <p>Rating : {o.rating}</p>
+                  <p>Pret : {o.cost}</p>
+                  <p>Durata : {o.duration}</p>
+                  <p>Descriere : {o.description}</p>
+                  <Button
+                    onClick={() => this.acceptOffer(o.id)}
+                    className="btn btn-success"
+                  >
+                    Accept
+                  </Button>
+                </div>
+              ))}
             </div>
           ))}
         </div>
@@ -326,4 +325,4 @@ class Job extends Component {
     };
   };
 }
-export default Job;
+export default withRouter(Job);

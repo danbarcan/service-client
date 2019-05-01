@@ -14,6 +14,7 @@ import Profile from "../user/profile/Profile";
 import AppHeader from "../common/AppHeader";
 import AppFooter from "../common/AppFooter";
 import NotFound from "../common/NotFound";
+import Chat from "../user/Chat";
 import LoadingIndicator from "../common/LoadingIndicator";
 import PrivateRoute from "../common/PrivateRoute";
 
@@ -133,6 +134,13 @@ class App extends Component {
                 path="/Profile"
                 render={props => (
                   <hr />, <Profile currentUser={this.state.currentUser} />
+                )}
+              />
+              <Route
+                exact
+                path="/Chat"
+                render={props => (
+                  <hr />, <Chat currentUser={this.state.currentUser} />
                 )}
               />
             </Switch>
