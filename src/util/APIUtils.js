@@ -154,6 +154,13 @@ export function createOffer(offerRequest) {
   });
 }
 
+export function hideJob(jobId) {
+  return request({
+    url: API_BASE_URL + "/services/offers/hideJob?jobId=" + jobId,
+    method: "GET"
+  });
+}
+
 export function deleteOffer(offerId) {
   return request({
     url: API_BASE_URL + "/services/deleteOffer?offerId=" + offerId,
@@ -172,5 +179,15 @@ export function acceptOffer(offerId) {
   return request({
     url: API_BASE_URL + "/users/acceptOffer?offerId=" + offerId,
     method: "GET"
+  });
+}
+
+// Update user
+
+export function updateUser(userRequest) {
+  return request({
+    url: API_BASE_URL + "/users/updateUser",
+    method: "POST",
+    body: JSON.stringify(userRequest)
   });
 }

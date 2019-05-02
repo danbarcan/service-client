@@ -1,5 +1,10 @@
 import React, { Component } from "react";
-import { getAllJobs, createOffer, getCurrentUser } from "../util/APIUtils";
+import {
+  getAllJobs,
+  createOffer,
+  getCurrentUser,
+  hideJob
+} from "../util/APIUtils";
 import Job from "./Job";
 import LoadingIndicator from "../common/LoadingIndicator";
 import { Button, Icon, notification, Form, Input } from "antd";
@@ -25,6 +30,7 @@ class JobList extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleClose = this.handleClose.bind(this);
     this.handleShow = this.handleShow.bind(this);
+    this.hideJob = this.hideJob.bind(this);
   }
 
   handleClose() {
@@ -40,6 +46,10 @@ class JobList extends Component {
       show: true,
       editId: id
     });
+  }
+
+  hideJob(id) {
+    hideJob(id);
   }
 
   handleSubmit(event) {
@@ -128,47 +138,40 @@ class JobList extends Component {
     const jobViews = [];
     //console.log(this.state.jobs);
     const data = this.state.jobs;
-
     return (
-      <div className="polls-container">
-        {this.state.jobs.map(d => (
-          <div className="job-container">
-            <h2>
-              Job de la <span>{d.user.name} :</span>
-            </h2>
-            <p>
-              <em>Masina, Model, An:</em>
-            </p>
-            <p>
-              <em>Problema:</em> <span key={d.id}>{d.description}</span>
-            </p>
-            <Button
-              onClick={() => this.acceptOffer(d.id, d.description)}
-              className="btn btn-primary"
-            >
-              Accepta Oferta
-            </Button>
-          </div>
-        ))}
-
-        {!this.state.isLoading === 0 ? (
-          <div className="no-polls-found">
-            <span>No Jobs Found.</span>
-          </div>
-        ) : null}
-        {!this.state.isLoading ? (
-          <div className="load-more-polls">
-            <Button
-              type="dashed"
-              onClick={this.handleLoadMore}
-              disabled={this.state.isLoading}
-            >
-              <Icon type="plus" /> Incarca mai multe
-            </Button>
-          </div>
-        ) : null}
-        {this.state.isLoading ? <LoadingIndicator /> : null}
-
+      <div className="newjobs-container">
+        <h3>Joburi noi</h3>
+        {this.state.jobs.map(
+          d => (
+            console.log(this.state.jobs),
+            (
+              <div className="job-container">
+                <h2>
+                  Job de la <span>{d.user.name} :</span>
+                </h2>
+                <p>
+                  <em>Masina, Model, An:</em>
+                </p>
+                <p>
+                  <em>Problema:</em> <span key={d.id}>{d.description}</span>
+                </p>
+                <Button
+                  onClick={() => this.acceptOffer(d.id, d.description)}
+                  className="btn btn-success"
+                >
+                  Trimite Oferta
+                </Button>
+                <Button
+                  onClick={() => this.hideOffer(d.id)}
+                  className="btn btn-danger"
+                >
+                  Ascunde
+                </Button>
+              </div>
+            )
+          )
+        )}
+        <br />
         <Modal show={this.state.show} onHide={this.handleClose}>
           <Modal.Header closeButton />
           <Modal.Body>

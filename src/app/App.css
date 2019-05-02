@@ -3,3 +3,22 @@
   width: 90%;
   margin: 0 auto;
 }
+
+body {
+  overflow: hidden;
+}
+
+.job-container {
+  width: 300px;
+  float: left;
+  border: 1px solid #d3d3d3;
+  text-align: center;
+  padding: 16px;
+  margin: 16px;
+}
+
+.job-container .btn {
+  width: 110px;
+  padding: 5px;
+  margin: 10px;
+}
