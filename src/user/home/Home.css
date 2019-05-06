@@ -1,10 +1,73 @@
+@media (min-width: 1200px) {
+  .container {
+    width: 1600px;
+  }
+}
+
 .login-container {
-    max-width: 420px;
-    margin: 0 auto;
-    margin: 0 auto;
-    margin-top: 40px;
+  max-width: 420px;
+  margin: 0 auto;
+  margin: 0 auto;
+  margin-top: 40px;
 }
 
 .login-form-button {
-    width: 100%;
+  width: 100%;
+}
+
+.hero {
+  background-image: url(../../img/hero.jpg);
+  background-size: cover;
+  width: 100%;
+  height: 800px;
+}
+
+.hero-text {
+  text-align: left;
+  position: absolute;
+  top: 300px;
+  color: white;
+  left: 300px;
+}
+.hero-h1 {
+  font-size: 90px;
+}
+.hero-h2 {
+  font-size: 60px;
+}
+.hero-button {
+  margin-top: 40px;
+  font-size: 40px;
+  height: 70px;
+  background-color: rgba(18, 22, 67, 1);
+  border-color: rgba(18, 22, 67, 1);
+  color: white;
+  border-radius: 10px;
+}
+
+.icons {
+  height: 400px;
+  width: 80%;
+  margin: 0 auto;
+  padding-top: 100px;
+  padding-bottom: 100px;
+  border-bottom: 1px solid #d3d3d3;
+}
+.icon {
+  float: left;
+  text-align: center;
+  margin-left: 50px;
+  margin-right: 50px;
+}
+
+.icon-single {
+  height: 150px;
+  width: 150px;
+  border-radius: 50%;
+  background-color: red;
+}
+
+.icon-text {
+  margin-top: 20px;
+  font-size: 20px;
 }

@@ -22,7 +22,10 @@ class JobList extends Component {
       editId: "",
       response: "",
       duration: "",
-      cost: ""
+      cost: "",
+      availJobs: [],
+      hiddenJobs: [],
+      offeredJobs: []
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.getAllJobs = this.getAllJobs.bind(this);
@@ -95,11 +98,37 @@ class JobList extends Component {
 
     promise
       .then(response => {
-        this.setState({
-          jobs: response,
-          isLoading: false
-        });
+        console.log(response);
+        const jobs = response;
+        console.log(jobs);
+        for (var i = 0; i < jobs.length; i++) {
+          if (jobs[i].jobState === "AVAILABLE") {
+            var availJobs = [];
+            availJobs.push(jobs[i]);
+          } else if (jobs[i].jobState === "HIDDEN") {
+            var hiddenJobs = [];
+            hiddenJobs.push(jobs[i]);
+          } else if (jobs[i].jobState === "OFFERED") {
+            var offeredJobs = [];
+            offeredJobs.push(jobs[i]);
+          }
+          this.setState({
+            availJobs: availJobs,
+            isLoading: false
+          });
+          this.setState({
+            hiddenJobs: hiddenJobs,
+            isLoading: false
+          });
+          this.setState({
+            offeredJobs: offeredJobs,
+            isLoading: false
+          });
+        }
+
+        console.log(this.state);
       })
+
       .catch(error => {
         this.setState({
           isLoading: false
@@ -141,36 +170,76 @@ class JobList extends Component {
     return (
       <div className="newjobs-container">
         <h3>Joburi noi</h3>
-        {this.state.jobs.map(
-          d => (
-            console.log(this.state.jobs),
-            (
-              <div className="job-container">
-                <h2>
-                  Job de la <span>{d.user.name} :</span>
-                </h2>
-                <p>
-                  <em>Masina, Model, An:</em>
-                </p>
-                <p>
-                  <em>Problema:</em> <span key={d.id}>{d.description}</span>
-                </p>
-                <Button
-                  onClick={() => this.acceptOffer(d.id, d.description)}
-                  className="btn btn-success"
-                >
-                  Trimite Oferta
-                </Button>
-                <Button
-                  onClick={() => this.hideOffer(d.id)}
-                  className="btn btn-danger"
-                >
-                  Ascunde
-                </Button>
-              </div>
-            )
-          )
-        )}
+        {this.state.availJobs &&
+          this.state.availJobs.map(d => (
+            <div className="job-container">
+              <h2>
+                Job de la <span>{d.user.name} :</span>
+              </h2>
+              <p>
+                <em>Masina, Model, An:</em>
+              </p>
+              <p>
+                <em>Problema:</em> <span key={d.id}>{d.description}</span>
+              </p>
+              <Button
+                onClick={() => this.acceptOffer(d.id, d.description)}
+                className="btn btn-success"
+              >
+                Trimite Oferta
+              </Button>
+              <Button
+                onClick={() => this.hideJob(d.id)}
+                className="btn btn-danger"
+              >
+                Ascunde
+              </Button>
+            </div>
+          ))}
+        <h3>Joburi curente</h3>
+        {this.state.offeredJobs &&
+          this.state.offeredJobs.map(d => (
+            <div className="job-container">
+              <h2>
+                Job de la <span>{d.user.name} :</span>
+              </h2>
+              <p>
+                <em>Masina, Model, An:</em>
+              </p>
+              <p>
+                <em>Problema:</em> <span key={d.id}>{d.description}</span>
+              </p>
+
+              <Button
+                onClick={() => this.hideJob(d.id)}
+                className="btn btn-danger"
+              >
+                Ascunde
+              </Button>
+            </div>
+          ))}
+        <h3>Joburi ascunse</h3>
+        {this.state.hiddenJobs &&
+          this.state.hiddenJobs.map(d => (
+            <div className="job-container">
+              <h2>
+                Job de la <span>{d.user.name} :</span>
+              </h2>
+              <p>
+                <em>Masina, Model, An:</em>
+              </p>
+              <p>
+                <em>Problema:</em> <span key={d.id}>{d.description}</span>
+              </p>
+
+              <Button
+                onClick={() => this.hideJob(d.id)}
+                className="btn btn-danger"
+              >
+                Ascunde
+              </Button>
+            </div>
+          ))}
         <br />
         <Modal show={this.state.show} onHide={this.handleClose}>
           <Modal.Header closeButton />

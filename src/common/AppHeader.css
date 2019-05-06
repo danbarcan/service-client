@@ -22,6 +22,7 @@
 
 .app-menu {
   float: right;
+  width: 400px;
 }
 
 .app-menu > li {
@@ -82,4 +83,8 @@
     padding: 0 15px;
     margin: 0 -15px;
   }
+}
+
+.logo {
+  background-image: url("../img/logo.png");
 }

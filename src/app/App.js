@@ -207,31 +207,29 @@ class App extends Component {
           />
 
           <Content className="app-content">
-            <div className="container">
-              <Switch>
-                <Route
-                  path="/login"
-                  render={props => (
-                    <Login onLogin={this.handleLogin} {...props} />
-                  )}
-                />
-                <Route path="/signup" component={Signup} />
-                <Route path="/home" component={Home} />
-                <Route path="/contact" component={Contact} />
+            <Switch>
+              <Route
+                path="/login"
+                render={props => (
+                  <Login onLogin={this.handleLogin} {...props} />
+                )}
+              />
+              <Route path="/signup" component={Signup} />
+              <Route path="/home" component={Home} />
+              <Route path="/contact" component={Contact} />
 
-                <Route
-                  path="/users/:username"
-                  render={props => (
-                    <Profile
-                      isAuthenticated={this.state.isAuthenticated}
-                      currentUser={this.state.currentUser}
-                      {...props}
-                    />
-                  )}
-                />
-                <Route component={NotFound} />
-              </Switch>
-            </div>
+              <Route
+                path="/users/:username"
+                render={props => (
+                  <Profile
+                    isAuthenticated={this.state.isAuthenticated}
+                    currentUser={this.state.currentUser}
+                    {...props}
+                  />
+                )}
+              />
+              <Route component={NotFound} />
+            </Switch>
           </Content>
           <AppFooter />
         </Layout>

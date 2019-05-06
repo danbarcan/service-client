@@ -41,7 +41,7 @@ class AppFooter extends Component {
     } else {
       menuItems = [
         <Menu.Item key="/contact">
-          <Link to="/contact"></Link>
+          <Link to="/contact" />
         </Menu.Item>,
         <Menu.Item key="/login">
           <Link to="/login">Login</Link>
@@ -56,7 +56,7 @@ class AppFooter extends Component {
       <Header className="app-footer">
         <div className="container">
           <div className="app-title">
-            <Link to="/">&#169; 2018 DDSD</Link>
+            <Link to="/">&#169; 2018 DDW&S</Link>
           </div>
           <Menu
             className="app-menu"
@@ -84,7 +84,7 @@ function ProfileDropdownMenu(props) {
         <Link to={`/users/${props.currentUser.username}`}>Profile</Link>
       </Menu.Item>
       <Menu.Item key="logout" className="dropdown-item">
-      <Link to ="/login">Logout</Link>
+        <Link to="/login">Logout</Link>
       </Menu.Item>
     </Menu>
   );
