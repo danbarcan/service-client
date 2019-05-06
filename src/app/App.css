@@ -17,6 +17,11 @@ body {
   margin: 16px;
 }
 
+.hiddenJobs-container,
+.currentJobs-container {
+  clear: both;
+}
+
 .job-container .btn {
   width: 110px;
   padding: 5px;
