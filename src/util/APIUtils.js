@@ -186,7 +186,7 @@ export function acceptOffer(offerId) {
 
 export function updateUser(userRequest) {
   return request({
-    url: API_BASE_URL + "/users/updateUser",
+    url: API_BASE_URL + "/user/updateProfile",
     method: "POST",
     body: JSON.stringify(userRequest)
   });

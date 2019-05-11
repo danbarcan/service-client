@@ -11,10 +11,13 @@ export class Profile extends Component {
     super(props);
 
     this.state = {
+      name: "",
       pw: " ",
-      newpw: "",
-      phone: this.props.currentUser.phone,
-      email: this.props.currentUser.email
+      newpw: " ",
+      phone: " ",
+      email: "",
+      society: "",
+      address: ""
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -23,20 +26,11 @@ export class Profile extends Component {
 
   handleChange(event) {
     const target = event.target;
-    const pw = target.pw;
-    const newpw = target.newpw;
-    const phone = target.phone;
-    const email = target.email;
-    const society = target.society;
-    const address = target.address;
+    const inputName = target.name;
+    const inputValue = target.value;
 
     this.setState({
-      pw: pw,
-      newpw: newpw,
-      phone: phone,
-      email: email,
-      society: society,
-      address: address
+      [inputName]: inputValue
     });
   }
 
@@ -44,20 +38,22 @@ export class Profile extends Component {
     event.preventDefault();
 
     const userRequest = {
-      userid: this.props.currentUser.id,
-      oldpassword: this.state.pw,
-      newpassword: this.state.newpw,
+      id: this.props.currentUser.id,
+      name: this.state.name,
+      username: this.props.currentUser.username,
+      oldPassword: this.state.pw,
+      password: this.state.newpw,
       phone: this.state.phone,
       email: this.state.email,
-      society: this.state.society,
-      address: this.state.address
+      serviceName: this.state.society,
+      serviceAddress: this.state.address
     };
     console.log(userRequest);
     updateUser(userRequest)
       .then(response => {
         notification.success({
           message: "Polling App",
-          description: "Multumim ! Detaliile au fost salvate!"
+          description: "Multumim ! Noile detalii au fost salvate!"
         });
       })
       .catch(error => {
@@ -70,7 +66,7 @@ export class Profile extends Component {
       });
   }
   render() {
-    if (this.state.currentUserRole === "ROLE_USER") {
+    if (this.props.currentUser.role == "ROLE_USER") {
       return (
         <div className="profile">
           <h2> Profil </h2>
@@ -78,11 +74,22 @@ export class Profile extends Component {
           <Form onSubmit={this.handleSubmit} className="profile-form">
             <FormItem>
               <Input
+                prefix={<Icon type="profile" />}
+                size="large"
+                name="name"
+                type="text"
+                placeholder="Nume de utilizator"
+                onChange={event => this.handleChange(event)}
+              />
+            </FormItem>
+            <FormItem>
+              <Input
                 prefix={<Icon type="lock" />}
                 size="large"
                 name="pw"
                 type="password"
                 placeholder="Parola curenta"
+                onChange={event => this.handleChange(event)}
               />
             </FormItem>
             <FormItem>
@@ -91,7 +98,8 @@ export class Profile extends Component {
                 size="large"
                 name="newpw"
                 type="password"
-                placeholder="Parola nouta"
+                placeholder="Parola noua"
+                onChange={event => this.handleChange(event)}
               />
             </FormItem>
             <FormItem>
@@ -101,6 +109,7 @@ export class Profile extends Component {
                 name="phone"
                 type="number"
                 placeholder="Numar de telefon"
+                onChange={event => this.handleChange(event)}
               />
             </FormItem>
             <FormItem>
@@ -108,8 +117,9 @@ export class Profile extends Component {
                 prefix={<Icon type="mail" />}
                 size="large"
                 name="email"
-                type="number"
+                type="email"
                 placeholder="Adresa de email"
+                onChange={event => this.handleChange(event)}
               />
             </FormItem>
             <Button
@@ -145,7 +155,7 @@ export class Profile extends Component {
                 size="large"
                 name="newpw"
                 type="password"
-                placeholder="Parola nouta"
+                placeholder="Parola noua"
               />
             </FormItem>
             <FormItem>
@@ -162,7 +172,7 @@ export class Profile extends Component {
                 prefix={<Icon type="mail" />}
                 size="large"
                 name="email"
-                type="number"
+                type="email"
                 placeholder="Adresa de email"
               />
             </FormItem>
@@ -171,7 +181,7 @@ export class Profile extends Component {
                 prefix={<Icon type="user" />}
                 size="large"
                 name="society"
-                type="number"
+                type="text"
                 placeholder="Nume firma"
               />
             </FormItem>
@@ -180,7 +190,7 @@ export class Profile extends Component {
                 prefix={<Icon type="search" />}
                 size="large"
                 name="address"
-                type="number"
+                type="text"
                 placeholder="Adresa firma"
               />
             </FormItem>

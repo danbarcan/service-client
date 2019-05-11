@@ -1,11 +1,7 @@
 .signup-container {
   margin: 0 auto;
   margin-top: 40px;
-  width: 1200px;
-}
-
-.offer-container {
-  margin-left: 100px;
+  clear: both;
 }
 
 .signup-form-button {
@@ -29,4 +25,9 @@
 .login-tab {
   width: 50%;
   text-align: center;
+}
+
+.signup-content {
+  width: 600px;
+  margin: 0 auto;
 }

@@ -200,7 +200,7 @@ class JobList extends Component {
         </div>
         <br />
         <div className="currentJobs-container">
-          <h3>Joburi curente</h3>
+          <h3>Oferte trimise</h3>
           {this.state.offeredJobs &&
             this.state.offeredJobs.map(d => (
               <div className="job-container">

@@ -28,6 +28,9 @@ class Job extends Component {
       description: {
         value: ""
       },
+      email: {
+        value: ""
+      },
       jobs: [],
       offers: []
     };
@@ -64,7 +67,8 @@ class Job extends Component {
       make: this.state.make.value,
       model: this.state.model.value,
       year: this.state.year.value,
-      description: this.state.description.value
+      description: this.state.description.value,
+      email: this.state.email.value
     };
 
     createJob(jobRequest)
@@ -209,8 +213,9 @@ class Job extends Component {
             </div>
           ))}
         </div>
-        <h1 className="page-title">Detaliaza problema ! </h1>
         <div className="signup-content">
+          <h1 className="page-title">Detaliaza problema ! </h1>
+
           <Form onSubmit={this.handleSubmit} className="signup-form">
             <FormItem
               label="Marca"
@@ -277,6 +282,24 @@ class Job extends Component {
                 autoComplete="off"
                 placeholder="Descriere"
                 value={this.state.description.value}
+                onChange={event =>
+                  this.handleInputChange(event, this.validateDescription)
+                }
+              />
+            </FormItem>
+            <FormItem
+              label="Email"
+              hasFeedback
+              validateStatus={this.state.email.validateStatus}
+              help={this.state.email.errorMsg}
+            >
+              <Input
+                size="large"
+                name="email"
+                type="text"
+                autoComplete="off"
+                placeholder="Email"
+                value={this.state.email.value}
                 onChange={event =>
                   this.handleInputChange(event, this.validateDescription)
                 }
