@@ -22,12 +22,27 @@ export class Profile extends Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.validate = this.validate.bind(this);
+  }
+  validate(values) {
+    const errors = {};
+    if (!values.name || values.title.trim() === "") {
+      errors.title = "‘Enter a Title’";
+    }
+    if (!values.categories || values.categories.trim() === "") {
+      errors.categories = "‘Enter categories’";
+    }
+    if (!values.content || values.content.trim() === "") {
+      errors.content = "‘Enter some content’";
+    }
+    return errors;
   }
 
   handleChange(event) {
     const target = event.target;
     const inputName = target.name;
     const inputValue = target.value;
+    this.validate(inputValue);
 
     this.setState({
       [inputName]: inputValue
@@ -65,6 +80,7 @@ export class Profile extends Component {
         });
       });
   }
+
   render() {
     if (this.props.currentUser.role == "ROLE_USER") {
       return (
@@ -88,6 +104,7 @@ export class Profile extends Component {
                 size="large"
                 name="pw"
                 type="password"
+                required
                 placeholder="Parola curenta"
                 onChange={event => this.handleChange(event)}
               />
