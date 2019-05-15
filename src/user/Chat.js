@@ -1,11 +1,14 @@
 import React, { Component } from "react";
-import Form from "react";
+
+import { Form, Input, Button, Icon, notification } from "antd";
+const FormItem = Form.Item;
 
 export class Chat extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: " "
+      value: " ",
+      message: ""
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -13,40 +16,59 @@ export class Chat extends Component {
   }
 
   handleChange(event) {
-    this.setState({ value: event.target.value });
+    const target = event.target;
+    const inputName = target.name;
+    const inputValue = target.value;
+    this.validate(inputValue);
+
+    this.setState({
+      [inputName]: inputValue
+    });
   }
 
   handleSubmit(event) {
     event.preventDefault();
-    // sendMessage(this.state.value);
+    const messageRequest = {
+      id: this.props.currentUser.username,
+      message: this.state.message
+    };
   }
 
   render() {
     console.log("rendered");
-    console.log(this.props.currentUser);
+    console.log(this.props);
+    console.log(this.state);
     return (
       <div id="chat">
         <h1>Chat</h1>
         <h2> Oferta actuala </h2>
-        <p> Nume service : {this.props.currentUser.username}</p>
+        <p> Nume service : </p>
         <p> Durata : </p>
         <p> Pret : </p>
         <p> Descriere : </p>
         <div class="conversation">
           <p> Mesaje primite :</p>
-          <form onSubmit={this.handleSubmit}>
-            <label>
-              Mesaj:
-              <br />
-              <textarea value={this.state.value} onChange={this.handleChange} />
-            </label>
-            <br />
-            <input
-              className="ant-btn btn btn-primary"
-              type="submit"
-              value="Trimitere"
-            />
-          </form>
+          <Form onSubmit={this.handleSubmit} className="chat-form">
+            <FormItem>
+              <Input
+                prefix={<Icon type="mail" />}
+                size="large"
+                name="message"
+                type="text"
+                placeholder="Mesaj"
+                onChange={event => this.handleChange(event)}
+              />
+            </FormItem>
+
+            <Button
+              type="primary"
+              htmlType="submit"
+              size="large"
+              className="chat-form-button"
+            >
+              Trimite mesaj
+            </Button>
+          </Form>
         </div>
       </div>
     );

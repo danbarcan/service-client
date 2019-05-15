@@ -191,3 +191,34 @@ export function updateUser(userRequest) {
     body: JSON.stringify(userRequest)
   });
 }
+
+// Chat functionality
+
+export function sendMessage(messageRequest) {
+  return request({
+    url: API_BASE_URL + "/chat/postMessage",
+    method: "POST",
+    body: JSON.stringify(messageRequest)
+  });
+}
+
+export function getMessagesByJob(jobid) {
+  return request({
+    url: API_BASE_URL + "/chat/getMessagesByJobId?jobid=" + jobid,
+    method: "GET"
+  });
+}
+
+export function getUnreadMessages() {
+  return request({
+    url: API_BASE_URL + "/chat/getUnreadMessages",
+    method: "GET"
+  });
+}
+
+export function getAllMessages() {
+  return request({
+    url: API_BASE_URL + "/chat/getAllMessages",
+    method: "GET"
+  });
+}

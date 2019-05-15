@@ -9,6 +9,7 @@ import {
 import "./Signup.css";
 import { withRouter } from "react-router-dom";
 import { Form, Input, Button, notification } from "antd";
+import Chat from "../Chat";
 
 const FormItem = Form.Item;
 
@@ -16,6 +17,7 @@ class Job extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      chat: false,
       make: {
         value: ""
       },
@@ -32,7 +34,8 @@ class Job extends Component {
         value: ""
       },
       jobs: [],
-      offers: []
+      offers: [],
+      jobId: ""
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -149,10 +152,13 @@ class Job extends Component {
       });
   }
 
-  acceptOffer(offerId) {
+  acceptOffer(offerId, jobId) {
     acceptOffer(offerId)
       .then(() => {
-        this.props.history.push("/Chat");
+        this.setState({
+          jobId: jobId,
+          chat: true
+        });
       })
       .catch(error => {
         console.log(error);
@@ -176,151 +182,156 @@ class Job extends Component {
       this.getOffers();
     }
   }
+
   render() {
     console.log(this.state);
-    return (
-      <div className="signup-container">
-        <h3> Probleme active</h3>
-        <div className="active-jobs">
-          {this.state.jobs.map(j => (
-            <div className="job-container">
-              <h2>
-                <span>
-                  id: {j.id}, problema: {j.description}
-                </span>
-              </h2>
-              <Button
-                onClick={() => this.deleteJob(j.id)}
-                className="btn btn-danger"
-              >
-                Sterge
-              </Button>
-              {j.offers.map(o => (
-                <div className="offer-container">
-                  <h3>Oferta de la {o.user.username}</h3>
-                  <p>Rating : {o.rating}</p>
-                  <p>Pret : {o.cost}</p>
-                  <p>Durata : {o.duration}</p>
-                  <p>Descriere : {o.description}</p>
-                  <Button
-                    onClick={() => this.acceptOffer(o.id)}
-                    className="btn btn-success"
-                  >
-                    Accept
-                  </Button>
-                </div>
-              ))}
-            </div>
-          ))}
-        </div>
-        <div className="signup-content">
-          <h1 className="page-title">Detaliaza problema ! </h1>
+    if (this.state.chat == false) {
+      return (
+        <div className="signup-container">
+          <h3> Probleme active</h3>
+          <div className="active-jobs">
+            {this.state.jobs.map(j => (
+              <div className="job-container">
+                <h2>
+                  <span>
+                    id: {j.id}, problema: {j.description}
+                  </span>
+                </h2>
+                <Button
+                  onClick={() => this.deleteJob(j.id)}
+                  className="btn btn-danger"
+                >
+                  Sterge
+                </Button>
+                {j.offers.map(o => (
+                  <div className="offer-container">
+                    <h3>Oferta de la {o.user.username}</h3>
+                    <p>Rating : {o.rating}</p>
+                    <p>Pret : {o.cost}</p>
+                    <p>Durata : {o.duration}</p>
+                    <p>Descriere : {o.description}</p>
+                    <Button
+                      onClick={() => this.acceptOffer(o.id, j.id)}
+                      className="btn btn-success"
+                    >
+                      Accept
+                    </Button>
+                  </div>
+                ))}
+              </div>
+            ))}
+          </div>
+          <div className="signup-content">
+            <h1 className="page-title">Detaliaza problema ! </h1>
 
-          <Form onSubmit={this.handleSubmit} className="signup-form">
-            <FormItem
-              label="Marca"
-              hasFeedback
-              validateStatus={this.state.make.validateStatus}
-              help={this.state.make.errorMsg}
-            >
-              <Input
-                size="large"
-                name="make"
-                autoComplete="off"
-                placeholder="Marca"
-                value={this.state.make.value}
-                onChange={event =>
-                  this.handleInputChange(event, this.validateMake)
-                }
-              />
-            </FormItem>
-            <FormItem
-              label="Model"
-              hasFeedback
-              validateStatus={this.state.model.validateStatus}
-              help={this.state.model.errorMsg}
-            >
-              <Input
-                size="large"
-                name="model"
-                autoComplete="off"
-                placeholder="Model"
-                value={this.state.model.value}
-                onChange={event =>
-                  this.handleInputChange(event, this.validateModel)
-                }
-              />
-            </FormItem>
-            <FormItem
-              label="An"
-              hasFeedback
-              validateStatus={this.state.year.validateStatus}
-              help={this.state.year.errorMsg}
-            >
-              <Input
-                size="large"
-                name="year"
-                type="number"
-                autoComplete="off"
-                placeholder="An"
-                value={this.state.year.value}
-                onChange={event =>
-                  this.handleInputChange(event, this.validateYear)
-                }
-              />
-            </FormItem>
-            <FormItem
-              label="Descriere"
-              hasFeedback
-              validateStatus={this.state.description.validateStatus}
-              help={this.state.description.errorMsg}
-            >
-              <Input
-                size="large"
-                name="description"
-                type="text"
-                autoComplete="off"
-                placeholder="Descriere"
-                value={this.state.description.value}
-                onChange={event =>
-                  this.handleInputChange(event, this.validateDescription)
-                }
-              />
-            </FormItem>
-            <FormItem
-              label="Email"
-              hasFeedback
-              validateStatus={this.state.email.validateStatus}
-              help={this.state.email.errorMsg}
-            >
-              <Input
-                size="large"
-                name="email"
-                type="text"
-                autoComplete="off"
-                placeholder="Email"
-                value={this.state.email.value}
-                onChange={event =>
-                  this.handleInputChange(event, this.validateDescription)
-                }
-              />
-            </FormItem>
-
-            <FormItem>
-              <Button
-                type="primary"
-                htmlType="submit"
-                size="large"
-                className="signup-form-button"
-                // disabled={this.isFormInvalid()}
+            <Form onSubmit={this.handleSubmit} className="signup-form">
+              <FormItem
+                label="Marca"
+                hasFeedback
+                validateStatus={this.state.make.validateStatus}
+                help={this.state.make.errorMsg}
               >
-                Trimite
-              </Button>
-            </FormItem>
-          </Form>
+                <Input
+                  size="large"
+                  name="make"
+                  autoComplete="off"
+                  placeholder="Marca"
+                  value={this.state.make.value}
+                  onChange={event =>
+                    this.handleInputChange(event, this.validateMake)
+                  }
+                />
+              </FormItem>
+              <FormItem
+                label="Model"
+                hasFeedback
+                validateStatus={this.state.model.validateStatus}
+                help={this.state.model.errorMsg}
+              >
+                <Input
+                  size="large"
+                  name="model"
+                  autoComplete="off"
+                  placeholder="Model"
+                  value={this.state.model.value}
+                  onChange={event =>
+                    this.handleInputChange(event, this.validateModel)
+                  }
+                />
+              </FormItem>
+              <FormItem
+                label="An"
+                hasFeedback
+                validateStatus={this.state.year.validateStatus}
+                help={this.state.year.errorMsg}
+              >
+                <Input
+                  size="large"
+                  name="year"
+                  type="number"
+                  autoComplete="off"
+                  placeholder="An"
+                  value={this.state.year.value}
+                  onChange={event =>
+                    this.handleInputChange(event, this.validateYear)
+                  }
+                />
+              </FormItem>
+              <FormItem
+                label="Descriere"
+                hasFeedback
+                validateStatus={this.state.description.validateStatus}
+                help={this.state.description.errorMsg}
+              >
+                <Input
+                  size="large"
+                  name="description"
+                  type="text"
+                  autoComplete="off"
+                  placeholder="Descriere"
+                  value={this.state.description.value}
+                  onChange={event =>
+                    this.handleInputChange(event, this.validateDescription)
+                  }
+                />
+              </FormItem>
+              <FormItem
+                label="Email"
+                hasFeedback
+                validateStatus={this.state.email.validateStatus}
+                help={this.state.email.errorMsg}
+              >
+                <Input
+                  size="large"
+                  name="email"
+                  type="text"
+                  autoComplete="off"
+                  placeholder="Email"
+                  value={this.state.email.value}
+                  onChange={event =>
+                    this.handleInputChange(event, this.validateDescription)
+                  }
+                />
+              </FormItem>
+
+              <FormItem>
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  size="large"
+                  className="signup-form-button"
+                  // disabled={this.isFormInvalid()}
+                >
+                  Trimite
+                </Button>
+              </FormItem>
+            </Form>
+          </div>
         </div>
-      </div>
-    );
+      );
+    } else {
+      return <Chat {...this.state.jobId} />;
+    }
   }
 
   validateMake = make => {
