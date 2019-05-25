@@ -35,7 +35,8 @@ class Job extends Component {
       },
       jobs: [],
       offers: [],
-      jobId: ""
+      jobId: "",
+      currentUser: this.props.currentUser.id
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -105,7 +106,6 @@ class Job extends Component {
 
   getJobs() {
     let promise;
-    console.log(this.props.currentUser.id);
     promise = getJobs(this.props.currentUser.id);
     if (!promise) {
       return;
@@ -152,11 +152,16 @@ class Job extends Component {
       });
   }
 
-  acceptOffer(offerId, jobId) {
+  acceptOffer(offerId, jobId, serviceName, cost, description) {
     acceptOffer(offerId)
       .then(() => {
         this.setState({
-          jobId: jobId,
+          jobDetails: {
+            jobId: jobId,
+            serviceName: serviceName,
+            cost: cost,
+            description: description
+          },
           chat: true
         });
       })
@@ -211,7 +216,15 @@ class Job extends Component {
                     <p>Durata : {o.duration}</p>
                     <p>Descriere : {o.description}</p>
                     <Button
-                      onClick={() => this.acceptOffer(o.id, j.id)}
+                      onClick={() =>
+                        this.acceptOffer(
+                          o.id,
+                          j.id,
+                          o.user.username,
+                          o.cost,
+                          o.description
+                        )
+                      }
                       className="btn btn-success"
                     >
                       Accept
@@ -330,7 +343,7 @@ class Job extends Component {
         </div>
       );
     } else {
-      return <Chat {...this.state.jobId} />;
+      return <Chat {...this.state} />;
     }
   }
 

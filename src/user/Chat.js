@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-
+import { sendMessage, getMessagesByJob } from "../util/APIUtils";
+import "./Chat.css";
 import { Form, Input, Button, Icon, notification } from "antd";
 const FormItem = Form.Item;
 
@@ -13,41 +14,55 @@ export class Chat extends Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.getConversation = this.getConversation.bind(this);
   }
 
   handleChange(event) {
     const target = event.target;
     const inputName = target.name;
     const inputValue = target.value;
-    this.validate(inputValue);
 
     this.setState({
       [inputName]: inputValue
     });
   }
 
+  getConversation() {
+    getMessagesByJob(this.props.jobDetails.jobId);
+  }
+
   handleSubmit(event) {
     event.preventDefault();
     const messageRequest = {
-      id: this.props.currentUser.username,
+      jobId: this.props.jobDetails.jobId,
       message: this.state.message
     };
+    sendMessage(messageRequest)
+      .then(response => {
+        notification.success({
+          message: "Polling App",
+          description: "Thank you! Your job has been succesfully registered. "
+        });
+      })
+      .catch(error => {
+        notification.error({
+          message: "Polling App",
+          description:
+            error.message || "Sorry! Something went wrong. Please try again!"
+        });
+      });
   }
 
   render() {
-    console.log("rendered");
-    console.log(this.props);
-    console.log(this.state);
     return (
-      <div id="chat">
+      <div className="chat">
         <h1>Chat</h1>
         <h2> Oferta actuala </h2>
-        <p> Nume service : </p>
-        <p> Durata : </p>
-        <p> Pret : </p>
-        <p> Descriere : </p>
-        <div class="conversation">
-          <p> Mesaje primite :</p>
+        <p> Nume service : {this.props.jobDetails.jobId.serviceName}</p>
+        <p> Pret : {this.props.jobDetails.jobId.cost}</p>
+        <p> Descriere : {this.props.jobDetails.jobId.description}</p>
+        <p> Conversatie :</p>
+        <div className="chatSend">
           <Form onSubmit={this.handleSubmit} className="chat-form">
             <FormItem>
               <Input
@@ -69,6 +84,7 @@ export class Chat extends Component {
               Trimite mesaj
             </Button>
           </Form>
+          <div className="conversationBox" />
         </div>
       </div>
     );

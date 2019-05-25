@@ -25,6 +25,7 @@ class JobList extends Component {
       cost: "",
       availJobs: [],
       hiddenJobs: [],
+      currentJobs: [],
       offeredJobs: []
     };
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -111,6 +112,9 @@ class JobList extends Component {
           } else if (jobs[i].jobState === "OFFERED") {
             var offeredJobs = [];
             offeredJobs.push(jobs[i]);
+          } else if (jobs[i].jobState === "ACCEPTED") {
+            var currentJobs = [];
+            currentJobs.push(jobs[i]);
           }
           this.setState({
             availJobs: availJobs,
@@ -122,6 +126,10 @@ class JobList extends Component {
           });
           this.setState({
             offeredJobs: offeredJobs,
+            isLoading: false
+          });
+          this.setState({
+            currentJobs: currentJobs,
             isLoading: false
           });
         }
@@ -169,7 +177,25 @@ class JobList extends Component {
     const data = this.state.jobs;
     return (
       <div className="alljobs">
-        <div className="newjobs-container">
+        <div className="activeJobs-container">
+          <h3>Joburi active</h3>
+          {this.state.currentJobs &&
+            this.state.currentJobs.map(d => (
+              <div className="job-container">
+                <h2>
+                  Job de la <span>{d.user.name} :</span>
+                </h2>
+                <p>
+                  <em>Masina, Model, An:</em>
+                </p>
+                <p>
+                  <em>Problema:</em> <span key={d.id}>{d.description}</span>
+                </p>
+              </div>
+            ))}
+        </div>
+        <br />
+        <div className="newJobs-container">
           <h3>Joburi noi</h3>
           {this.state.availJobs &&
             this.state.availJobs.map(d => (
@@ -215,10 +241,10 @@ class JobList extends Component {
                 </p>
 
                 <Button
-                  onClick={() => this.hideJob(d.id)}
+                  onClick={() => this.deleteOffer(d.id)}
                   className="btn btn-danger"
                 >
-                  Ascunde
+                  Sterge Oferta
                 </Button>
               </div>
             ))}
@@ -240,10 +266,10 @@ class JobList extends Component {
                 </p>
 
                 <Button
-                  onClick={() => this.hideJob(d.id)}
-                  className="btn btn-danger"
+                  onClick={() => this.acceptOffer(d.id, d.description)}
+                  className="btn btn-success"
                 >
-                  Ascunde
+                  Trimite Oferta
                 </Button>
               </div>
             ))}

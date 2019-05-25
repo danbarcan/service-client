@@ -18,7 +18,9 @@ body {
 }
 
 .hiddenJobs-container,
-.currentJobs-container {
+.currentJobs-container,
+.activeJobs-container,
+.newJobs-container {
   clear: both;
 }
 
