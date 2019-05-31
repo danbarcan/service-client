@@ -29,6 +29,7 @@ export class Chat extends Component {
 
   getConversation() {
     getMessagesByJob(this.props.jobDetails.jobId);
+    console.log(getMessagesByJob(this.props.jobDetails.jobId));
   }
 
   handleSubmit(event) {
@@ -54,6 +55,8 @@ export class Chat extends Component {
   }
 
   render() {
+    this.getConversation();
+
     return (
       <div className="chat">
         <h1>Chat</h1>

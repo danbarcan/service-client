@@ -202,9 +202,9 @@ export function sendMessage(messageRequest) {
   });
 }
 
-export function getMessagesByJob(jobid) {
+export function getMessagesByJob(jobId) {
   return request({
-    url: API_BASE_URL + "/chat/getMessagesByJobId?jobid=" + jobid,
+    url: API_BASE_URL + "/chat/getMessagesByJobId?jobId=" + jobId,
     method: "GET"
   });
 }
