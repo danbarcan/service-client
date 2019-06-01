@@ -54,18 +54,10 @@ class AppFooter extends Component {
 
     return (
       <Header className="app-footer">
-        <div className="container">
+        <div className="layout">
           <div className="app-title">
             <Link to="/">&#169; 2018 DDW&S</Link>
           </div>
-          <Menu
-            className="app-menu"
-            mode="horizontal"
-            selectedKeys={[this.props.location.pathname]}
-            style={{ lineHeight: "64px" }}
-          >
-            {menuItems}
-          </Menu>
         </div>
       </Header>
     );

@@ -53,7 +53,7 @@ class AppHeader extends Component {
 
     return (
       <Header className="app-header">
-        <div className="container">
+        <div className="layout">
           <div className="app-title">
             <div className="logo" />
             <Link to="/">Serviceul Meu</Link>

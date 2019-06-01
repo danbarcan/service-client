@@ -1,5 +1,9 @@
 import React, { Component } from "react";
-import { sendMessage, getMessagesByJob } from "../util/APIUtils";
+import {
+  sendMessage,
+  getMessagesByJob,
+  getAllMessages
+} from "../util/APIUtils";
 import "./Chat.css";
 import { Form, Input, Button, Icon, notification } from "antd";
 const FormItem = Form.Item;
@@ -30,6 +34,7 @@ export class Chat extends Component {
   getConversation() {
     getMessagesByJob(this.props.jobDetails.jobId);
     console.log(getMessagesByJob(this.props.jobDetails.jobId));
+    console.log(getAllMessages());
   }
 
   handleSubmit(event) {
