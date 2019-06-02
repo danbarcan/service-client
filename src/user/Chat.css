@@ -28,9 +28,15 @@
 }
 
 .conversationBox p {
-  border: 2px solid #dedede;
+  border: 2px solid lightgreen;
   background-color: #f1f1f1;
   border-radius: 5px;
   padding: 10px;
   margin: 10px 0;
+}
+
+.time {
+  font-size: 8px;
+  color: grey;
+  float: right;
 }

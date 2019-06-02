@@ -2,7 +2,9 @@ import React, { Component } from "react";
 import {
   sendMessage,
   getMessagesByJob,
-  getAllMessages
+  getAllMessages,
+  getUnreadMessages,
+  getAllJobsWithMessages
 } from "../util/APIUtils";
 import "./Chat.css";
 import { Form, Input, Button, Icon, notification } from "antd";
@@ -13,6 +15,7 @@ export class Chat extends Component {
     super(props);
     this.state = {
       value: " ",
+      chats: [],
       message: " ",
       conversation: []
     };
@@ -20,6 +23,7 @@ export class Chat extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.getConversation = this.getConversation.bind(this);
+    this.getAllMessages = this.getAllMessages.bind(this);
   }
 
   handleChange(event) {
@@ -29,6 +33,28 @@ export class Chat extends Component {
 
     this.setState({
       [inputName]: inputValue
+    });
+  }
+
+  getAllMessages() {
+    let promise;
+    promise = getAllJobsWithMessages();
+
+    if (!promise) {
+      return;
+    }
+
+    this.setState({
+      isLoading: true
+    });
+
+    promise.then(response => {
+      console.log(response);
+
+      this.setState({
+        chats: [...this.state.chats, ...response],
+        isLoading: false
+      });
     });
   }
 
@@ -45,7 +71,6 @@ export class Chat extends Component {
     });
 
     promise.then(response => {
-      console.log(response);
       this.setState({
         conversation: [...this.state.conversation, ...response],
         isLoading: false
@@ -81,18 +106,22 @@ export class Chat extends Component {
   }
 
   componentDidMount() {
-    this.getConversation();
+    //this.getConversation();
+    this.getAllMessages();
   }
 
   render() {
+    console.log(this.state);
     return (
       <div className="chat">
         <h1>Chat</h1>
-        <h2> Oferta actuala </h2>
-        <p> Nume service : {this.props.jobDetails.jobId.serviceName}</p>
-        <p> Pret : {this.props.jobDetails.jobId.cost}</p>
-        <p> Descriere : {this.props.jobDetails.jobId.description}</p>
-        <p> Conversatie :</p>
+
+        {this.state.chats.map(c => (
+          <p> {c.id}:</p>
+        ))}
+        {/* <p> Nume service : {this.props.jobDetails.serviceName}</p>
+        <p> Pret : {this.props.jobDetails.cost}</p>
+        <p> Descriere : {this.props.jobDetails.description}</p> */}
         <div className="chatSend">
           <Form onSubmit={this.handleSubmit} className="chat-form">
             <FormItem>
@@ -119,7 +148,8 @@ export class Chat extends Component {
             <p>Hey</p>
             {this.state.conversation.map(d => (
               <p>
-                {d.fromUser.username} : {d.message} {d.timestamp.substr(11, 15)}
+                {d.fromUser.username} : {d.message}{" "}
+                <span className="time">{d.timestamp.substring(11, 16)}</span>
               </p>
             ))}
           </div>

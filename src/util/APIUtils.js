@@ -222,3 +222,10 @@ export function getAllMessages() {
     method: "GET"
   });
 }
+
+export function getAllJobsWithMessages() {
+  return request({
+    url: API_BASE_URL + "/chat/getAllJobsWithMessages",
+    method: "GET"
+  });
+}

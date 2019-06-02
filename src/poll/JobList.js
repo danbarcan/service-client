@@ -3,12 +3,14 @@ import {
   getAllJobs,
   createOffer,
   getCurrentUser,
-  hideJob
+  hideJob,
+  getUnreadMessages
 } from "../util/APIUtils";
 import Job from "./Job";
 import LoadingIndicator from "../common/LoadingIndicator";
 import { Button, Icon, notification, Form, Input } from "antd";
 import { Modal } from "react-bootstrap";
+import Chat from "../user/Chat";
 
 const FormItem = Form.Item;
 
@@ -19,6 +21,7 @@ class JobList extends Component {
       jobs: [],
       isLoading: false,
       show: false,
+      chat: false,
       editId: "",
       response: "",
       duration: "",
@@ -85,6 +88,8 @@ class JobList extends Component {
   }
 
   getAllJobs() {
+    getUnreadMessages();
+
     let promise;
 
     promise = getAllJobs();
@@ -100,37 +105,37 @@ class JobList extends Component {
     promise
       .then(response => {
         const jobs = response;
+        var availJobs = [];
+        var hiddenJobs = [];
+        var offeredJobs = [];
+        var currentJobs = [];
         for (var i = 0; i < jobs.length; i++) {
           if (jobs[i].jobState === "AVAILABLE") {
-            var availJobs = [];
             availJobs.push(jobs[i]);
           } else if (jobs[i].jobState === "HIDDEN") {
-            var hiddenJobs = [];
             hiddenJobs.push(jobs[i]);
           } else if (jobs[i].jobState === "OFFERED") {
-            var offeredJobs = [];
             offeredJobs.push(jobs[i]);
           } else if (jobs[i].jobState === "ACCEPTED") {
-            var currentJobs = [];
             currentJobs.push(jobs[i]);
           }
-          this.setState({
-            availJobs: availJobs,
-            isLoading: false
-          });
-          this.setState({
-            hiddenJobs: hiddenJobs,
-            isLoading: false
-          });
-          this.setState({
-            offeredJobs: offeredJobs,
-            isLoading: false
-          });
-          this.setState({
-            currentJobs: currentJobs,
-            isLoading: false
-          });
         }
+        this.setState({
+          availJobs: availJobs,
+          isLoading: false
+        });
+        this.setState({
+          hiddenJobs: hiddenJobs,
+          isLoading: false
+        });
+        this.setState({
+          offeredJobs: offeredJobs,
+          isLoading: false
+        });
+        this.setState({
+          currentJobs: currentJobs,
+          isLoading: false
+        });
 
         console.log(this.state);
       })
@@ -189,6 +194,12 @@ class JobList extends Component {
                 <p>
                   <em>Problema:</em> <span key={d.id}>{d.description}</span>
                 </p>
+                <Button
+                  onClick={() => this.seeChat(d.id, d.description)}
+                  className="btn btn-success"
+                >
+                  Vezi chat
+                </Button>
               </div>
             ))}
         </div>
