@@ -13,7 +13,8 @@ export class Chat extends Component {
     super(props);
     this.state = {
       value: " ",
-      message: ""
+      message: " ",
+      conversation: []
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -32,22 +33,39 @@ export class Chat extends Component {
   }
 
   getConversation() {
-    getMessagesByJob(this.props.jobDetails.jobId);
-    console.log(getMessagesByJob(this.props.jobDetails.jobId));
-    console.log(getAllMessages());
+    let promise;
+    promise = getMessagesByJob(this.props.jobDetails.jobId);
+
+    if (!promise) {
+      return;
+    }
+
+    this.setState({
+      isLoading: true
+    });
+
+    promise.then(response => {
+      console.log(response);
+      this.setState({
+        conversation: [...this.state.conversation, ...response],
+        isLoading: false
+      });
+    });
   }
 
   handleSubmit(event) {
+    event.target.reset();
     event.preventDefault();
     const messageRequest = {
       jobId: this.props.jobDetails.jobId,
       message: this.state.message
     };
+
     sendMessage(messageRequest)
       .then(response => {
         notification.success({
           message: "Polling App",
-          description: "Thank you! Your job has been succesfully registered. "
+          description: "Multumim. Mesajul a fost trimis "
         });
       })
       .catch(error => {
@@ -57,11 +75,16 @@ export class Chat extends Component {
             error.message || "Sorry! Something went wrong. Please try again!"
         });
       });
+
+    this.setState(() => this.initialState);
+    this.getConversation();
+  }
+
+  componentDidMount() {
+    this.getConversation();
   }
 
   render() {
-    this.getConversation();
-
     return (
       <div className="chat">
         <h1>Chat</h1>
@@ -92,7 +115,14 @@ export class Chat extends Component {
               Trimite mesaj
             </Button>
           </Form>
-          <div className="conversationBox" />
+          <div className="conversationBox">
+            <p>Hey</p>
+            {this.state.conversation.map(d => (
+              <p>
+                {d.fromUser.username} : {d.message} {d.timestamp.substr(11, 15)}
+              </p>
+            ))}
+          </div>
         </div>
       </div>
     );

@@ -199,3 +199,26 @@ h2 {
 .anticon svg {
   color: white;
 }
+
+footer {
+  display: flex !important;
+  background-color: #333535;
+  padding: 0 10%;
+  color: white;
+}
+.footer-container {
+  width: 50%;
+  text-align: left;
+}
+
+footer ul li {
+  list-style: none;
+  display: inline;
+  padding: 10px;
+}
+
+.footer-signup {
+  justify-content: flex-end;
+  right: 0;
+  margin-left: 100px;
+}

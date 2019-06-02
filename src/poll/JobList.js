@@ -99,9 +99,7 @@ class JobList extends Component {
 
     promise
       .then(response => {
-        console.log(response);
         const jobs = response;
-        console.log(jobs);
         for (var i = 0; i < jobs.length; i++) {
           if (jobs[i].jobState === "AVAILABLE") {
             var availJobs = [];

@@ -135,8 +135,9 @@ class Home extends Component {
           </ul>
         </div>
         <footer>
-          <h2>Serviceul Meu</h2>
           <div className="footer-container">
+            <h2>Serviceul Meu</h2>
+
             <ul>
               <li>Acasa</li>
               <li>Serviceuri</li>
@@ -147,10 +148,15 @@ class Home extends Component {
           </div>
 
           <div className="footer-social">
-            <h3> Contacteaza-ne pe:</h3>
+            <h3> Ne gasesti si aici:</h3>
+            <Icon type="mail" />
+            <Icon type="phone" />
             <Icon type="facebook" />
-            <h3> Pentru garaje :</h3>
-            <Button> Inscrie-te</Button>
+            <Icon type="Instagram" />
+          </div>
+          <div className="footer-signup">
+            <h3> Pentru serviceuri :</h3>
+            <Button className="hero-button btn-success">Inscrie-te acum</Button>
           </div>
         </footer>
       </div>
