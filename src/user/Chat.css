@@ -1,22 +1,31 @@
 .chat {
-  position: relative;
+  width: 600px;
+  height: 100%;
+}
+
+.chatIcons {
+  width: 10%;
+  float: left;
+  margin-top: 10px;
 }
 
 .chatSend {
-  width: 500px;
+  width: 90%;
   height: 500px;
-  border: 1px solid lightblue;
   position: relative;
   padding: 10px;
   overflow-y: scroll;
+  border: 1px solid grey;
 }
-.chatSend input {
+.form {
   width: 70%;
+  position: absolute;
+  bottom: 10px;
 }
 
 .chatSend button {
   position: absolute;
-  top: 10px;
+  bottom: 24px;
   right: 3px;
   width: 30%;
 }
@@ -39,4 +48,18 @@
   font-size: 8px;
   color: grey;
   float: right;
+}
+
+.chatIcon {
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  border-color: grey;
+  clear: both;
+  margin: 5px;
+}
+
+.chatIcon:hover {
+  background-color: #1890ff;
+  color: white;
 }

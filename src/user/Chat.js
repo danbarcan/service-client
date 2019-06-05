@@ -4,6 +4,7 @@ import {
   getMessagesByJob,
   getAllMessages,
   getUnreadMessages,
+  getCurrentUser,
   getAllJobsWithMessages
 } from "../util/APIUtils";
 import "./Chat.css";
@@ -14,10 +15,12 @@ export class Chat extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: " ",
+      currentUserId: "",
+      value: "",
       chats: [],
-      message: " ",
-      conversation: []
+      message: "",
+      conversation: [],
+      jobId: ""
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -49,18 +52,19 @@ export class Chat extends Component {
     });
 
     promise.then(response => {
-      console.log(response);
-
+      let userResponse;
+      userResponse = response.find(x => x.id === this.state.currentUserId);
       this.setState({
-        chats: [...this.state.chats, ...response],
+        chats: [userResponse],
         isLoading: false
       });
     });
+    console.log(this.state);
   }
 
-  getConversation() {
+  getConversation(id) {
     let promise;
-    promise = getMessagesByJob(this.props.jobDetails.jobId);
+    promise = getMessagesByJob(id);
 
     if (!promise) {
       return;
@@ -71,18 +75,22 @@ export class Chat extends Component {
     });
 
     promise.then(response => {
+      // daca in response arrayu e gol facem setstate la conversation cu nimic . altfel trimitem ce avem acuma.
+      // Aratat numai conversatiile care au userul in ele in loc sa aratam toate conversatiile. Daca in job exista user id-ul gen.
+      console.log(response);
       this.setState({
+        jobId: id,
         conversation: [...this.state.conversation, ...response],
         isLoading: false
       });
     });
   }
 
-  handleSubmit(event) {
+  handleSubmit(event, id) {
     event.target.reset();
     event.preventDefault();
     const messageRequest = {
-      jobId: this.props.jobDetails.jobId,
+      jobId: id,
       message: this.state.message
     };
 
@@ -102,12 +110,16 @@ export class Chat extends Component {
       });
 
     this.setState(() => this.initialState);
-    this.getConversation();
   }
 
   componentDidMount() {
     //this.getConversation();
     this.getAllMessages();
+    getCurrentUser().then(response => {
+      this.setState({
+        currentUserId: response.id
+      });
+    });
   }
 
   render() {
@@ -116,12 +128,18 @@ export class Chat extends Component {
       <div className="chat">
         <h1>Chat</h1>
 
-        {this.state.chats.map(c => (
-          <p> {c.id}:</p>
-        ))}
-        {/* <p> Nume service : {this.props.jobDetails.serviceName}</p>
-        <p> Pret : {this.props.jobDetails.cost}</p>
-        <p> Descriere : {this.props.jobDetails.description}</p> */}
+        {this.state.chats &&
+          this.state.chats.map(c => (
+            <div className="chatIcons">
+              <Button
+                className="chatIcon"
+                onClick={() => this.getConversation(c.id)}
+              >
+                {c.user.name.substring(0, 1)}
+              </Button>
+            </div>
+          ))}
+
         <div className="chatSend">
           <Form onSubmit={this.handleSubmit} className="chat-form">
             <FormItem>
@@ -146,12 +164,13 @@ export class Chat extends Component {
           </Form>
           <div className="conversationBox">
             <p>Hey</p>
-            {this.state.conversation.map(d => (
-              <p>
-                {d.fromUser.username} : {d.message}{" "}
-                <span className="time">{d.timestamp.substring(11, 16)}</span>
-              </p>
-            ))}
+            {this.state.conversation &&
+              this.state.conversation.map(d => (
+                <p>
+                  {d.fromUser.username} : {d.message}
+                  <span className="time">{d.timestamp.substring(11, 16)}</span>
+                </p>
+              ))}
           </div>
         </div>
       </div>
