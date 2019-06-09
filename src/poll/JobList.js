@@ -29,7 +29,8 @@ class JobList extends Component {
       availJobs: [],
       hiddenJobs: [],
       currentJobs: [],
-      offeredJobs: []
+      offeredJobs: [],
+      chat: false
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.getAllJobs = this.getAllJobs.bind(this);
@@ -57,6 +58,12 @@ class JobList extends Component {
 
   hideJob(id) {
     hideJob(id);
+  }
+
+  seeChat(id, description) {
+    this.setState({
+      chat: true
+    });
   }
 
   handleSubmit(event) {
@@ -178,173 +185,180 @@ class JobList extends Component {
     const jobViews = [];
     //console.log(this.state.jobs);
     const data = this.state.jobs;
-    return (
-      <div className="alljobs">
-        <div className="activeJobs-container">
-          <h3>Joburi active</h3>
-          {this.state.currentJobs &&
-            this.state.currentJobs.map(d => (
-              <div className="job-container">
-                <h2>
-                  Job de la <span>{d.user.name} :</span>
-                </h2>
-                <p>
-                  <em>Masina, Model, An:</em>
-                </p>
-                <p>
-                  <em>Problema:</em> <span key={d.id}>{d.description}</span>
-                </p>
-                <Button
-                  onClick={() => this.seeChat(d.id, d.description)}
-                  className="btn btn-success"
-                >
-                  Vezi chat
-                </Button>
-              </div>
-            ))}
-        </div>
-        <br />
-        <div className="newJobs-container">
-          <h3>Joburi noi</h3>
-          {this.state.availJobs &&
-            this.state.availJobs.map(d => (
-              <div className="job-container">
-                <h2>
-                  Job de la <span>{d.user.name} :</span>
-                </h2>
-                <p>
-                  <em>Masina, Model, An:</em>
-                </p>
-                <p>
-                  <em>Problema:</em> <span key={d.id}>{d.description}</span>
-                </p>
-                <Button
-                  onClick={() => this.acceptOffer(d.id, d.description)}
-                  className="btn btn-success"
-                >
-                  Trimite Oferta
-                </Button>
-                <Button
-                  onClick={() => this.hideJob(d.id)}
-                  className="btn btn-danger"
-                >
-                  Ascunde
-                </Button>
-              </div>
-            ))}
-        </div>
-        <br />
-        <div className="currentJobs-container">
-          <h3>Oferte trimise</h3>
-          {this.state.offeredJobs &&
-            this.state.offeredJobs.map(d => (
-              <div className="job-container">
-                <h2>
-                  Job de la <span>{d.user.name} :</span>
-                </h2>
-                <p>
-                  <em>Masina, Model, An:</em>
-                </p>
-                <p>
-                  <em>Problema:</em> <span key={d.id}>{d.description}</span>
-                </p>
+    if (this.state.chat === false) {
+      return (
+        <div className="alljobs">
+          <div className="activeJobs-container">
+            <h3>Joburi active</h3>
+            {this.state.currentJobs &&
+              this.state.currentJobs.map(d => (
+                <div className="job-container">
+                  <h2>
+                    Job de la <span>{d.user.name} :</span>
+                  </h2>
+                  <p>
+                    <em>Masina, Model, An:</em>
+                  </p>
+                  <p>
+                    <em>Problema:</em> <span key={d.id}>{d.description}</span>
+                  </p>
+                  <Button
+                    onClick={() => this.seeChat(d.id, d.description)}
+                    className="btn btn-success"
+                  >
+                    Vezi chat
+                  </Button>
+                </div>
+              ))}
+          </div>
+          <br />
+          <div className="newJobs-container">
+            <h3>Joburi noi</h3>
+            {this.state.availJobs &&
+              this.state.availJobs.map(d => (
+                <div className="job-container">
+                  <h2>
+                    Job de la <span>{d.user.name} :</span>
+                  </h2>
+                  <p>
+                    <em>Masina, Model, An:</em>
+                  </p>
+                  <p>
+                    <em>Problema:</em> <span key={d.id}>{d.description}</span>
+                  </p>
+                  <Button
+                    onClick={() => this.acceptOffer(d.id, d.description)}
+                    className="btn btn-success"
+                  >
+                    Trimite Oferta
+                  </Button>
+                  <Button
+                    onClick={() => this.hideJob(d.id)}
+                    className="btn btn-danger"
+                  >
+                    Ascunde
+                  </Button>
+                </div>
+              ))}
+          </div>
+          <br />
+          <div className="currentJobs-container">
+            <h3>Oferte trimise</h3>
+            {this.state.offeredJobs &&
+              this.state.offeredJobs.map(d => (
+                <div className="job-container">
+                  <h2>
+                    Job de la <span>{d.user.name} :</span>
+                  </h2>
+                  <p>
+                    <em>Masina, Model, An:</em>
+                  </p>
+                  <p>
+                    <em>Problema:</em> <span key={d.id}>{d.description}</span>
+                  </p>
 
-                <Button
-                  onClick={() => this.deleteOffer(d.id)}
-                  className="btn btn-danger"
-                >
-                  Sterge Oferta
-                </Button>
-              </div>
-            ))}
-        </div>
-        <br />
-        <div className="hiddenJobs-container">
-          <h3>Joburi ascunse</h3>
-          {this.state.hiddenJobs &&
-            this.state.hiddenJobs.map(d => (
-              <div className="job-container">
-                <h2>
-                  Job de la <span>{d.user.name} :</span>
-                </h2>
-                <p>
-                  <em>Masina, Model, An:</em>
-                </p>
-                <p>
-                  <em>Problema:</em> <span key={d.id}>{d.description}</span>
-                </p>
+                  <Button
+                    onClick={() => this.deleteOffer(d.id)}
+                    className="btn btn-danger"
+                  >
+                    Sterge Oferta
+                  </Button>
+                </div>
+              ))}
+          </div>
+          <br />
+          <div className="hiddenJobs-container">
+            <h3>Joburi ascunse</h3>
+            {this.state.hiddenJobs &&
+              this.state.hiddenJobs.map(d => (
+                <div className="job-container">
+                  <h2>
+                    Job de la <span>{d.user.name} :</span>
+                  </h2>
+                  <p>
+                    <em>Masina, Model, An:</em>
+                  </p>
+                  <p>
+                    <em>Problema:</em> <span key={d.id}>{d.description}</span>
+                  </p>
 
-                <Button
-                  onClick={() => this.acceptOffer(d.id, d.description)}
-                  className="btn btn-success"
-                >
-                  Trimite Oferta
-                </Button>
-              </div>
-            ))}
-        </div>
-        <br />
-        <Modal show={this.state.show} onHide={this.handleClose}>
-          <Modal.Header closeButton />
-          <Modal.Body>
-            <div className="signup-container">
-              <h1 className="page-title">Accepta Oferta </h1>
-              <p>Problema : {this.state.description}</p>
-              <div className="signup-content">
-                <Form onSubmit={this.handleSubmit} className="edditOffer-form">
-                  <FormItem label="Durata" hasFeedback>
-                    <Input
-                      size="large"
-                      name="duration"
-                      autoComplete="off"
-                      placeholder="Durata"
-                      onChange={event =>
-                        this.handleInputChange(event, this.validateResponse)
-                      }
-                    />
-                  </FormItem>
-                  <FormItem label="Cost" hasFeedback>
-                    <Input
-                      size="large"
-                      name="cost"
-                      type="number"
-                      autoComplete="off"
-                      placeholder="Cost"
-                      onChange={event =>
-                        this.handleInputChange(event, this.validateResponse)
-                      }
-                    />
-                  </FormItem>
-                  <FormItem label="Mesaj catre client" hasFeedback>
-                    <Input
-                      size="large"
-                      name="description"
-                      autoComplete="off"
-                      placeholder="Raspuns"
-                      onChange={event =>
-                        this.handleInputChange(event, this.validateResponse)
-                      }
-                    />
-                  </FormItem>
+                  <Button
+                    onClick={() => this.acceptOffer(d.id, d.description)}
+                    className="btn btn-success"
+                  >
+                    Trimite Oferta
+                  </Button>
+                </div>
+              ))}
+          </div>
+          <br />
+          <Modal show={this.state.show} onHide={this.handleClose}>
+            <Modal.Header closeButton />
+            <Modal.Body>
+              <div className="signup-container">
+                <h1 className="page-title">Accepta Oferta </h1>
+                <p>Problema : {this.state.description}</p>
+                <div className="signup-content">
+                  <Form
+                    onSubmit={this.handleSubmit}
+                    className="edditOffer-form"
+                  >
+                    <FormItem label="Durata" hasFeedback>
+                      <Input
+                        size="large"
+                        name="duration"
+                        autoComplete="off"
+                        placeholder="Durata"
+                        onChange={event =>
+                          this.handleInputChange(event, this.validateResponse)
+                        }
+                      />
+                    </FormItem>
+                    <FormItem label="Cost" hasFeedback>
+                      <Input
+                        size="large"
+                        name="cost"
+                        type="number"
+                        autoComplete="off"
+                        placeholder="Cost"
+                        onChange={event =>
+                          this.handleInputChange(event, this.validateResponse)
+                        }
+                      />
+                    </FormItem>
+                    <FormItem label="Mesaj catre client" hasFeedback>
+                      <Input
+                        size="large"
+                        name="description"
+                        autoComplete="off"
+                        placeholder="Raspuns"
+                        onChange={event =>
+                          this.handleInputChange(event, this.validateResponse)
+                        }
+                      />
+                    </FormItem>
 
-                  <FormItem>
-                    <Button
-                      type="primary"
-                      htmlType="submit"
-                      size="large"
-                      className="signup-form-button"
-                      onClick={this.handleClose}
-                    >
-                      Trimite
-                    </Button>
-                  </FormItem>
-                </Form>
+                    <FormItem>
+                      <Button
+                        type="primary"
+                        htmlType="submit"
+                        size="large"
+                        className="signup-form-button"
+                        onClick={this.handleClose}
+                      >
+                        Trimite
+                      </Button>
+                    </FormItem>
+                  </Form>
+                </div>
               </div>
-            </div>
-          </Modal.Body>
-        </Modal>
-      </div>
-    );
+            </Modal.Body>
+          </Modal>
+        </div>
+      );
+    } else {
+      return <Chat {...this.state} />;
+    }
   }
 
   validateResponse = response => {
