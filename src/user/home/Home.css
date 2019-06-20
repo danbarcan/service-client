@@ -222,3 +222,7 @@ footer ul li {
   right: 0;
   margin-left: 100px;
 }
+
+.home .icons .icon-single i svg {
+  color: white;
+}

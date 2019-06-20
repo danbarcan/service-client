@@ -333,7 +333,6 @@ class Job extends Component {
                   htmlType="submit"
                   size="large"
                   className="signup-form-button"
-                  // disabled={this.isFormInvalid()}
                 >
                   Trimite
                 </Button>
