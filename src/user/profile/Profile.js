@@ -82,7 +82,7 @@ export class Profile extends Component {
   }
 
   render() {
-    if (this.props.currentUser.role == "ROLE_USER") {
+    if (this.props.currentUser.role === "ROLE_USER") {
       return (
         <div className="profile">
           <h2> Profil </h2>

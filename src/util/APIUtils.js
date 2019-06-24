@@ -169,6 +169,13 @@ export function hideJob(jobId) {
   });
 }
 
+export function unhideJob(jobId) {
+  return request({
+    url: API_BASE_URL + "/services/users/unhideJob?jobId=" + jobId,
+    method: "GET"
+  });
+}
+
 export function deleteOffer(offerId) {
   return request({
     url: API_BASE_URL + "/services/deleteOffer?offerId=" + offerId,

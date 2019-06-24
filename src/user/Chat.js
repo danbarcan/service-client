@@ -50,6 +50,7 @@ export class Chat extends Component {
     }
 
     this.setState({
+
       isLoading: true
     });
     // only get conversations for currentUser
@@ -57,6 +58,7 @@ export class Chat extends Component {
       let userResponse = [];
       if (this.state.currentUserRole === "ROLE_SERVICE") {
         for (var i = 0, len = response.length; i < len; i++) {
+          console.log(i)
           if (response[i].acceptedService.id == this.state.currentUserId) {
             userResponse.push(response[i]);
           }

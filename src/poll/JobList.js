@@ -4,7 +4,8 @@ import {
   createOffer,
   getCurrentUser,
   hideJob,
-  getUnreadMessages
+  getUnreadMessages,
+  unhideJob
 } from "../util/APIUtils";
 import Job from "./Job";
 import LoadingIndicator from "../common/LoadingIndicator";
@@ -39,6 +40,7 @@ class JobList extends Component {
     this.handleClose = this.handleClose.bind(this);
     this.handleShow = this.handleShow.bind(this);
     this.hideJob = this.hideJob.bind(this);
+    this.unhideJob = this.unhideJob.bind(this);
   }
 
   handleClose() {
@@ -60,7 +62,11 @@ class JobList extends Component {
     hideJob(id);
   }
 
-  seeChat(id, description) {
+  unhideJob(id) {
+    unhideJob(id);
+  }
+
+  seeChat() {
     this.setState({
       chat: true
     });
@@ -203,7 +209,7 @@ class JobList extends Component {
                     <em>Problema:</em> <span key={d.id}>{d.description}</span>
                   </p>
                   <Button
-                    onClick={() => this.seeChat(d.id, d.description)}
+                    onClick={() => this.seeChat()}
                     className="btn btn-success"
                   >
                     Vezi chat
@@ -287,6 +293,12 @@ class JobList extends Component {
                     className="btn btn-success"
                   >
                     Trimite Oferta
+                  </Button>
+                  <Button
+                    onClick={() => this.unhideJob(d.id)}
+                    className="btn btn-warning"
+                  >
+                    Reactiveaza
                   </Button>
                 </div>
               ))}

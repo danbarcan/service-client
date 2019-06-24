@@ -4,11 +4,12 @@ import {
   getJobs,
   deleteJob,
   getOffers,
-  acceptOffer
+  acceptOffer,
+  getAllCars
 } from "../../util/APIUtils";
 import "./Signup.css";
 import { withRouter } from "react-router-dom";
-import { Form, Input, Button, notification } from "antd";
+import { Form, Input, Button, notification, Select } from "antd";
 import Chat from "../Chat";
 
 const FormItem = Form.Item;
@@ -36,7 +37,9 @@ class Job extends Component {
       jobs: [],
       offers: [],
       jobId: "",
-      currentUser: this.props.currentUser.id
+      currentUser: this.props.currentUser.id,
+      cars: [],
+      chosenCar: ''
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -46,6 +49,8 @@ class Job extends Component {
     this.getJobs = this.getJobs.bind(this);
     this.getOffers = this.getOffers.bind(this);
     this.acceptOffer = this.acceptOffer.bind(this);
+    this.getCars = this.getCars.bind(this);
+    this.chooseCar = this.chooseCar.bind(this);
   }
 
   handleInputChange(event, validationFun) {
@@ -61,20 +66,61 @@ class Job extends Component {
     });
   }
 
+  chooseCar(id) {
+    this.setState({
+      chosenCar: id
+    });
+
+
+
+    // this.setState({
+    //   make: this.state.cars[i].make.value,
+    //   model: this.state.cars[i].model.value,
+    //   year: this.state.cars[i].year.value
+    // })
+
+  }
+
+  getCars() {
+    let promise;
+    promise = getAllCars(this.props.currentUser.id);
+    if (!promise) {
+      return;
+    }
+
+    this.setState({
+      isLoading: true
+    });
+    promise
+      .then(response => {
+        this.setState({
+          cars: response,
+          isLoading: false
+        });
+      })
+      .catch(error => {
+        this.setState({
+          isLoading: false
+        });
+      });
+  }
+
   handleSubmit(event) {
     event.preventDefault();
-
-    console.log(this.props);
-
-    const jobRequest = {
-      userId: this.props.currentUser.id,
-      make: this.state.make.value,
-      model: this.state.model.value,
-      year: this.state.year.value,
-      description: this.state.description.value,
-      email: this.state.email.value
-    };
-
+    console.log(jobRequest);
+    for (var i = 0; i < this.state.cars.length; i++) {
+      if (this.state.chosenCar === this.state.cars[i].id) {
+        var jobRequest = {
+          make: this.state.cars[i].make,
+          model: this.state.cars[i].model,
+          year: this.state.cars[i].year,
+          userId: this.props.currentUser.id,
+          description: this.state.description.value,
+          email: this.state.email.value
+        }
+      }
+    }
+    console.log(jobRequest);
     createJob(jobRequest)
       .then(response => {
         notification.success({
@@ -82,7 +128,7 @@ class Job extends Component {
           description: "Thank you! Your job has been succesfully registered. "
         });
       })
-      .then(function() {
+      .then(function () {
         window.location.reload();
       })
       .catch(error => {
@@ -180,6 +226,9 @@ class Job extends Component {
   }
 
   componentDidMount() {
+
+    this.getCars();
+
     {
       this.getJobs();
     }
@@ -238,7 +287,15 @@ class Job extends Component {
             <h1 className="page-title">Detaliaza problema ! </h1>
 
             <Form onSubmit={this.handleSubmit} className="signup-form">
-              <FormItem
+              <FormItem>
+                {this.state.cars.map(c => (
+                  <Button name="car" onClick={() => this.chooseCar(c.id)}
+                    value={c.id}>{c.make} - {c.model} - {c.year}
+                  </Button>
+                ))
+                }
+              </FormItem>
+              {/* <FormItem
                 label="Marca"
                 hasFeedback
                 validateStatus={this.state.make.validateStatus}
@@ -289,7 +346,7 @@ class Job extends Component {
                     this.handleInputChange(event, this.validateYear)
                   }
                 />
-              </FormItem>
+              </FormItem> */}
               <FormItem
                 label="Descriere"
                 hasFeedback
@@ -308,7 +365,7 @@ class Job extends Component {
                   }
                 />
               </FormItem>
-              <FormItem
+              {/* <FormItem
                 label="Email"
                 hasFeedback
                 validateStatus={this.state.email.validateStatus}
@@ -325,7 +382,7 @@ class Job extends Component {
                     this.handleInputChange(event, this.validateDescription)
                   }
                 />
-              </FormItem>
+              </FormItem> */}
 
               <FormItem>
                 <Button
@@ -338,8 +395,8 @@ class Job extends Component {
                 </Button>
               </FormItem>
             </Form>
-          </div>
-        </div>
+          </div >
+        </div >
       );
     } else {
       return <Chat {...this.state} />;

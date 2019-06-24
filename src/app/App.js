@@ -126,21 +126,21 @@ class App extends Component {
                 exact
                 path="/"
                 render={props => (
-                  <hr />, <AddCar currentUser={this.state.currentUser} />
+                  <hr /> , <AddCar currentUser={this.state.currentUser} />
                 )}
               />
               <Route
                 exact
                 path="/Profile"
                 render={props => (
-                  <hr />, <Profile currentUser={this.state.currentUser} />
+                  <hr /> , <Profile currentUser={this.state.currentUser} />
                 )}
               />
               <Route
                 exact
                 path="/Chat"
                 render={props => (
-                  <hr />, <Chat currentUser={this.state.currentUser} />
+                  <hr /> , <Chat currentUser={this.state.currentUser} />
                 )}
               />
             </Switch>
@@ -182,14 +182,14 @@ class App extends Component {
                 exact
                 path="/"
                 render={props => (
-                  <hr />, <JobList currentUser={this.state.currentUser} />
+                  <hr /> , <JobList currentUser={this.state.currentUser} />
                 )}
               />
               <Route
                 exact
                 path="/Profile"
                 render={props => (
-                  <hr />, <Profile currentUser={this.state.currentUser} />
+                  <hr /> , <Profile currentUser={this.state.currentUser} />
                 )}
               />
             </Switch>
