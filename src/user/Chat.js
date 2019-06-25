@@ -42,19 +42,9 @@ export class Chat extends Component {
   }
 
   getAllMessages() {
-    let promise;
-    promise = getAllJobsWithMessages();
 
-    if (!promise) {
-      return;
-    }
-
-    this.setState({
-
-      isLoading: true
-    });
     // only get conversations for currentUser
-    promise.then(response => {
+    getAllJobsWithMessages().then(response => {
       let userResponse = [];
       if (this.state.currentUserRole === "ROLE_SERVICE") {
         for (var i = 0, len = response.length; i < len; i++) {
