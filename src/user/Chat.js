@@ -110,6 +110,10 @@ export class Chat extends Component {
         notification.success({
           message: "Polling App",
           description: "Multumim. Mesajul a fost trimis "
+        })
+        this.setState({
+          conversation: [...response],
+          isLoading: false
         });
       })
       .catch(error => {

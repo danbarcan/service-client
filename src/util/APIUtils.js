@@ -171,7 +171,7 @@ export function hideJob(jobId) {
 
 export function unhideJob(jobId) {
   return request({
-    url: API_BASE_URL + "/services/users/unhideJob?jobId=" + jobId,
+    url: API_BASE_URL + "/services/offers/unhideJob?jobId=" + jobId,
     method: "GET"
   });
 }
