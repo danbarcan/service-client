@@ -9,7 +9,8 @@ import {
 } from "../../util/APIUtils";
 import "./Signup.css";
 import { withRouter } from "react-router-dom";
-import { Form, Input, Button, notification, Select } from "antd";
+import { Form, Input, Button, notification } from "antd";
+import { Modal } from "react-bootstrap";
 import Chat from "../Chat";
 
 const FormItem = Form.Item;
@@ -39,7 +40,8 @@ class Job extends Component {
       jobId: "",
       currentUser: this.props.currentUser.id,
       cars: [],
-      chosenCar: ''
+      chosenCar: '',
+      show: false
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -51,6 +53,8 @@ class Job extends Component {
     this.acceptOffer = this.acceptOffer.bind(this);
     this.getCars = this.getCars.bind(this);
     this.chooseCar = this.chooseCar.bind(this);
+    this.handleClose = this.handleClose.bind(this);
+    this.handleShow = this.handleShow.bind(this);
   }
 
   handleInputChange(event, validationFun) {
@@ -66,18 +70,18 @@ class Job extends Component {
     });
   }
 
+  handleClose() {
+    this.setState({ show: false });
+  }
+
+  handleShow() {
+    this.setState({ show: true });
+  }
+
   chooseCar(id) {
     this.setState({
       chosenCar: id
     });
-
-
-
-    // this.setState({
-    //   make: this.state.cars[i].make.value,
-    //   model: this.state.cars[i].model.value,
-    //   year: this.state.cars[i].year.value
-    // })
 
   }
 
@@ -241,7 +245,14 @@ class Job extends Component {
     console.log(this.state);
     if (this.state.chat == false) {
       return (
+
         <div className="signup-container">
+          <Button
+            onClick={this.handleShow}
+            className="btn btn-danger"
+          >
+            Adauga Problema
+          </Button>
           <h3> Probleme active</h3>
           <div className="active-jobs">
             {this.state.jobs.map(j => (
@@ -283,119 +294,52 @@ class Job extends Component {
               </div>
             ))}
           </div>
-          <div className="signup-content">
-            <h1 className="page-title">Detaliaza problema ! </h1>
+          <Modal show={this.state.show} onHide={this.handleClose}>
+            <Modal.Header closeButton>
+              <h1 className="page-title">Detaliaza problema ! </h1>
+            </Modal.Header>
+            <Modal.Body>
+              <Form onSubmit={this.handleSubmit} className="signup-form">
+                <FormItem>
+                  {this.state.cars.map(c => (
+                    <Button name="car" onClick={() => this.chooseCar(c.id)}
+                      value={c.id}>{c.make} - {c.model} - {c.year}
+                    </Button>
+                  ))
+                  }
+                </FormItem>
 
-            <Form onSubmit={this.handleSubmit} className="signup-form">
-              <FormItem>
-                {this.state.cars.map(c => (
-                  <Button name="car" onClick={() => this.chooseCar(c.id)}
-                    value={c.id}>{c.make} - {c.model} - {c.year}
-                  </Button>
-                ))
-                }
-              </FormItem>
-              {/* <FormItem
-                label="Marca"
-                hasFeedback
-                validateStatus={this.state.make.validateStatus}
-                help={this.state.make.errorMsg}
-              >
-                <Input
-                  size="large"
-                  name="make"
-                  autoComplete="off"
-                  placeholder="Marca"
-                  value={this.state.make.value}
-                  onChange={event =>
-                    this.handleInputChange(event, this.validateMake)
-                  }
-                />
-              </FormItem>
-              <FormItem
-                label="Model"
-                hasFeedback
-                validateStatus={this.state.model.validateStatus}
-                help={this.state.model.errorMsg}
-              >
-                <Input
-                  size="large"
-                  name="model"
-                  autoComplete="off"
-                  placeholder="Model"
-                  value={this.state.model.value}
-                  onChange={event =>
-                    this.handleInputChange(event, this.validateModel)
-                  }
-                />
-              </FormItem>
-              <FormItem
-                label="An"
-                hasFeedback
-                validateStatus={this.state.year.validateStatus}
-                help={this.state.year.errorMsg}
-              >
-                <Input
-                  size="large"
-                  name="year"
-                  type="number"
-                  autoComplete="off"
-                  placeholder="An"
-                  value={this.state.year.value}
-                  onChange={event =>
-                    this.handleInputChange(event, this.validateYear)
-                  }
-                />
-              </FormItem> */}
-              <FormItem
-                label="Descriere"
-                hasFeedback
-                validateStatus={this.state.description.validateStatus}
-                help={this.state.description.errorMsg}
-              >
-                <Input
-                  size="large"
-                  name="description"
-                  type="text"
-                  autoComplete="off"
-                  placeholder="Descriere"
-                  value={this.state.description.value}
-                  onChange={event =>
-                    this.handleInputChange(event, this.validateDescription)
-                  }
-                />
-              </FormItem>
-              {/* <FormItem
-                label="Email"
-                hasFeedback
-                validateStatus={this.state.email.validateStatus}
-                help={this.state.email.errorMsg}
-              >
-                <Input
-                  size="large"
-                  name="email"
-                  type="text"
-                  autoComplete="off"
-                  placeholder="Email"
-                  value={this.state.email.value}
-                  onChange={event =>
-                    this.handleInputChange(event, this.validateDescription)
-                  }
-                />
-              </FormItem> */}
-
-              <FormItem>
-                <Button
-                  type="primary"
-                  htmlType="submit"
-                  size="large"
-                  className="signup-form-button"
+                <FormItem
+                  label="Descriere"
+                  hasFeedback
+                  validateStatus={this.state.description.validateStatus}
+                  help={this.state.description.errorMsg}
                 >
-                  Trimite
+                  <Input
+                    size="large"
+                    name="description"
+                    type="text"
+                    autoComplete="off"
+                    placeholder="Descriere"
+                    value={this.state.description.value}
+                    onChange={event =>
+                      this.handleInputChange(event, this.validateDescription)
+                    }
+                  />
+                </FormItem>
+                <FormItem>
+                  <Button
+                    type="primary"
+                    htmlType="submit"
+                    size="large"
+                    className="signup-form-button"
+                  >
+                    Trimite
                 </Button>
-              </FormItem>
-            </Form>
-          </div >
+                </FormItem>
+              </Form>
+            </Modal.Body>
+          </Modal>
         </div >
       );
     } else {

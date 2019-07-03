@@ -119,33 +119,34 @@ class App extends Component {
 
           <Content className="app-content">
             <div className="container" />
-            <h3>User Dashboard</h3>
-            <h3> Bine ai venit, {this.state.currentUserName}</h3>
-            <hr />
-            <Switch>
-              <Route
-                exact
-                path="/"
-                render={props => (
-                  <hr /> , <AddCar currentUser={this.state.currentUser} />
-                )}
-              />
-              <Route
-                exact
-                path="/Profile"
-                render={props => (
-                  <hr /> , <Profile currentUser={this.state.currentUser} />
-                )}
-              />
-              <Route
-                exact
-                path="/Chat"
-                render={props => (
-                  <hr /> , <Chat currentUser={this.state.currentUser} />
-                )}
-              />
-            </Switch>
-            <Job currentUser={this.state.currentUser} />
+            <div class="user-nav">
+              <h3> Hei {this.state.currentUserName}</h3>
+              <hr />
+              <Switch>
+                <Route
+                  exact
+                  path="/"
+                  render={props => (
+                    <hr /> , <AddCar currentUser={this.state.currentUser} />
+                  )}
+                />
+                <Route
+                  exact
+                  path="/Profile"
+                  render={props => (
+                    <hr /> , <Profile currentUser={this.state.currentUser} />
+                  )}
+                />
+                <Route
+                  exact
+                  path="/Chat"
+                  render={props => (
+                    <hr /> , <Chat currentUser={this.state.currentUser} />
+                  )}
+                />
+              </Switch>
+              <Job currentUser={this.state.currentUser} />
+            </div>
           </Content>
           <AppFooter />
         </Layout>

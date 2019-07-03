@@ -7,7 +7,6 @@ import {
   getUnreadMessages,
   unhideJob
 } from "../util/APIUtils";
-import Job from "./Job";
 import LoadingIndicator from "../common/LoadingIndicator";
 import { Button, Icon, notification, Form, Input } from "antd";
 import { Modal } from "react-bootstrap";
