@@ -32,30 +32,40 @@ h2 {
 }
 
 .hero-text {
-  text-align: left;
-  position: absolute;
-  top: 300px;
-  color: white;
-  left: 300px;
+  text-align: center;
+  position: relative;
+  margin: 0 auto;
+  background-color:#F4F7F6;
+  color: #001730;
+  padding:50px;
+  width:50%;
+  top:20%;
+
+}
+
+.hero-border{
+  padding:50px;
+  border:3px solid #001730;
+
 }
 .hero-h1 {
-  font-size: 90px;
+  font-size: 50px;
 }
 .hero-h2 {
-  font-size: 60px;
+  font-size: 42px;
 }
 .hero-button {
   margin-top: 40px;
   font-size: 40px;
   height: 70px;
-  background-color: rgba(18, 22, 67, 1);
-  border-color: rgba(18, 22, 67, 1);
+  background-color: #001730;
+  border-color: #001730;
   color: white;
-  border-radius: 10px;
-  border-radius: 200px;
   line-height: 1.4;
   font-size: 30px;
-  padding: 16px 30px 14px;
+  padding: 16px 24px;
+  line-height: 30px;
+
 }
 
 .icons {
@@ -81,7 +91,7 @@ h2 {
   width: 150px;
   margin: 0 auto;
   border-radius: 50%;
-  background-color: rgba(18, 22, 67, 1);
+  background-color:#001730;
 }
 
 .icon-text {
@@ -98,7 +108,7 @@ h2 {
 }
 
 .ant-carousel .slick-dots li button {
-  background-color: rgba(18, 22, 67, 1);
+  background-color:#001730;
   height: 5px;
 }
 
@@ -107,7 +117,7 @@ h2 {
 }
 
 .icon-single i {
-  color: rgba(18, 22, 67, 1);
+  color:#001730;
   width: 150px;
   height: 150px;
   margin: auto auto;
@@ -128,10 +138,6 @@ h2 {
 
 .icons-text--button {
   width: 50%;
-}
-
-.icons-text--button button {
-  margin-top: 30px;
 }
 
 .services-list ul {
@@ -159,8 +165,9 @@ h2 {
 }
 
 .services-carousel {
-  padding: 100px 0px;
-  background-color: #f6f8fd;
+  padding: 100px;
+  margin:10%;
+  background-color: #F4F7F6;
   text-align: center;
 }
 
@@ -211,10 +218,18 @@ footer {
   text-align: left;
 }
 
+.footer-container h2{
+  text-align:left;
+}
+
 footer ul li {
   list-style: none;
   display: inline;
-  padding: 10px;
+  padding-right: 10px;
+}
+
+footer ul{
+  padding-left:0;
 }
 
 .footer-signup {
@@ -225,4 +240,29 @@ footer ul li {
 
 .home .icons .icon-single i svg {
   color: white;
+}
+
+.footer-social svg {
+  color:white;
+  font-size:30px;
+  margin:10px;
+}
+
+.ant-btn:hover, .ant-btn:focus{
+  color: rgba(18, 22, 67, 1);
+  border:1px solid rgba(18, 22, 67, 1);
+}
+
+
+.modal-dialog .close{
+  position:absolute;
+  right:10px;
+  font-size:40px;
+  color:red;
+  opacity:.8;
+
+}
+
+.modal-content{
+  padding: 0 20px;
 }

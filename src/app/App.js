@@ -84,9 +84,10 @@ class App extends Component {
       currentUser: null,
       isAuthenticated: false
     });
+    this.props.history.push("/home");
 
-    this.props.history.push("/");
     window.location.reload();
+
     notification[notificationType]({
       message: "Polling App",
       description: description

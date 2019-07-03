@@ -77,7 +77,7 @@ class Home extends Component {
           description: "Thank you! Your job has been succesfully registered. "
         });
       })
-      .then(function() {
+      .then(function () {
         window.location.reload();
       })
       .catch(error => {
@@ -103,12 +103,14 @@ class Home extends Component {
       <div className="home">
         <div className="hero">
           <div className="hero-text">
-            <h1 className="hero-h1">Alege serviceul potrivit</h1>
-            <h2 className="hero-h2">Rapid simplu si usor</h2>
+            <div className="hero-border">
+              <h1 className="hero-h1">Alege service-ul potrivit</h1>
+              <h2 className="hero-h2">Rapid simplu si usor</h2>
 
-            <Button className="hero-button" onClick={() => this.openModal()}>
-              Incepe acum
+              <Button className="hero-button" onClick={() => this.openModal()}>
+                Incepe acum
             </Button>
+            </div>
           </div>
         </div>
 
@@ -118,34 +120,33 @@ class Home extends Component {
             <div className="icon-single">
               <Icon type="search" />
             </div>
-            <div className="icon-text">Ne spui problema. E gratuit</div>
+            <div className="icon-text">Detaliaza cu ce te putem ajuta</div>
           </div>
           <div className="icon">
             <div className="icon-single">
               <Icon type="bars" />
             </div>
-            <div className="icon-text">Alegi oferta cea mai potrivita</div>
+            <div className="icon-text">Primesti oferte de la serviceuri din apropiere</div>
           </div>
           <div className="icon">
             <div className="icon-single">
               <Icon type="check-circle" />
             </div>
-            <div className="icon-text">Rezolvi problema. Simplu si rapid.</div>
+            <div className="icon-text">Alegi oferta cea mai potrivita.</div>
           </div>
         </div>
         <div className="icons-text layout">
           <div className="icons-text--container layout">
-            <h2>Pregatit sa incepi? </h2>
-            <h2>Posteaza chiar acuma. E gratuit.</h2>
+            <h2>Gata sa incepi? </h2>
+            <h2>Posteaza chiar acum. E gratuit.</h2>
           </div>
           <div className="icons-text--button">
-            <Button className="hero-button">Incepe acum</Button>
+            <Button className="hero-button" onClick={() => this.openModal()}>Incepe acum</Button>
           </div>
         </div>
 
         <div className="services-carousel">
-          <h2> Vezi cateva serviceuri de top </h2>
-          <p>“At the moment I need to be able to travel frequently so a job</p>
+          <h2> Vezi cateva din service-urile de top cu care lucram</h2>
           <p>Cate ceva despre serviceuri aici </p>
           <Carousel effect="fade" arrows="true">
             <div className="service-container">
@@ -206,7 +207,7 @@ class Home extends Component {
             </div>
           </Carousel>
 
-          <Button className="hero-button btn-success">Pentru serviceuri</Button>
+          <Button className="hero-button btn-success"> Devino un service partener</Button>
         </div>
 
         <div className="services-list">
@@ -220,11 +221,11 @@ class Home extends Component {
           </ul>
           <ul className="garaje">
             <h2>Servicii </h2>
-            <li>Garaje in Bucuresti</li>
-            <li>Garaje in Bacau</li>
-            <li>Garaje in Iasi</li>
-            <li>Garaje in Timisoara</li>
-            <li>Garaje in Cluj</li>
+            <li>Vopsitorie</li>
+            <li>Tinichigerie</li>
+            <li>Vopsitorie</li>
+            <li>Mecanica</li>
+            <li>Geometrie Roti</li>
           </ul>
         </div>
         <footer>
@@ -253,10 +254,14 @@ class Home extends Component {
           </div>
         </footer>
         <Modal show={this.state.show} onHide={this.handleClose}>
-          <Modal.Header closeButton />
+
+          <Modal.Header closeButton>
+            <h3> Cu ce te putem ajuta ?</h3>
+          </Modal.Header>
           <Modal.Body>
             <div className="signup-container">
               <div className="signup-content">
+
                 <Form onSubmit={this.handleSubmit} className="signup-form">
                   <FormItem
                     label="Marca"
@@ -353,7 +358,7 @@ class Home extends Component {
                       htmlType="submit"
                       size="large"
                       className="signup-form-button"
-                      // disabled={this.isFormInvalid()}
+                    // disabled={this.isFormInvalid()}
                     >
                       Trimite
                     </Button>
@@ -363,7 +368,7 @@ class Home extends Component {
             </div>
           </Modal.Body>
         </Modal>
-      </div>
+      </div >
     );
   }
   validateMake = make => {
