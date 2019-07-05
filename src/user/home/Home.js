@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import serviceImage from "../../img/hero.jpg";
 import { createAnonJob } from "../../util/APIUtils";
 import "./Home.css";
-import { ACCESS_TOKEN } from "../../constants";
 import { Modal } from "react-bootstrap";
 import { Form, Input, Button, Icon, notification, Carousel } from "antd";
 const FormItem = Form.Item;
@@ -150,7 +149,7 @@ class Home extends Component {
           <p>Cate ceva despre serviceuri aici </p>
           <Carousel effect="fade" arrows="true">
             <div className="service-container">
-              <img src={serviceImage} />
+              <img src={serviceImage} alt="Serviceimg" />
               <div className="service-body">
                 <h3>Bosch Service</h3>
                 <p>
@@ -164,7 +163,7 @@ class Home extends Component {
               </div>
             </div>
             <div className="service-container">
-              <img src={serviceImage} />
+              <img src={serviceImage} alt="Serviceimg" />
               <div className="service-body">
                 <h3>Casco Service</h3>
                 <p>
@@ -178,7 +177,7 @@ class Home extends Component {
               </div>
             </div>
             <div className="service-container">
-              <img src={serviceImage} />
+              <img src={serviceImage} alt="Serviceimg" />
               <div className="service-body">
                 <h3>Alt Service</h3>
                 <p>
@@ -192,7 +191,7 @@ class Home extends Component {
               </div>
             </div>
             <div className="service-container">
-              <img src={serviceImage} />
+              <img src={serviceImage} alt="Serviceimg" />
               <div className="service-body">
                 <h3>Bosch Service</h3>
                 <p>

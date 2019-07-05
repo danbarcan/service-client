@@ -1,10 +1,6 @@
 import React, { Component } from "react";
 import {
-  signup,
-  checkUsernameAvailability,
-  checkEmailAvailability,
   addCar,
-  getCurrentUser,
   getAllCars,
   updateCar,
   deleteCar
@@ -133,7 +129,7 @@ class AddCar extends Component {
             description: "Multumim ! Masina a fost adaugat cu success!"
           });
         })
-        .then(function() {
+        .then(function () {
           window.location.reload();
         })
         .catch(error => {
@@ -159,7 +155,7 @@ class AddCar extends Component {
             description: "Multumim ! Masina a fost adaugat cu success!"
           });
         })
-        .then(function() {
+        .then(function () {
           window.location.reload();
         })
         .catch(error => {
@@ -194,10 +190,10 @@ class AddCar extends Component {
         </Button>
         <h3>Masinile adaugate:</h3>
         {this.state.cars.map(c => (
-          <div className="job-container">
+          <div className="job-container" key={c.id}>
             <h2>
-              <span key = { c.id}>
-                {c.make} {c.model}
+              <span key={c.id}>
+                {c.id} {c.make} {c.model}
               </span>
             </h2>
             <h3>{c.year}</h3>
@@ -283,7 +279,7 @@ class AddCar extends Component {
                       size="large"
                       className="signup-form-button"
                       onClick={this.handleClose}
-                      // disabled={this.isFormInvalid()}
+                    // disabled={this.isFormInvalid()}
                     >
                       Adauga
                     </Button>
@@ -362,7 +358,7 @@ class AddCar extends Component {
                       size="large"
                       className="signup-form-button"
                       onClick={this.handleClose}
-                      // disabled={this.isFormInvalid()}
+                    // disabled={this.isFormInvalid()}
                     >
                       Salveaza modificarile
                     </Button>

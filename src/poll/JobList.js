@@ -7,8 +7,7 @@ import {
   getUnreadMessages,
   unhideJob
 } from "../util/APIUtils";
-import LoadingIndicator from "../common/LoadingIndicator";
-import { Button, Icon, notification, Form, Input } from "antd";
+import { Button, notification, Form, Input } from "antd";
 import { Modal } from "react-bootstrap";
 import Chat from "../user/Chat";
 
@@ -29,8 +28,7 @@ class JobList extends Component {
       availJobs: [],
       hiddenJobs: [],
       currentJobs: [],
-      offeredJobs: [],
-      chat: false
+      offeredJobs: []
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.getAllJobs = this.getAllJobs.bind(this);
@@ -187,9 +185,6 @@ class JobList extends Component {
   }
 
   render() {
-    const jobViews = [];
-    //console.log(this.state.jobs);
-    const data = this.state.jobs;
     if (this.state.chat === false) {
       return (
         <div className="alljobs">

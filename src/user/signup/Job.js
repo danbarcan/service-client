@@ -111,7 +111,6 @@ class Job extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    console.log(jobRequest);
     for (var i = 0; i < this.state.cars.length; i++) {
       if (this.state.chosenCar === this.state.cars[i].id) {
         var jobRequest = {
@@ -124,7 +123,6 @@ class Job extends Component {
         }
       }
     }
-    console.log(jobRequest);
     createJob(jobRequest)
       .then(response => {
         notification.success({
@@ -230,10 +228,7 @@ class Job extends Component {
   }
 
   componentDidMount() {
-
-    this.getCars();
-
-    {
+    this.getCars(); {
       this.getJobs();
     }
     {
@@ -243,20 +238,20 @@ class Job extends Component {
 
   render() {
     console.log(this.state);
-    if (this.state.chat == false) {
+    if (this.state.chat === false) {
       return (
 
         <div className="signup-container">
           <Button
             onClick={this.handleShow}
-            className="btn btn-danger"
+            className="special btn btn-primary "
           >
             Adauga Problema
           </Button>
           <h3> Probleme active</h3>
           <div className="active-jobs">
             {this.state.jobs.map(j => (
-              <div className="job-container">
+              <div className="job-container" key={j.id}>
                 <h2>
                   <span>
                     id: {j.id}, problema: {j.description}
@@ -269,7 +264,7 @@ class Job extends Component {
                   Sterge
                 </Button>
                 {j.offers.map(o => (
-                  <div className="offer-container">
+                  <div className="offer-container" key={o.id}>
                     <h3>Oferta de la {o.user.username}</h3>
                     <p>Rating : {o.rating}</p>
                     <p>Pret : {o.cost}</p>
@@ -302,7 +297,7 @@ class Job extends Component {
               <Form onSubmit={this.handleSubmit} className="signup-form">
                 <FormItem>
                   {this.state.cars.map(c => (
-                    <Button name="car" onClick={() => this.chooseCar(c.id)}
+                    <Button name="car" key={c.id} onClick={() => this.chooseCar(c.id)}
                       value={c.id}>{c.make} - {c.model} - {c.year}
                     </Button>
                   ))

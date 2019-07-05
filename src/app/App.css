@@ -34,3 +34,9 @@ body {
 h1 {
   clear: both;
 }
+
+.special{
+  position:absolute !important;
+  top:90px;
+  right:20px;
+}

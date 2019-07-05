@@ -2,8 +2,6 @@ import React, { Component } from "react";
 import {
   sendMessage,
   getMessagesByJob,
-  getAllMessages,
-  getUnreadMessages,
   getCurrentUser,
   getAllJobsWithMessages
 } from "../util/APIUtils";
@@ -49,18 +47,14 @@ export class Chat extends Component {
       if (this.state.currentUserRole === "ROLE_SERVICE") {
         for (var i = 0, len = response.length; i < len; i++) {
           console.log(i)
-          if (response[i].acceptedService.id == this.state.currentUserId) {
+          if (response[i].acceptedService.id === this.state.currentUserId) {
             userResponse.push(response[i]);
           }
         }
 
-        // userResponse = response.find(
-        //   // find trebuie sa intre in object ca sa gaseasca valoarea useridului
-        //   x => x.acceptedService.id === this.state.currentUserId
-        // );
       } else {
-        for (var i = 0, len = response.length; i < len; i++) {
-          if (response[i].id == this.state.currentUserId) {
+        for (i < len; i++;) {
+          if (response[i].id === this.state.currentUserId) {
             userResponse.push(response[i]);
           }
         }

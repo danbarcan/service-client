@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import "./App.css";
 import { Route, withRouter, Switch } from "react-router-dom";
 
-import { getCurrentUser, createJob, getUserProfile } from "../util/APIUtils";
+import { getCurrentUser, } from "../util/APIUtils";
 import { ACCESS_TOKEN } from "../constants";
 
 import Login from "../user/login/Login";
@@ -16,9 +16,8 @@ import AppFooter from "../common/AppFooter";
 import NotFound from "../common/NotFound";
 import Chat from "../user/Chat";
 import LoadingIndicator from "../common/LoadingIndicator";
-import PrivateRoute from "../common/PrivateRoute";
 
-import { Layout, notification, Button } from "antd";
+import { Layout, notification } from "antd";
 import JobList from "../poll/JobList";
 import AddCar from "../util/AddCar";
 const { Content } = Layout;
@@ -119,7 +118,7 @@ class App extends Component {
 
           <Content className="app-content">
             <div className="container" />
-            <div class="user-nav">
+            <div className="user-nav">
               <h3> Hei {this.state.currentUserName}</h3>
               <hr />
               <Switch>
@@ -127,21 +126,21 @@ class App extends Component {
                   exact
                   path="/"
                   render={props => (
-                    <hr /> , <AddCar currentUser={this.state.currentUser} />
+                    <AddCar currentUser={this.state.currentUser} />
                   )}
                 />
                 <Route
                   exact
                   path="/Profile"
                   render={props => (
-                    <hr /> , <Profile currentUser={this.state.currentUser} />
+                    <Profile currentUser={this.state.currentUser} />
                   )}
                 />
                 <Route
                   exact
                   path="/Chat"
                   render={props => (
-                    <hr /> , <Chat currentUser={this.state.currentUser} />
+                    <Chat currentUser={this.state.currentUser} />
                   )}
                 />
               </Switch>
@@ -183,15 +182,13 @@ class App extends Component {
               <Route
                 exact
                 path="/"
-                render={props => (
-                  <hr /> , <JobList currentUser={this.state.currentUser} />
+                render={props => (<JobList currentUser={this.state.currentUser} />
                 )}
               />
               <Route
                 exact
                 path="/Profile"
-                render={props => (
-                  <hr /> , <Profile currentUser={this.state.currentUser} />
+                render={props => (<Profile currentUser={this.state.currentUser} />
                 )}
               />
             </Switch>
