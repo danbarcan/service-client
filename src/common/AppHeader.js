@@ -2,13 +2,19 @@ import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
 import "./AppHeader.css";
 import { Layout, Menu, Dropdown, Icon } from "antd";
+import { getUnreadMessages } from "../util/APIUtils";
 const Header = Layout.Header;
 
 class AppHeader extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      unreadMessage: false
+    }
     this.handleMenuClick = this.handleMenuClick.bind(this);
+    this.getMessages = this.getMessages.bind(this)
   }
+
 
   handleMenuClick({ key }) {
     if (key === "logout") {
@@ -16,7 +22,17 @@ class AppHeader extends Component {
     }
   }
 
+  getMessages() {
+    getUnreadMessages().then(response => {
+      console.log(response[Object.keys(response)[0]]);
+      for (var i = 0; i < response.length; i++) {
+        console.log(response[i].value);
+      }
+    })
+  }
+
   render() {
+    this.getMessages();
     let menuItems;
     if (this.props.currentUser) {
       menuItems = [
@@ -87,9 +103,9 @@ function ProfileDropdownMenu(props) {
         <Link to="/login">Logout</Link>
       </Menu.Item>
       <Menu.Item key="chat" className="dropdown-item">
-        <Link to="/Chat">Chat</Link>
+        <Link to="/Chat">Chat </Link>
       </Menu.Item>
-    </Menu>
+    </Menu >
   );
 
   return (

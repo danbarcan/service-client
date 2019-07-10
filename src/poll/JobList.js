@@ -28,7 +28,11 @@ class JobList extends Component {
       availJobs: [],
       hiddenJobs: [],
       currentJobs: [],
-      offeredJobs: []
+      offeredJobs: [],
+      showActive: false,
+      showNew: false,
+      showSent: false,
+      showHidden: false
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.getAllJobs = this.getAllJobs.bind(this);
@@ -38,6 +42,10 @@ class JobList extends Component {
     this.handleShow = this.handleShow.bind(this);
     this.hideJob = this.hideJob.bind(this);
     this.unhideJob = this.unhideJob.bind(this);
+    this.showActiveOnly = this.showActiveOnly.bind(this);
+    this.showNew = this.showNew.bind(this);
+    this.showSent = this.showSent.bind(this);
+    this.showHidden = this.showHidden.bind(this);
   }
 
   handleClose() {
@@ -55,12 +63,50 @@ class JobList extends Component {
     });
   }
 
+  showActiveOnly() {
+    this.setState({
+      showActive: true,
+      showNew: false,
+      showHidden: false,
+      showSent: false,
+    });
+  }
+
+  showNew() {
+    this.setState({
+      showNew: true,
+      showHidden: false,
+      showSent: false,
+      showActive: false
+    });
+  }
+
+  showHidden() {
+    this.setState({
+      showHidden: true,
+      showSent: false,
+      showActive: false,
+      showNew: false,
+    })
+  }
+
+  showSent() {
+    this.setState({
+      showSent: true,
+      showActive: false,
+      showNew: false,
+      showHidden: false,
+    })
+  }
+
   hideJob(id) {
     hideJob(id);
+    window.location.reload();
   }
 
   unhideJob(id) {
-    unhideJob(id);
+    unhideJob(id)
+    window.location.reload();
   }
 
   seeChat() {
@@ -174,6 +220,7 @@ class JobList extends Component {
   }
 
   componentDidUpdate(nextProps) {
+    console.log(typeof (42));
     if (this.props.isAuthenticated !== nextProps.isAuthenticated) {
       // Reset State
       this.setState({
@@ -185,9 +232,22 @@ class JobList extends Component {
   }
 
   render() {
-    if (this.state.chat === false) {
+    const menu =
+      <ul>
+        <li><Button onClick={() => this.showActiveOnly()}>Cereri Active</Button></li>
+        <li><Button onClick={() => this.showNew()}>Cereri Noi</Button></li>
+        <li><Button onClick={() => this.showSent()}>Cereri Trimise</Button></li>
+        <li><Button onClick={() => this.showHidden()}>Cereri Ascunse</Button></li>
+      </ul>
+    if (this.state.chat == true) {
       return (
-        <div className="alljobs">
+        <Chat {...this.state} />
+      )
+    }
+    else if (this.state.showActive === true) {
+      return (
+        <div className="container">
+          {menu}
           <div className="activeJobs-container">
             <h3>Joburi active</h3>
             {this.state.currentJobs &&
@@ -209,9 +269,15 @@ class JobList extends Component {
                     Vezi chat
                   </Button>
                 </div>
-              ))}
+              ))
+            }
           </div>
-          <br />
+        </div>
+      )
+    } else if (this.state.showNew === true) {
+      return (
+        <div className="container">
+          {menu}
           <div className="newJobs-container">
             <h3>Joburi noi</h3>
             {this.state.availJobs &&
@@ -231,24 +297,97 @@ class JobList extends Component {
                     className="btn btn-success"
                   >
                     Trimite Oferta
-                  </Button>
+                </Button>
                   <Button
                     onClick={() => this.hideJob(d.id)}
-                    className="btn btn-danger"
+                    className="btn btn-warning"
                   >
                     Ascunde
-                  </Button>
+                </Button>
                 </div>
               ))}
           </div>
-          <br />
+        </div>
+      )
+
+
+
+    } else if (this.state.showSent === true) {
+      return (
+        <div className="container">
+          {menu}
           <div className="currentJobs-container">
             <h3>Oferte trimise</h3>
             {this.state.offeredJobs &&
               this.state.offeredJobs.map(d => (
                 <div className="job-container">
                   <h2>
+                    Cerere de la <span>{d.user.name} :</span>
+                  </h2>
+                  <p>
+                    <em>Masina, Model, An:</em>
+                  </p>
+                  <p>
+                    <em>Problema:</em> <span key={d.id}>{d.description}</span>
+                  </p>
+
+                  <Button
+                    onClick={() => this.deleteOffer(d.id)}
+                    className="btn btn-danger"
+                  >
+                    Sterge Oferta
+                  </Button>
+                </div>
+              ))}
+          </div>
+        </div>
+      )
+    } else if (this.state.showHidden === true) {
+      return (
+        <div className="container">
+          {menu}
+          <div className="hiddenJobs-container">
+            <h3>Joburi ascunse</h3>
+            {this.state.hiddenJobs &&
+              this.state.hiddenJobs.map(d => (
+                <div className="job-container">
+                  <h2>
                     Job de la <span>{d.user.name} :</span>
+                  </h2>
+                  <p>
+                    <em>Masina, Model, An:</em>
+                  </p>
+                  <p>
+                    <em>Problema:</em> <span key={d.id}>{d.description}</span>
+                  </p>
+                  <Button
+                    onClick={() => this.acceptOffer(d.id, d.description)}
+                    className="btn btn-success"
+                  >
+                    Trimite Oferta
+              </Button>
+                  <Button
+                    onClick={() => this.unhideJob(d.id)}
+                    className="btn btn-warning"
+                  >
+                    Reactiveaza
+              </Button>
+                </div>
+              ))}
+          </div>
+        </div>
+      )
+    } else {
+      return (
+        <div className="alljobs">
+          {menu}
+          <div className="currentJobs-container">
+            <h3>Oferte trimise</h3>
+            {this.state.offeredJobs &&
+              this.state.offeredJobs.map(d => (
+                <div className="job-container">
+                  <h2>
+                    Cerere de la <span>{d.user.name} :</span>
                   </h2>
                   <p>
                     <em>Masina, Model, An:</em>
@@ -360,10 +499,8 @@ class JobList extends Component {
               </div>
             </Modal.Body>
           </Modal>
-        </div>
-      );
-    } else {
-      return <Chat {...this.state} />;
+        </div >
+      )
     }
   }
 

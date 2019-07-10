@@ -44,32 +44,26 @@ export class Chat extends Component {
     // only get conversations for currentUser
     getAllJobsWithMessages().then(response => {
       let userResponse = [];
-      if (this.state.currentUserRole === "ROLE_SERVICE") {
-        for (var i = 0, len = response.length; i < len; i++) {
-          console.log(i)
+      for (var i = 0, len = response.length; i < len; i++) {
+        if (this.state.currentUserRole === "ROLE_SERVICE") {
+
           if (response[i].acceptedService.id === this.state.currentUserId) {
+            console.log('service');
             userResponse.push(response[i]);
           }
-        }
-
-      } else {
-        for (i < len; i++;) {
+        } else {
           if (response[i].id === this.state.currentUserId) {
             userResponse.push(response[i]);
           }
         }
+
+        this.setState({
+          chats: userResponse,
+          isLoading: false
+        });
       }
-      console.log(response);
-      console.log(this.state.currentUserId);
-
-      console.log(userResponse);
-
-      this.setState({
-        chats: userResponse,
-        isLoading: false
-      });
-    });
-  }
+    })
+  };
 
   getConversation(id) {
     getMessagesByJob(id).then(response => {
@@ -129,19 +123,19 @@ export class Chat extends Component {
 
     this.setState(() => this.initialState);
 
-    console.log("mesajul care l-am trimis");
-    console.log(this.state.message);
   }
 
   componentDidMount() {
     this.getAllMessages();
     getCurrentUser().then(response => {
       console.log(response);
+      if (response.role === 'ROLE_USER') {
+        console.log('user');
+      }
       this.setState({
         currentUserRole: response.role,
         currentUserId: response.id
       });
-      console.log(this.state);
     });
   }
 
@@ -151,12 +145,12 @@ export class Chat extends Component {
 
   render() {
     return (
-      <div className="chat">
+      <div className="chat" >
         <h1>Chat</h1>
         <div className="chatIcons">
           {this.state.chats &&
             this.state.chats.map(c => (
-              <Button
+              <Button key={c.id}
                 className="chatIcon"
                 onClick={() => this.getConversation(c.id)}
               >

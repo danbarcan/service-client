@@ -192,11 +192,11 @@ class AddCar extends Component {
         {this.state.cars.map(c => (
           <div className="job-container" key={c.id}>
             <h2>
-              <span key={c.id}>
-                {c.id} {c.make} {c.model}
+              <span>
+                {c.make} {c.model}
               </span>
-            </h2>
-            <h3>{c.year}</h3>
+              <br></br>
+              {c.year}</h2>
             <Button
               onClick={() => this.editCar(c.id, c.make, c.model, c.year)}
               className="btn btn-warning"

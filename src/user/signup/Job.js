@@ -246,15 +246,15 @@ class Job extends Component {
             onClick={this.handleShow}
             className="special btn btn-primary "
           >
-            Adauga Problema
+            Creaza cerere
           </Button>
-          <h3> Probleme active</h3>
+          <h3> Cereri active</h3>
           <div className="active-jobs">
             {this.state.jobs.map(j => (
               <div className="job-container" key={j.id}>
                 <h2>
                   <span>
-                    id: {j.id}, problema: {j.description}
+                    id: {j.id}, descriere: {j.description}
                   </span>
                 </h2>
                 <Button
@@ -267,8 +267,8 @@ class Job extends Component {
                   <div className="offer-container" key={o.id}>
                     <h3>Oferta de la {o.user.username}</h3>
                     <p>Rating : {o.rating}</p>
-                    <p>Pret : {o.cost}</p>
-                    <p>Durata : {o.duration}</p>
+                    <p>Pret : {o.cost} RON </p>
+                    <p>Durata : {o.duration} Ore </p>
                     <p>Descriere : {o.description}</p>
                     <Button
                       onClick={() =>
