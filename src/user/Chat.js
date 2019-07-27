@@ -3,7 +3,7 @@ import {
   sendMessage,
   getMessagesByJob,
   getCurrentUser,
-  getAllJobsWithMessages
+  getAllJobsWithMessages,
 } from "../util/APIUtils";
 import "./Chat.css";
 import { Form, Input, Button, Icon, notification } from "antd";
@@ -20,8 +20,12 @@ export class Chat extends Component {
       conversation: [],
       jobId: "",
       activeConversationId: "",
-      currentUserRole: ""
+      currentUserRole: "",
+
     };
+
+    console.log(this.state);
+    console.log(this.props);
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -51,7 +55,7 @@ export class Chat extends Component {
             console.log('service');
             userResponse.push(response[i]);
           }
-        } else {
+        } else { // If normal user
           if (response[i].id === this.state.currentUserId) {
             userResponse.push(response[i]);
           }
@@ -108,7 +112,7 @@ export class Chat extends Component {
         notification.error({
           message: "Polling App",
           description:
-            error.message || "Sorry! Something went wrong. Please try again!"
+            error.message || "Ne cerem scuze nu am putut trimite mesajul. Va rugam reincercati"
         });
       })
       .then(
@@ -125,18 +129,29 @@ export class Chat extends Component {
 
   }
 
+
   componentDidMount() {
+
+
     this.getAllMessages();
+
     getCurrentUser().then(response => {
-      console.log(response);
       if (response.role === 'ROLE_USER') {
-        console.log('user');
+        this.getConversation(this.props.jobDetails.jobId)
+      } else {
+        this.getConversation(this.props.chatId);
       }
       this.setState({
         currentUserRole: response.role,
         currentUserId: response.id
       });
     });
+
+
+  }
+
+  componentWillMount() {
+    this.getConversation(this.props.chatId);
   }
 
   componentWillReceiveProps() {
@@ -144,6 +159,7 @@ export class Chat extends Component {
   }
 
   render() {
+
     return (
       <div className="chat" >
         <h1>Chat</h1>
@@ -168,6 +184,7 @@ export class Chat extends Component {
                 value={this.state.message}
                 type="text"
                 placeholder="Mesaj"
+                required
                 onChange={event => this.handleChange(event)}
               />
             </FormItem>
@@ -186,7 +203,7 @@ export class Chat extends Component {
             <p>Hey</p>
             {this.state.conversation &&
               this.state.conversation.map(d => (
-                <p>
+                <p key={d.id}>
                   {d.fromUser.username} : {d.message}
                   <span className="time">{d.timestamp.substring(11, 16)}</span>
                 </p>

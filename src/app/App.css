@@ -4,18 +4,19 @@
   margin: 0 auto;
 }
 
+
+
 body {
   font-family: "Helvetica Neue,Helvetica,Arial,Lucida Grande,sans-serif";
   overflow-x: hidden;
 }
 
 .job-container {
-  width: 300px;
-  float: left;
+  width: 100%;
   border: 1px solid #d3d3d3;
-  text-align: center;
-  padding: 16px;
-  margin: 16px;
+  padding: 20px;
+  margin: 20px auto;
+  position:relative;
 }
 
 .hiddenJobs-container,
@@ -25,10 +26,15 @@ body {
   clear: both;
 }
 
-.job-container .btn {
-  width: 110px;
-  padding: 5px;
+.job-container .btn-danger {
   margin: 10px;
+  position:absolute;
+  right:0px;
+  top:20px;
+}
+
+.job-container h2 {
+  text-align:left;
 }
 
 h1 {
@@ -37,6 +43,33 @@ h1 {
 
 .special{
   position:absolute !important;
-  top:90px;
+  top:20px;
   right:20px;
+}
+
+.offer-container img{
+  width:200px;
+  height:200px;
+  float:left;
+  padding :20px;
+  padding-top:0px;
+}
+
+.rating-star{
+  color:#ffe234;
+  width:2em;
+  height:2em;
+}
+
+
+.services-menu{
+  padding-left:0;
+  list-style-type: none;
+
+}
+.services-menu li{
+  display:inline-block;
+  padding:10px;
+  padding-left:0;
+
 }

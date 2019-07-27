@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import "./App.css";
 import { Route, withRouter, Switch } from "react-router-dom";
 
 import { getCurrentUser, } from "../util/APIUtils";
@@ -20,6 +19,8 @@ import LoadingIndicator from "../common/LoadingIndicator";
 import { Layout, notification } from "antd";
 import JobList from "../poll/JobList";
 import AddCar from "../util/AddCar";
+import "./App.css";
+
 const { Content } = Layout;
 
 class App extends Component {
@@ -116,39 +117,40 @@ class App extends Component {
             onLogout={this.handleLogout}
           />
 
-          <Content className="app-content">
-            <div className="container" />
-            <div className="user-nav">
-              <h3> Hei {this.state.currentUserName}</h3>
-              <hr />
-              <Switch>
-                <Route
-                  exact
-                  path="/"
-                  render={props => (
-                    <AddCar currentUser={this.state.currentUser} />
-                  )}
-                />
-                <Route
-                  exact
-                  path="/Profile"
-                  render={props => (
-                    <Profile currentUser={this.state.currentUser} />
-                  )}
-                />
-                <Route
-                  exact
-                  path="/Chat"
-                  render={props => (
-                    <Chat currentUser={this.state.currentUser} />
-                  )}
-                />
-              </Switch>
-              <Job currentUser={this.state.currentUser} />
+          <Content className="app-content container">
+            <div className="container">
+              <div className="user-nav">
+                <h3> Salut {this.state.currentUserName}</h3>
+                <hr />
+                <Switch>
+                  <Route
+                    exact
+                    path="/Masini"
+                    render={props => (
+                      <AddCar currentUser={this.state.currentUser} />
+                    )}
+                  />
+                  <Route
+                    exact
+                    path="/Profile"
+                    render={props => (
+                      <Profile currentUser={this.state.currentUser} />
+                    )}
+                  />
+                  <Route
+                    exact
+                    path="/Chat"
+                    render={props => (
+                      <Chat currentUser={this.state.currentUser} />
+                    )}
+                  />
+                </Switch>
+                <Job currentUser={this.state.currentUser} />
+              </div>
             </div>
           </Content>
           <AppFooter />
-        </Layout>
+        </Layout >
       );
     } else if (this.state.currentUserRole === "ROLE_ADMIN") {
       return (

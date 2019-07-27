@@ -96,14 +96,17 @@ function ProfileDropdownMenu(props) {
         <div className="username-info">@{props.currentUser.username}</div>
       </Menu.Item>
       <Menu.Divider />
+      <Menu.Item key="Chat" className="dropdown-item">
+        <Link to="/Chat">Chat </Link>
+      </Menu.Item>
+      <Menu.Item key="Cars" className="dropdown-item">
+        <Link to="/Masini">Masini </Link>
+      </Menu.Item>
       <Menu.Item key="Profile" className="dropdown-item">
         <Link to="/Profile">Profile</Link>
       </Menu.Item>
       <Menu.Item key="logout" className="dropdown-item">
         <Link to="/login">Logout</Link>
-      </Menu.Item>
-      <Menu.Item key="chat" className="dropdown-item">
-        <Link to="/Chat">Chat </Link>
       </Menu.Item>
     </Menu >
   );

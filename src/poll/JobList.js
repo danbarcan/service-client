@@ -21,6 +21,7 @@ class JobList extends Component {
       isLoading: false,
       show: false,
       chat: false,
+      chatId: "",
       editId: "",
       response: "",
       duration: "",
@@ -61,6 +62,7 @@ class JobList extends Component {
       show: true,
       editId: id
     });
+    console.log(this.state.show);
   }
 
   showActiveOnly() {
@@ -109,9 +111,10 @@ class JobList extends Component {
     window.location.reload();
   }
 
-  seeChat() {
+  seeChat(id) {
     this.setState({
-      chat: true
+      chat: true,
+      chatId: id
     });
   }
 
@@ -233,13 +236,13 @@ class JobList extends Component {
 
   render() {
     const menu =
-      <ul>
+      <ul className="services-menu">
         <li><Button onClick={() => this.showActiveOnly()}>Cereri Active</Button></li>
         <li><Button onClick={() => this.showNew()}>Cereri Noi</Button></li>
         <li><Button onClick={() => this.showSent()}>Cereri Trimise</Button></li>
         <li><Button onClick={() => this.showHidden()}>Cereri Ascunse</Button></li>
       </ul>
-    if (this.state.chat == true) {
+    if (this.state.chat === true) {
       return (
         <Chat {...this.state} />
       )
@@ -249,12 +252,12 @@ class JobList extends Component {
         <div className="container">
           {menu}
           <div className="activeJobs-container">
-            <h3>Joburi active</h3>
+            <h3>Oferte acceptate de utilizator</h3>
             {this.state.currentJobs &&
               this.state.currentJobs.map(d => (
                 <div className="job-container">
                   <h2>
-                    Job de la <span>{d.user.name} :</span>
+                    Cerere de la <span>{d.user.name} :</span>
                   </h2>
                   <p>
                     <em>Masina, Model, An:</em>
@@ -263,7 +266,7 @@ class JobList extends Component {
                     <em>Problema:</em> <span key={d.id}>{d.description}</span>
                   </p>
                   <Button
-                    onClick={() => this.seeChat()}
+                    onClick={() => this.seeChat(d.id)}
                     className="btn btn-success"
                   >
                     Vezi chat
@@ -277,9 +280,10 @@ class JobList extends Component {
     } else if (this.state.showNew === true) {
       return (
         <div className="container">
+
           {menu}
           <div className="newJobs-container">
-            <h3>Joburi noi</h3>
+            <h3>Cereri noi</h3>
             {this.state.availJobs &&
               this.state.availJobs.map(d => (
                 <div className="job-container">
@@ -307,7 +311,70 @@ class JobList extends Component {
                 </div>
               ))}
           </div>
+          <Modal show={this.state.show} onHide={this.handleClose}>
+            <Modal.Header closeButton />
+            <Modal.Body>
+              <div className="signup-container">
+                <h1 className="page-title">Trimite Oferta </h1>
+                <p>Problema : {this.state.description}</p>
+                <div className="signup-content">
+                  <Form
+                    onSubmit={this.handleSubmit}
+                    className="edditOffer-form"
+                  >
+                    <FormItem label="Durata" hasFeedback>
+                      <Input
+                        size="large"
+                        name="duration"
+                        autoComplete="off"
+                        placeholder="Durata"
+                        onChange={event =>
+                          this.handleInputChange(event, this.validateResponse)
+                        }
+                      />
+                    </FormItem>
+                    <FormItem label="Cost" hasFeedback>
+                      <Input
+                        size="large"
+                        name="cost"
+                        type="number"
+                        autoComplete="off"
+                        placeholder="Cost"
+                        onChange={event =>
+                          this.handleInputChange(event, this.validateResponse)
+                        }
+                      />
+                    </FormItem>
+                    <FormItem label="Mesaj catre client" hasFeedback>
+                      <Input
+                        size="large"
+                        name="description"
+                        autoComplete="off"
+                        placeholder="Raspuns"
+                        onChange={event =>
+                          this.handleInputChange(event, this.validateResponse)
+                        }
+                      />
+                    </FormItem>
+
+                    <FormItem>
+                      <Button
+                        type="primary"
+                        htmlType="submit"
+                        size="large"
+                        className="signup-form-button"
+                        onClick={this.handleClose}
+                      >
+                        Trimite
+                      </Button>
+                    </FormItem>
+                  </Form>
+                </div>
+              </div>
+            </Modal.Body>
+          </Modal>
         </div>
+
       )
 
 
@@ -347,7 +414,7 @@ class JobList extends Component {
         <div className="container">
           {menu}
           <div className="hiddenJobs-container">
-            <h3>Joburi ascunse</h3>
+            <h3>Cereri ascunse</h3>
             {this.state.hiddenJobs &&
               this.state.hiddenJobs.map(d => (
                 <div className="job-container">
@@ -379,7 +446,7 @@ class JobList extends Component {
       )
     } else {
       return (
-        <div className="alljobs">
+        <div className="alljobs container">
           {menu}
           <div className="currentJobs-container">
             <h3>Oferte trimise</h3>
@@ -407,7 +474,7 @@ class JobList extends Component {
           </div>
           <br />
           <div className="hiddenJobs-container">
-            <h3>Joburi ascunse</h3>
+            <h3>Cereri ascunse</h3>
             {this.state.hiddenJobs &&
               this.state.hiddenJobs.map(d => (
                 <div className="job-container">

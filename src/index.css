@@ -4,16 +4,37 @@ body {
   font-family: sans-serif;
 }
 
+.ant-layout{
+  background-color: #f4f7f6 !important;
+
+}
+
 .container {
-  max-width: 1000px;
   margin-left: auto;
   margin-right: auto;
   padding-left: 15px;
   padding-right: 15px;
+  background-color:white; 
+  position:relative;
 }
 
 @media (max-width: 768px) {
   h1 {
     font-size: 1.7em;
+  }
+}
+
+
+.btn{
+  padding:16px !important;
+  font-size:16px !important;
+  width:auto;
+  line-height: 2px !important;
+  margin-right:20px ;
+}
+
+@media(min-width:1200px){
+  .container{
+    width:1440px !important;
   }
 }

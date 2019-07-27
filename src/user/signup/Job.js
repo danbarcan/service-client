@@ -12,6 +12,10 @@ import { withRouter } from "react-router-dom";
 import { Form, Input, Button, notification } from "antd";
 import { Modal } from "react-bootstrap";
 import Chat from "../Chat";
+import TextArea from "antd/lib/input/TextArea";
+import serviceImage from "../../img/service.jpg";
+import { Icon } from 'antd';
+
 
 const FormItem = Form.Item;
 
@@ -237,7 +241,6 @@ class Job extends Component {
   }
 
   render() {
-    console.log(this.state);
     if (this.state.chat === false) {
       return (
 
@@ -256,46 +259,57 @@ class Job extends Component {
                   <span>
                     id: {j.id}, descriere: {j.description}
                   </span>
+
                 </h2>
+
                 <Button
                   onClick={() => this.deleteJob(j.id)}
                   className="btn btn-danger"
                 >
                   Sterge
                 </Button>
-                {j.offers.map(o => (
-                  <div className="offer-container" key={o.id}>
-                    <h3>Oferta de la {o.user.username}</h3>
-                    <p>Rating : {o.rating}</p>
-                    <p>Pret : {o.cost} RON </p>
-                    <p>Durata : {o.duration} Ore </p>
-                    <p>Descriere : {o.description}</p>
-                    <Button
-                      onClick={() =>
-                        this.acceptOffer(
-                          o.id,
-                          j.id,
-                          o.user.username,
-                          o.cost,
-                          o.description
-                        )
-                      }
-                      className="btn btn-success"
-                    >
-                      Accept
+
+                <hr></hr>
+
+                {
+                  j.offers.map(o => (
+                    <div className="offer-container" key={o.id}>
+                      <img src={serviceImage} alt="Serviceimg" />
+                      <h3>Oferta de la {o.user.username}</h3>
+                      <p>{o.rating} <Icon className="rating-star" type="star" theme="filled" /></p>
+                      <p>Adresa: </p>
+                      <p>Pret : {o.cost} Ron </p>
+                      <p> Durata : {o.duration} Ore </p>
+                      <p>Mesaj : {o.description}</p>
+
+                      <Button
+                        onClick={() =>
+                          this.acceptOffer(
+                            o.id,
+                            j.id,
+                            o.user.username,
+                            o.cost,
+                            o.description
+                          )
+                        }
+                        className="btn btn-success"
+                      >
+                        Accept
                     </Button>
-                  </div>
-                ))}
+                    </div>
+                  ))
+                }
               </div>
             ))}
           </div>
           <Modal show={this.state.show} onHide={this.handleClose}>
             <Modal.Header closeButton>
-              <h1 className="page-title">Detaliaza problema ! </h1>
+              <h1 className="page-title"> Cu ce te putem ajuta ? </h1>
             </Modal.Header>
             <Modal.Body>
               <Form onSubmit={this.handleSubmit} className="signup-form">
-                <FormItem>
+                <FormItem
+                  label=" Alegeti masina: ">
                   {this.state.cars.map(c => (
                     <Button name="car" key={c.id} onClick={() => this.chooseCar(c.id)}
                       value={c.id}>{c.make} - {c.model} - {c.year}
@@ -310,12 +324,12 @@ class Job extends Component {
                   validateStatus={this.state.description.validateStatus}
                   help={this.state.description.errorMsg}
                 >
-                  <Input
+                  <TextArea
                     size="large"
                     name="description"
                     type="text"
                     autoComplete="off"
-                    placeholder="Descriere"
+                    placeholder="Detaliaza cu ce te poate ajuta service-ul"
                     value={this.state.description.value}
                     onChange={event =>
                       this.handleInputChange(event, this.validateDescription)
