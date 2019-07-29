@@ -137,7 +137,8 @@ export class Chat extends Component {
 
     getCurrentUser().then(response => {
       if (response.role === 'ROLE_USER') {
-        this.getConversation(this.props.jobDetails.jobId)
+        console.log(this.props.jobId);
+        this.getConversation(this.props.jobId)
       } else {
         this.getConversation(this.props.chatId);
       }

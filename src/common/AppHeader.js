@@ -41,12 +41,14 @@ class AppHeader extends Component {
             <Icon type="home" className="nav-icon" />
           </Link>
         </Menu.Item>,
-
-        <Menu.Item key="/profile" className="profile-menu">
-          <ProfileDropdownMenu
-            currentUser={this.props.currentUser}
-            handleMenuClick={this.handleMenuClick}
-          />
+        <Menu.Item key="Cars" className="nav-item">
+          <Link to="/Masini">Masini </Link>
+        </Menu.Item>,
+        <Menu.Item key="Profile" className="nav-item">
+          <Link to="/Profile">Profile</Link>
+        </Menu.Item>,
+        <Menu.Item key="logout" className="nav-item">
+          <Link to="/login">Logout</Link>
         </Menu.Item>
       ];
     } else {
@@ -91,23 +93,7 @@ class AppHeader extends Component {
 function ProfileDropdownMenu(props) {
   const dropdownMenu = (
     <Menu onClick={props.handleMenuClick} className="profile-dropdown-menu">
-      <Menu.Item key="user-info" className="dropdown-item" disabled>
-        <div className="user-full-name-info">{props.currentUser.name}</div>
-        <div className="username-info">@{props.currentUser.username}</div>
-      </Menu.Item>
-      <Menu.Divider />
-      <Menu.Item key="Chat" className="dropdown-item">
-        <Link to="/Chat">Chat </Link>
-      </Menu.Item>
-      <Menu.Item key="Cars" className="dropdown-item">
-        <Link to="/Masini">Masini </Link>
-      </Menu.Item>
-      <Menu.Item key="Profile" className="dropdown-item">
-        <Link to="/Profile">Profile</Link>
-      </Menu.Item>
-      <Menu.Item key="logout" className="dropdown-item">
-        <Link to="/login">Logout</Link>
-      </Menu.Item>
+
     </Menu >
   );
 

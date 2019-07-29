@@ -59,6 +59,7 @@ class Job extends Component {
     this.chooseCar = this.chooseCar.bind(this);
     this.handleClose = this.handleClose.bind(this);
     this.handleShow = this.handleShow.bind(this);
+    this.seeChat = this.seeChat.bind(this);
   }
 
   handleInputChange(event, validationFun) {
@@ -157,6 +158,7 @@ class Job extends Component {
   }
 
   getJobs() {
+
     let promise;
     promise = getJobs(this.props.currentUser.id);
     if (!promise) {
@@ -202,6 +204,8 @@ class Job extends Component {
           isLoading: false
         });
       });
+
+
   }
 
   acceptOffer(offerId, jobId, serviceName, cost, description) {
@@ -214,12 +218,22 @@ class Job extends Component {
             cost: cost,
             description: description
           },
-          chat: true
+          chat: true,
+          jobId: jobId
+
         });
       })
       .catch(error => {
         console.log(error);
       });
+  }
+
+  seeChat(jobId) {
+    console.log('job id ' + jobId);
+    this.setState({
+      jobId: jobId,
+      chat: true
+    })
   }
 
   isFormInvalid() {
@@ -240,7 +254,92 @@ class Job extends Component {
     }
   }
 
+  getOffers() {
+    return (
+      < div className="active-jobs" >
+        {
+          this.state.jobs.map(j => (
+            <div className="job-container" key={j.id}>
+              <h2>
+                {/* If there is a car show car details to make it clear which car is getting fixed */}
+                {j.car &&
+                  <span>
+                    Masina : {j.car.make} {j.car.model} {j.car.year}
+                  </span>
+                }
+                <span>
+                  id: {j.id}, descriere: {j.description}
+                </span>
+
+              </h2>
+
+              <Button
+                onClick={() => this.deleteJob(j.id)}
+                className="btn btn-danger"
+              >
+                Sterge
+                </Button>
+
+              <hr></hr>
+              {j.acceptedService ?
+                (
+                  <div className="offer-container">
+                    <h2> Service-ul care se va ocupa de reparatie este : {j.acceptedService.name} </h2>
+                    <img src={serviceImage} alt="Serviceimg" />
+                    <p>{j.acceptedService.rating} <Icon className="rating-star" type="star" theme="filled" /></p>
+                    <p>Adresa: {j.location}</p>
+                    <p>Numar : {j.acceptedService.phoneNumber}</p>
+                    <p>Pret : {j.offers[0].cost} Ron </p>
+                    <p> Durata : {j.offers[0].duration} Ore </p>
+                    <p>Mesaj : {j.description}</p>
+                    <Button onClick={() => this.seeChat(j.id)} className="btn btn-success" >
+                      Vezi conversatie
+                    </Button>
+                  </div>
+                ) : (
+                  j.offers.length > 0 ?
+                    (j.offers.map(o => (
+                      <div className="offer-container" key={o.id}>
+                        <img src={serviceImage} alt="Serviceimg" />
+                        <h3>Oferta de la {o.user.username}</h3>
+                        <p>{o.rating} <Icon className="rating-star" type="star" theme="filled" /></p>
+                        <p>Adresa: </p>
+                        <p>Pret : {o.cost} Ron </p>
+                        <p> Durata : {o.duration} Ore </p>
+                        <p>Mesaj : {o.description}</p>
+
+                        <Button
+                          onClick={() =>
+                            this.acceptOffer(
+                              o.id,
+                              j.id,
+                              o.user.username,
+                              o.cost,
+                              o.description
+                            )
+                          }
+                          className="btn btn-success"
+                        >
+                          Accept
+                       </Button>
+                      </div>
+                    ))
+                    ) : (
+                      /* If there are no offers currently display , here is where the message is displayed */
+                      <p>Inca nu am gasit suficient oferte pentru cererea dumneavoastra. Va rugam reveniti</p>
+                    )
+                )
+              }
+            </div>
+          ))
+        }
+      </div>
+    )
+  }
+
   render() {
+    console.log(this.state);
+
     if (this.state.chat === false) {
       return (
 
@@ -252,56 +351,7 @@ class Job extends Component {
             Creaza cerere
           </Button>
           <h3> Cereri active</h3>
-          <div className="active-jobs">
-            {this.state.jobs.map(j => (
-              <div className="job-container" key={j.id}>
-                <h2>
-                  <span>
-                    id: {j.id}, descriere: {j.description}
-                  </span>
-
-                </h2>
-
-                <Button
-                  onClick={() => this.deleteJob(j.id)}
-                  className="btn btn-danger"
-                >
-                  Sterge
-                </Button>
-
-                <hr></hr>
-
-                {
-                  j.offers.map(o => (
-                    <div className="offer-container" key={o.id}>
-                      <img src={serviceImage} alt="Serviceimg" />
-                      <h3>Oferta de la {o.user.username}</h3>
-                      <p>{o.rating} <Icon className="rating-star" type="star" theme="filled" /></p>
-                      <p>Adresa: </p>
-                      <p>Pret : {o.cost} Ron </p>
-                      <p> Durata : {o.duration} Ore </p>
-                      <p>Mesaj : {o.description}</p>
-
-                      <Button
-                        onClick={() =>
-                          this.acceptOffer(
-                            o.id,
-                            j.id,
-                            o.user.username,
-                            o.cost,
-                            o.description
-                          )
-                        }
-                        className="btn btn-success"
-                      >
-                        Accept
-                    </Button>
-                    </div>
-                  ))
-                }
-              </div>
-            ))}
-          </div>
+          {this.getOffers()}
           <Modal show={this.state.show} onHide={this.handleClose}>
             <Modal.Header closeButton>
               <h1 className="page-title"> Cu ce te putem ajuta ? </h1>
