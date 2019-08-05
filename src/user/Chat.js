@@ -31,6 +31,7 @@ export class Chat extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.getConversation = this.getConversation.bind(this);
     this.getAllMessages = this.getAllMessages.bind(this);
+    this.review = this.review.bind(this);
   }
 
   handleChange(event) {
@@ -129,6 +130,10 @@ export class Chat extends Component {
 
   }
 
+  review(id) {
+    console.log(id);
+  }
+
 
   componentDidMount() {
 
@@ -162,8 +167,16 @@ export class Chat extends Component {
   render() {
 
     return (
-      <div className="chat" >
-        <h1>Chat</h1>
+      <div className="chat">
+        <div className="chat__heading">
+          <h1>Conversatie cu service-ul {this.props.jobId}</h1>
+          <p>Va rugam stabiliti detaliile reparatiei apoi apasati pe butonul "Reparatia s-a terminat" </p>
+
+        </div>
+        <div className="chat__container" >
+
+          {/* 
+        
         <div className="chatIcons">
           {this.state.chats &&
             this.state.chats.map(c => (
@@ -173,43 +186,60 @@ export class Chat extends Component {
               >
                 {c.user.name.substring(0, 1)}
               </Button>
-            ))}
-        </div>
-        <div className="chatSend">
-          <Form onSubmit={this.handleSubmit} className="chat-form">
-            <FormItem>
-              <Input
-                prefix={<Icon type="mail" />}
-                size="large"
-                name="message"
-                value={this.state.message}
-                type="text"
-                placeholder="Mesaj"
-                required
-                onChange={event => this.handleChange(event)}
-              />
-            </FormItem>
+            ))
+          }
+        </div> */}
 
-            <Button
-              type="primary"
-              htmlType="submit"
-              size="large"
-              disabled={!this.state.message}
-              className="chat-form-button"
-            >
-              Trimite mesaj
+          <div className="chat__box">
+
+            <Form onSubmit={this.handleSubmit} className="chat__form">
+              <FormItem>
+                <Input
+                  prefix={<Icon type="mail" />}
+                  size="large"
+                  name="message"
+                  value={this.state.message}
+                  type="text"
+                  placeholder="Mesaj"
+                  required
+                  onChange={event => this.handleChange(event)}
+                />
+              </FormItem>
+
+              <Button
+                type="primary"
+                htmlType="submit"
+                size="large"
+                //disabled={!this.state.message}
+                className="chat-form-button"
+              >
+                Trimite mesaj
             </Button>
-          </Form>
-          <div className="conversationBox">
-            <p>Hey</p>
-            {this.state.conversation &&
-              this.state.conversation.map(d => (
-                <p key={d.id}>
-                  {d.fromUser.username} : {d.message}
-                  <span className="time">{d.timestamp.substring(11, 16)}</span>
-                </p>
-              ))}
+            </Form>
+            <div className="conversationBox">
+              <p>Hey</p>
+              {this.state.conversation &&
+                this.state.conversation.map(d => (
+                  <p key={d.id}>
+                    {d.fromUser.username} : {d.message}
+                    <span className="time">{d.timestamp.substring(11, 16)}</span>
+                  </p>
+                ))}
+            </div>
           </div>
+          <div className="chat__details">
+            <h2> Detaliile cererii si oferta acceptata:
+          {/* {this.props.jobs.find(this.props.jobId)} */}
+              {/* Pret: {this.props.offers[0].cost} Ron
+          <br></br>
+          Durata: {this.props.offers[0].duration} Ore
+          <br></br>
+          Descriere: {this.props.offers[0].description} */}
+            </h2>
+            <Button type="primary" className="btn btn-warning" size="large" onClick={() => this.review(this.props.jobId)}> Reparatia s-a terminat !</Button>
+
+          </div>
+
         </div>
       </div>
     );

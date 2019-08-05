@@ -229,7 +229,6 @@ class Job extends Component {
   }
 
   seeChat(jobId) {
-    console.log('job id ' + jobId);
     this.setState({
       jobId: jobId,
       chat: true
