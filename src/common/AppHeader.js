@@ -17,9 +17,9 @@ class AppHeader extends Component {
 
 
   handleMenuClick({ key }) {
-    if (key === "logout") {
-      this.props.onLogout();
-    }
+
+    this.props.onLogout();
+
   }
 
   getMessages() {
@@ -48,7 +48,7 @@ class AppHeader extends Component {
           <Link to="/Profile">Profile</Link>
         </Menu.Item>,
         <Menu.Item key="logout" className="nav-item">
-          <Link to="/login">Logout</Link>
+          <Link to="/" onClick={this.handleMenuClick} >Logout</Link>
         </Menu.Item>
       ];
     } else {

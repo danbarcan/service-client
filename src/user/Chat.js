@@ -230,13 +230,13 @@ export class Chat extends Component {
           <div className="chat__details">
             <h2> Detaliile cererii si oferta acceptata:
           {/* {this.props.jobs.find(this.props.jobId)} */}
-              {/* Pret: {this.props.offers[0].cost} Ron
-          <br></br>
-          Durata: {this.props.offers[0].duration} Ore
-          <br></br>
-          Descriere: {this.props.offers[0].description} */}
+              {/* Pret: {this.jobDetails.cost} Ron */}
+              <br></br>
+              {/* Durata: {this.jobDetails.duration} Ore */}
+              <br></br>
+              Descriere: {this.jobDetails.description}
             </h2>
-            <Button type="primary" className="btn btn-warning" size="large" onClick={() => this.review(this.props.jobId)}> Reparatia s-a terminat !</Button>
+            <Button type="primary" className="btn btn-warning" size="large" onClick={() => this.review(this.jobDetails.jobId)}> Reparatia s-a terminat !</Button>
 
           </div>
 

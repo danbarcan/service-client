@@ -228,10 +228,16 @@ class Job extends Component {
       });
   }
 
-  seeChat(jobId) {
+  seeChat(jobId, serviceName, cost, description) {
     this.setState({
       jobId: jobId,
-      chat: true
+      chat: true,
+      jobDetails: {
+        jobId: jobId,
+        serviceName: serviceName,
+        cost: cost,
+        description: description
+      },
     })
   }
 
@@ -291,7 +297,7 @@ class Job extends Component {
                     <p>Pret : {j.offers[0].cost} Ron </p>
                     <p> Durata : {j.offers[0].duration} Ore </p>
                     <p>Mesaj : {j.description}</p>
-                    <Button onClick={() => this.seeChat(j.id)} className="btn btn-success" >
+                    <Button onClick={() => this.seeChat(j.id, j.acceptedService.name, j.cost, j.description)} className="btn btn-success" >
                       Vezi conversatie
                     </Button>
                   </div>
