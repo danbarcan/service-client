@@ -244,3 +244,11 @@ export function getAllJobsWithMessages() {
     method: "GET"
   });
 }
+
+export function sendReview(reviewRequest) {
+  return request({
+    url: API_BASE_URL + "/chat/review",
+    method: "POST",
+    body: JSON.stringify(reviewRequest)
+  });
+}

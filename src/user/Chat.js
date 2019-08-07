@@ -1,12 +1,15 @@
 import React, { Component } from "react";
 import {
+  sendReview,
   sendMessage,
   getMessagesByJob,
   getCurrentUser,
   getAllJobsWithMessages,
 } from "../util/APIUtils";
 import "./Chat.css";
-import { Form, Input, Button, Icon, notification } from "antd";
+import { Modal } from "react-bootstrap";
+import TextArea from "antd/lib/input/TextArea";
+import { Form, Input, Button, Icon, notification, Rate } from "antd";
 const FormItem = Form.Item;
 
 export class Chat extends Component {
@@ -21,6 +24,9 @@ export class Chat extends Component {
       jobId: "",
       activeConversationId: "",
       currentUserRole: "",
+      showModal: false,
+      reviewText: " ",
+      stars: 0
 
     };
 
@@ -29,9 +35,12 @@ export class Chat extends Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleClose = this.handleClose.bind(this);
     this.getConversation = this.getConversation.bind(this);
     this.getAllMessages = this.getAllMessages.bind(this);
     this.review = this.review.bind(this);
+    this.handleReview = this.handleReview.bind(this);
+    this.handleRatingChange = this.handleRatingChange.bind(this)
   }
 
   handleChange(event) {
@@ -43,6 +52,14 @@ export class Chat extends Component {
       [inputName]: inputValue
     });
   }
+
+  handleClose(event) {
+    this.setState({
+      showModal: false
+    })
+  }
+
+
 
   getAllMessages() {
 
@@ -89,6 +106,39 @@ export class Chat extends Component {
     console.log(this.state.conversation);
   }
 
+  handleReview(event) {
+    console.log(event);
+    event.target.reset();
+    const review = this.state.reviewText;
+    const reviewRequest = {
+      reviewDescription: review,
+      reviewStars: this.state.stars,
+      jobId: this.props.jobDetails.jobId,
+    }
+
+    sendReview(reviewRequest)
+      .then(response => {
+        notification.success({
+          message: "Polling App",
+          description: "Multumim. Mesajul a fost trimis "
+        })
+      })
+      .catch(error => {
+        notification.error({
+          message: "Polling App",
+          description:
+            error.message || "Ne cerem scuze nu am putut trimite recenzia. Va rugam reincercati"
+        });
+      })
+      .then(
+        this.setState({
+          reviewStars: 0,
+          reviewText: " "
+        })
+      )
+
+  }
+
   handleSubmit(event) {
     event.target.reset();
     event.preventDefault();
@@ -132,6 +182,16 @@ export class Chat extends Component {
 
   review(id) {
     console.log(id);
+    this.setState({
+      showModal: true
+    })
+  }
+
+  handleRatingChange(value) {
+    console.log(value);
+    this.setState({
+      stars: value
+    })
   }
 
 
@@ -237,14 +297,49 @@ export class Chat extends Component {
               <br></br>
               Descriere: {this.props.jobDetails.description}
             </h3>
-            <Button type="primary" className="btn btn-warning" size="large" onClick={() => this.review(this.jobDetails.jobId)}> Reparatia s-a terminat !</Button>
+            <Button type="primary" className="btn btn-warning" size="large" onClick={() => this.review(this.props.jobDetails.jobId)}> Reparatia s-a terminat !</Button>
 
           </div>
 
         </div>
+        <Modal show={this.state.showModal} onHide={this.handleClose}>
+          <Modal.Header closeButton>
+            <h1 className="page-title"> Cum a fost reparatia ? </h1>
+          </Modal.Header>
+          <Modal.Body>
+            <Form onSubmit={this.handleReview} className="signup-form">
+              <Rate value={this.state.stars} onChange={this.handleRatingChange}></Rate>
+
+              <FormItem
+                label="Descrie cum a fost reparatia"
+                hasFeedback>
+                <Input
+                  size="large"
+                  name="reviewText"
+                  value={this.state.reviewText}
+                  type="text"
+                  required
+                  onChange={event => this.handleChange(event)}
+                />
+              </FormItem>
+              <FormItem>
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  size="large"
+                  className="signup-form-button"
+                >
+                  Trimite
+                </Button>
+              </FormItem>
+            </Form>
+          </Modal.Body>
+        </Modal>
       </div>
     );
   }
 }
+
+
 
 export default Chat;
