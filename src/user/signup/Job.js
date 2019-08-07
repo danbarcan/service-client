@@ -208,13 +208,14 @@ class Job extends Component {
 
   }
 
-  acceptOffer(offerId, jobId, serviceName, cost, description) {
+  acceptOffer(offerId, jobId, serviceName, cost, duration, description) {
     acceptOffer(offerId)
       .then(() => {
         this.setState({
           jobDetails: {
             jobId: jobId,
             serviceName: serviceName,
+            duration: duration,
             cost: cost,
             description: description
           },
@@ -228,13 +229,14 @@ class Job extends Component {
       });
   }
 
-  seeChat(jobId, serviceName, cost, description) {
+  seeChat(jobId, serviceName, cost, duration, description) {
     this.setState({
       jobId: jobId,
       chat: true,
       jobDetails: {
         jobId: jobId,
         serviceName: serviceName,
+        duration: duration,
         cost: cost,
         description: description
       },
@@ -297,7 +299,7 @@ class Job extends Component {
                     <p>Pret : {j.offers[0].cost} Ron </p>
                     <p> Durata : {j.offers[0].duration} Ore </p>
                     <p>Mesaj : {j.description}</p>
-                    <Button onClick={() => this.seeChat(j.id, j.acceptedService.name, j.cost, j.description)} className="btn btn-success" >
+                    <Button onClick={() => this.seeChat(j.id, j.acceptedService.name, j.offers[0].cost, j.offers[0].duration, j.description)} className="btn btn-success" >
                       Vezi conversatie
                     </Button>
                   </div>
