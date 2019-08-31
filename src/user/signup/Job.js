@@ -5,7 +5,8 @@ import {
   deleteJob,
   getOffers,
   acceptOffer,
-  getAllCars
+  getAllCars,
+  getCategories
 } from "../../util/APIUtils";
 import "./Signup.css";
 import { withRouter } from "react-router-dom";
@@ -21,9 +22,14 @@ const FormItem = Form.Item;
 
 const { Option } = Select;
 const children = [];
-for (let i = 10; i < 36; i++) {
-  children.push(<Option key={i.toString(36) + i}>{i.toString(36) + i}</Option>);
-}
+
+getCategories().then(response => {
+  console.log(response);
+  for (let i = 0; i < response.length; i++) {
+    children.push(<Option key={i}>{response[i].description}</Option>);
+  }
+})
+
 
 class Job extends Component {
   constructor(props) {
@@ -87,6 +93,7 @@ class Job extends Component {
   }
 
   handleShow() {
+
     this.setState({ show: true });
   }
 
@@ -393,7 +400,7 @@ class Job extends Component {
                     mode="multiple"
                     style={{ width: '100%' }}
                     placeholder="Please select"
-                    defaultValue={['a10', 'c12']}
+                    defaultValue={['Toate Categoriile']}
                     onChange={this.handleMultipleSelect}
                   >
                     {children}

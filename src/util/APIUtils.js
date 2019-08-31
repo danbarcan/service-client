@@ -252,3 +252,10 @@ export function sendReview(reviewRequest) {
     body: JSON.stringify(reviewRequest)
   });
 }
+
+export function getCategories() {
+  return request({
+    url: API_BASE_URL + "/users/allCategories",
+    method: "GET"
+  });
+}
