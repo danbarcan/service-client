@@ -5,6 +5,7 @@ import { getCurrentUser, } from "../util/APIUtils";
 import { ACCESS_TOKEN } from "../constants";
 
 import Login from "../user/login/Login";
+import Forgot from "../user/login/Forgot";
 import Home from "../user/home/Home";
 import Contact from "../user/contact/Contact";
 import Job from "../user/signup/Job";
@@ -15,7 +16,6 @@ import AppFooter from "../common/AppFooter";
 import NotFound from "../common/NotFound";
 import Chat from "../user/Chat";
 import LoadingIndicator from "../common/LoadingIndicator";
-
 import { Layout, notification } from "antd";
 import JobList from "../poll/JobList";
 import AddCar from "../util/AddCar";
@@ -218,6 +218,7 @@ class App extends Component {
               <Route path="/signup" component={Signup} />
               <Route path="/home" component={Home} />
               <Route path="/contact" component={Contact} />
+              <Route path="/forgot-password" component={Forgot} />
 
               <Route
                 path="/users/:username"

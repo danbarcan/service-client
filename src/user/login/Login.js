@@ -61,7 +61,7 @@ class LoginForm extends Component {
     const { getFieldDecorator } = this.props.form;
     return (
       <Form onSubmit={this.handleSubmit} className="login-form">
-        <FormItem>
+        <FormItem label="Nume de utilizator sau email">
           {getFieldDecorator("usernameOrEmail", {
             rules: [
               {
@@ -78,7 +78,7 @@ class LoginForm extends Component {
             />
           )}
         </FormItem>
-        <FormItem>
+        <FormItem label="Parola ">
           {getFieldDecorator("password", {
             rules: [{ required: true, message: "Please input your Password!" }]
           })(
@@ -92,15 +92,18 @@ class LoginForm extends Component {
           )}
         </FormItem>
         <FormItem>
+          <a className="login-form-forgot" href="/forgot-password">
+            Am uitat parola !
+          </a>
           <Button
             type="primary"
             htmlType="submit"
             size="large"
             className="login-form-button"
           >
-            Login
+            Logare
           </Button>
-          Or <Link to="/signup">register now!</Link>
+          Sau <Link to="/signup">Inscriete acum !</Link>
         </FormItem>
       </Form>
     );

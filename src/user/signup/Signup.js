@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import {
   signup,
   checkUsernameAvailability,
-  checkEmailAvailability
+  checkEmailAvailability, getCategories
 } from "../../util/APIUtils";
 import "./Signup.css";
 import { Link } from "react-router-dom";
@@ -20,9 +20,19 @@ import {
 
 import { Tab, Tabs, Nav, NavItem, Row, Col } from "react-bootstrap";
 
-import { Form, Input, Button, notification } from "antd";
+import { Form, Input, Button, notification, Select } from "antd";
 
 const FormItem = Form.Item;
+
+const { Option } = Select;
+const children = [];
+
+getCategories().then(response => {
+  console.log(response);
+  for (let i = 0; i < response.length; i++) {
+    children.push(<Option key={i}>{response[i].description}</Option>);
+  }
+})
 
 class Signup extends Component {
   constructor(props) {
@@ -131,7 +141,7 @@ class Signup extends Component {
 
   render() {
     return (
-      <div className="signup-container">
+      <div className="login-container">
         <Tab.Container defaultActiveKey={1} id="uncontrolled-tab-example">
           <Row className="clearfix">
             <Col sm={12}>
@@ -387,6 +397,17 @@ class Signup extends Component {
                           }
                         />
                       </FormItem>
+                      <FormItem label="Ce fel de reparatii face service-ul ?">
+                        <Select
+                          mode="multiple"
+                          style={{ width: '100%' }}
+                          placeholder="Please select"
+                          defaultValue={['Toate Categoriile']}
+                          onChange={this.handleMultipleSelect}
+                        >
+                          {children}
+                        </Select>
+                      </FormItem>
                       <FormItem
                         label="CUI"
                         validateStatus={this.state.cui.validateStatus}
@@ -416,6 +437,7 @@ class Signup extends Component {
                         </Button>
                         Deja inscris ? <Link to="/login">Logheazate!</Link>
                       </FormItem>
+
                     </Form>
                   </div>
                 </Tab.Pane>
