@@ -107,13 +107,12 @@ export class Chat extends Component {
   }
 
   handleReview(event) {
-    console.log(event);
     event.target.reset();
     const review = this.state.reviewText;
     const reviewRequest = {
-      reviewDescription: review,
-      reviewStars: this.state.stars,
       jobId: this.props.jobDetails.jobId,
+      description: review,
+      rating: this.state.stars
     }
 
     sendReview(reviewRequest)
@@ -181,14 +180,12 @@ export class Chat extends Component {
   }
 
   review(id) {
-    console.log(id);
     this.setState({
       showModal: true
     })
   }
 
   handleRatingChange(value) {
-    console.log(value);
     this.setState({
       stars: value
     })

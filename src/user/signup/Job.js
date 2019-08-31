@@ -9,7 +9,7 @@ import {
 } from "../../util/APIUtils";
 import "./Signup.css";
 import { withRouter } from "react-router-dom";
-import { Form, Input, Button, notification } from "antd";
+import { Form, Input, Button, notification, Select } from "antd";
 import { Modal } from "react-bootstrap";
 import Chat from "../Chat";
 import TextArea from "antd/lib/input/TextArea";
@@ -18,6 +18,12 @@ import { Icon } from 'antd';
 
 
 const FormItem = Form.Item;
+
+const { Option } = Select;
+const children = [];
+for (let i = 10; i < 36; i++) {
+  children.push(<Option key={i.toString(36) + i}>{i.toString(36) + i}</Option>);
+}
 
 class Job extends Component {
   constructor(props) {
@@ -60,6 +66,7 @@ class Job extends Component {
     this.handleClose = this.handleClose.bind(this);
     this.handleShow = this.handleShow.bind(this);
     this.seeChat = this.seeChat.bind(this);
+    this.handleMultipleSelect = this.handleMultipleSelect.bind(this);
   }
 
   handleInputChange(event, validationFun) {
@@ -89,6 +96,12 @@ class Job extends Component {
     });
 
   }
+
+
+  handleMultipleSelect(value) {
+    console.log(`selected ${value}`);
+  }
+
 
   getCars() {
     let promise;
@@ -374,9 +387,21 @@ class Job extends Component {
                   ))
                   }
                 </FormItem>
+                <FormItem
+                  label="Alegeti categoria reparatiei">
+                  <Select
+                    mode="multiple"
+                    style={{ width: '100%' }}
+                    placeholder="Please select"
+                    defaultValue={['a10', 'c12']}
+                    onChange={this.handleMultipleSelect}
+                  >
+                    {children}
+                  </Select>
+                </FormItem>
 
                 <FormItem
-                  label="Descriere"
+                  label="Descrie problema masinii"
                   hasFeedback
                   validateStatus={this.state.description.validateStatus}
                   help={this.state.description.errorMsg}

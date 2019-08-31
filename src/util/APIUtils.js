@@ -247,7 +247,7 @@ export function getAllJobsWithMessages() {
 
 export function sendReview(reviewRequest) {
   return request({
-    url: API_BASE_URL + "/chat/review",
+    url: API_BASE_URL + "/users/review",
     method: "POST",
     body: JSON.stringify(reviewRequest)
   });
