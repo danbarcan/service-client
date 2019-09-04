@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { updateUser } from "../../util/APIUtils";
-
+import { Redirect } from 'react-router';
 import { Form, Input, Button, Icon, notification } from "antd";
 
 import "./Profile.css";
@@ -17,12 +17,13 @@ export class Profile extends Component {
       phone: " ",
       email: "",
       society: "",
-      address: ""
+      address: "",
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.validate = this.validate.bind(this);
+    this.handleNewPassword = this.handleNewPassword.bind(this);
   }
   validate(values) {
     const errors = {};
@@ -38,6 +39,8 @@ export class Profile extends Component {
     return errors;
   }
 
+
+
   handleChange(event) {
     const target = event.target;
     const inputName = target.name;
@@ -49,39 +52,71 @@ export class Profile extends Component {
     });
   }
 
+  handleNewPassword(event) {
+    if (event.target.value === this.state.pw) {
+      notification.warning({
+        message: "Polling App",
+        description:
+          " Parola trebuie sa fie diferita. Va rugam reincercati",
+        duration: 10
+      });
+    } else {
+      const target = event.target;
+      const inputName = target.name;
+      const inputValue = target.value;
+      this.validate(inputValue);
+
+      this.setState({
+        [inputName]: inputValue
+      });
+    }
+  }
+
   handleSubmit(event) {
     event.preventDefault();
-
-    const userRequest = {
-      id: this.props.currentUser.id,
-      name: this.state.name,
-      username: this.props.currentUser.username,
-      oldPassword: this.state.pw,
-      password: this.state.newpw,
-      phone: this.state.phone,
-      email: this.state.email,
-      serviceName: this.state.society,
-      serviceAddress: this.state.address
-    };
-    console.log(userRequest);
-    updateUser(userRequest)
-      .then(response => {
-        notification.success({
-          message: "Polling App",
-          description: "Multumim ! Noile detalii au fost salvate!"
-        });
+    if (this.state.newpw === this.state.pw) {
+      this.setState({
+        incorrectPassword: true
       })
-      .catch(error => {
-        notification.error({
-          message: "Polling App",
-          description:
-            error.message ||
-            "Oups! Ceva nu a mers corect, va rugam reincercati!"
+    } else {
+      const userRequest = {
+        id: this.props.currentUser.id,
+        name: this.state.name,
+        username: this.props.currentUser.username,
+        oldPassword: this.state.pw,
+        password: this.state.newpw,
+        phone: this.state.phone,
+        email: this.state.email,
+        serviceName: this.state.society,
+        serviceAddress: this.state.address,
+        redirectHome: false
+      };
+      updateUser(userRequest)
+        .then(response => {
+          notification.success({
+            message: "Polling App",
+            description: "Multumim ! Noile detalii au fost salvate!"
+          });
+          this.setState({
+            redirectHome: true
+          })
+        })
+        .catch(error => {
+          notification.error({
+            message: "Polling App",
+            description:
+              "Oups! Ceva nu a mers corect, va rugam reincercati!"
+          });
         });
-      });
+    }
   }
 
   render() {
+
+    const redirectHome = this.state.redirectHome;
+    if (redirectHome === true) {
+      return <Redirect to="/" />
+    }
     if (this.props.currentUser.role === "ROLE_USER") {
       return (
         <div className="profile">
@@ -116,7 +151,7 @@ export class Profile extends Component {
                 name="newpw"
                 type="password"
                 placeholder="Parola noua"
-                onChange={event => this.handleChange(event)}
+                onChange={event => this.handleNewPassword(event)}
               />
             </FormItem>
             <FormItem>
@@ -148,7 +183,7 @@ export class Profile extends Component {
               Salvare
             </Button>
           </Form>
-        </div>
+        </div >
       );
     } else {
       return (
@@ -225,5 +260,6 @@ export class Profile extends Component {
     }
   }
 }
+
 
 export default Profile;

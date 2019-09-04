@@ -106,7 +106,7 @@ class App extends Component {
   handleLogin() {
     notification.success({
       message: "Polling App",
-      description: "You're successfully logged in."
+      description: "Te-ai logat cu succes."
     });
     this.loadCurrentUser();
 
