@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Route, withRouter, Switch } from "react-router-dom";
 
-import { getCurrentUser, } from "../util/APIUtils";
+import { getCurrentUser, getUnreadMessages } from "../util/APIUtils";
 import { ACCESS_TOKEN } from "../constants";
 
 import Login from "../user/login/Login";
@@ -36,6 +36,8 @@ class App extends Component {
     this.loadCurrentUser = this.loadCurrentUser.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
     this.getUserProfile = this.getUserProfile.bind(this);
+    this.getMessages = this.getMessages.bind(this);
+
 
     notification.config({
       placement: "topRight",
@@ -63,6 +65,13 @@ class App extends Component {
           isLoading: false
         });
       });
+  }
+
+  getMessages() {
+
+    getUnreadMessages().then(response => {
+      console.log(response);
+    })
   }
 
   getUserProfile() {
@@ -104,6 +113,11 @@ class App extends Component {
     this.props.history.push("/");
   }
 
+  componentDidMount() {
+    this.getMessages();
+
+  }
+
   render() {
     if (this.state.isLoading) {
       return <LoadingIndicator />;
@@ -117,8 +131,17 @@ class App extends Component {
             onLogout={this.handleLogout}
           />
 
+          {/* <UnreadMessage style={this.state.showMyComponent ? {} : { display: 'none' }}> */}
+          <div className=" unreadMessages">
+            Ai 2 mesaje necitite. Verifica acum
+            </div> />
+          {/* </UnreadMessage> */}
+
+
+
           <Content className="app-content container">
             <div className="container">
+
               <div className="user-nav">
                 <h3> Salut {this.state.currentUserName}</h3>
                 <hr />
@@ -161,7 +184,7 @@ class App extends Component {
             onLogout={this.handleLogout}
           />
 
-          <Content className="app-content">
+          <Content className="app-content container">
             <div className="container" />
             <h3>Admin Dashboard</h3>
           </Content>
@@ -177,7 +200,7 @@ class App extends Component {
             onLogout={this.handleLogout}
           />
 
-          <Content className="app-content">
+          <Content className="app-content container">
             <div className="container" />
             <h3>Services Dashboard</h3>
             <Switch>
@@ -207,7 +230,7 @@ class App extends Component {
             onLogout={this.handleLogout}
           />
 
-          <Content className="app-content">
+          <Content className="app-content container">
             <Switch>
               <Route
                 path="/login"

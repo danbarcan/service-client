@@ -112,10 +112,20 @@ class JobList extends Component {
   }
 
   seeChat(id) {
+    var item = this.state.currentJobs[0].offers[0]
+
     this.setState({
       chat: true,
-      chatId: id
+      chatId: id,
+      jobDetails: {
+        cost: item.cost,
+        description: item.description,
+        duration: item.duration
+      }
     });
+
+    console.log(item)
+
   }
 
   handleSubmit(event) {
@@ -147,7 +157,11 @@ class JobList extends Component {
   }
 
   getAllJobs() {
-    getUnreadMessages();
+    getUnreadMessages().then(response => {
+      for (var i = 0; i < response.length; i++) {
+        console.log(response[i].value);
+      }
+    })
 
     let promise;
 
@@ -223,7 +237,6 @@ class JobList extends Component {
   }
 
   componentDidUpdate(nextProps) {
-    console.log(typeof (42));
     if (this.props.isAuthenticated !== nextProps.isAuthenticated) {
       // Reset State
       this.setState({

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+
 import {
   createJob,
   getJobs,
@@ -10,12 +11,19 @@ import {
 } from "../../util/APIUtils";
 import "./Signup.css";
 import { withRouter } from "react-router-dom";
-import { Form, Input, Button, notification, Select } from "antd";
+import { Form, Button, notification, Select } from "antd";
 import { Modal } from "react-bootstrap";
 import Chat from "../Chat";
 import TextArea from "antd/lib/input/TextArea";
 import serviceImage from "../../img/service.jpg";
 import { Icon } from 'antd';
+
+import {
+  geocodeByAddress,
+  getLatLng,
+} from 'react-places-autocomplete';
+import PlacesAutocomplete from 'react-places-autocomplete';
+
 
 
 const FormItem = Form.Item;
@@ -57,7 +65,13 @@ class Job extends Component {
       currentUser: this.props.currentUser.id,
       cars: [],
       chosenCar: '',
-      show: false
+      show: false,
+      city: '',
+      query: '',
+      address: '',
+      latLng: '',
+      categories: [],
+      unreadMessage: false
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -74,6 +88,21 @@ class Job extends Component {
     this.seeChat = this.seeChat.bind(this);
     this.handleMultipleSelect = this.handleMultipleSelect.bind(this);
   }
+
+
+
+  handleChange = address => {
+    this.setState({ address });
+  };
+
+  handleSelect = address => {
+    geocodeByAddress(address).then(this.setState({ address: address }))
+      .then(results => getLatLng(results[0]))
+      .then(latLng => this.setState({ latLng: latLng }))
+      .catch(error => console.error('Error', error));
+  };
+
+
 
   handleInputChange(event, validationFun) {
     const target = event.target;
@@ -97,6 +126,8 @@ class Job extends Component {
     this.setState({ show: true });
   }
 
+
+
   chooseCar(id) {
     this.setState({
       chosenCar: id
@@ -107,10 +138,16 @@ class Job extends Component {
 
   handleMultipleSelect(value) {
     console.log(`selected ${value}`);
+    this.setState({
+      categories: [value]
+    })
   }
 
 
+
+
   getCars() {
+
     let promise;
     promise = getAllCars(this.props.currentUser.id);
     if (!promise) {
@@ -144,15 +181,19 @@ class Job extends Component {
           year: this.state.cars[i].year,
           userId: this.props.currentUser.id,
           description: this.state.description.value,
-          email: this.state.email.value
+          email: this.state.email.value,
+          latLng: this.state.latLng,
+          cat: this.state.categories
+
         }
       }
     }
+
     createJob(jobRequest)
       .then(response => {
         notification.success({
           message: "Polling App",
-          description: "Thank you! Your job has been succesfully registered. "
+          description: "Multumim ! Cererea a fost inregistrata ! "
         });
       })
       .then(function () {
@@ -162,7 +203,7 @@ class Job extends Component {
         notification.error({
           message: "Polling App",
           description:
-            error.message || "Sorry! Something went wrong. Please try again!"
+            error.message || "Ne pare rau ! Ceva nu a functionat . Va rugam reincercati !"
         });
       });
   }
@@ -179,6 +220,7 @@ class Job extends Component {
 
   getJobs() {
 
+
     let promise;
     promise = getJobs(this.props.currentUser.id);
     if (!promise) {
@@ -190,6 +232,7 @@ class Job extends Component {
     });
     promise
       .then(response => {
+        console.log(response);
         this.setState({
           jobs: response,
           isLoading: false
@@ -203,6 +246,7 @@ class Job extends Component {
   }
 
   getOffers() {
+
     let promise;
     promise = getOffers(this.props.currentUser.id);
     if (!promise) {
@@ -224,8 +268,6 @@ class Job extends Component {
           isLoading: false
         });
       });
-
-
   }
 
   acceptOffer(offerId, jobId, serviceName, cost, duration, description) {
@@ -273,17 +315,17 @@ class Job extends Component {
   }
 
   componentDidMount() {
-    this.getCars(); {
-      this.getJobs();
-    }
-    {
-      this.getOffers();
-    }
+
+    this.getCars();
+    this.getJobs();
+    this.getOffers();
+
   }
 
   getOffers() {
     return (
       < div className="active-jobs" >
+
         {
           this.state.jobs.map(j => (
             <div className="job-container" key={j.id}>
@@ -365,7 +407,7 @@ class Job extends Component {
   }
 
   render() {
-    console.log(this.state);
+
 
     if (this.state.chat === false) {
       return (
@@ -424,6 +466,49 @@ class Job extends Component {
                       this.handleInputChange(event, this.validateDescription)
                     }
                   />
+                </FormItem>
+
+                <FormItem label="Locatie">
+                  <PlacesAutocomplete
+                    value={this.state.address}
+                    onChange={this.handleChange}
+                    onSelect={this.handleSelect}
+                  >
+                    {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
+                      <div>
+                        <input
+                          {...getInputProps({
+                            placeholder: 'Ex: Bucuresti, Cluj',
+                            className: 'location-search-input',
+                          })}
+                        />
+                        <div className="autocomplete-dropdown-container">
+                          {loading && <div>Loading...</div>}
+                          {suggestions.map(suggestion => {
+                            const className = suggestion.active
+                              ? 'suggestion-item--active'
+                              : 'suggestion-item';
+                            // inline style for demonstration purpose
+                            const style = suggestion.active
+                              ? { backgroundColor: '#fafafa', cursor: 'pointer' }
+                              : { backgroundColor: '#ffffff', cursor: 'pointer' };
+                            return (
+                              <div
+                                {...getSuggestionItemProps(suggestion, {
+                                  className,
+                                  style,
+                                })}
+                              >
+                                <span>{suggestion.description}</span>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    )}
+                  </PlacesAutocomplete>
+
+
                 </FormItem>
                 <FormItem>
                   <Button

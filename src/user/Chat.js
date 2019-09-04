@@ -85,25 +85,28 @@ export class Chat extends Component {
         });
       }
     })
-  };
+  }
 
   getConversation(id) {
-    getMessagesByJob(id).then(response => {
-      console.log(response);
-      // daca in response arrayu e gol facem setstate la conversation cu nimic . altfel trimitem ce avem acuma.
-      // Aratat numai conversatiile care au userul in ele in loc sa aratam toate conversatiile. Daca in job exista user id-ul gen.
-      this.setState({
-        jobId: id,
-        conversation: [...response],
-        isLoading: false
+    getMessagesByJob(id)
+      .then(response => {
+        console.log(response);
+        // daca in response arrayu e gol facem setstate la conversation cu nimic . altfel trimitem ce avem acuma.
+        // Aratat numai conversatiile care au userul in ele in loc sa aratam toate conversatiile. Daca in job exista user id-ul gen.
+        this.setState({
+          jobId: id,
+          conversation: [...response],
+          isLoading: false
+        });
       });
-    });
 
     this.setState({
       activeConversationId: id,
       isLoading: true
     });
     console.log(this.state.conversation);
+
+
   }
 
   handleReview(event) {
@@ -194,15 +197,19 @@ export class Chat extends Component {
 
   componentDidMount() {
 
-
     this.getAllMessages();
-
     getCurrentUser().then(response => {
       if (response.role === 'ROLE_USER') {
         console.log(this.props.jobId);
         this.getConversation(this.props.jobId)
+        this.interval = setInterval(() => {
+          this.getConversation(this.props.jobId);
+        }, 5000)
       } else {
-        this.getConversation(this.props.chatId);
+        this.getConversation(this.props.chatId)
+        this.interval = setInterval(() => {
+          this.getConversation(this.props.chatId);
+        }, 5000)
       }
       this.setState({
         currentUserRole: response.role,
@@ -215,6 +222,8 @@ export class Chat extends Component {
 
   componentWillMount() {
     this.getConversation(this.props.chatId);
+    clearInterval(this.interval);
+
   }
 
   componentWillReceiveProps() {
@@ -222,7 +231,7 @@ export class Chat extends Component {
   }
 
   render() {
-
+    console.log(this.props)
     return (
       <div className="chat">
         <div className="chat__heading">
@@ -288,6 +297,7 @@ export class Chat extends Component {
             <h2> Detaliile cererii si oferta acceptata:</h2>
             <h3>
               <br></br>
+
               Pret: {this.props.jobDetails.cost} Ron
               <br></br>
               Durata: {this.props.jobDetails.duration} Ore

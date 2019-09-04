@@ -24,7 +24,6 @@ class AppHeader extends Component {
 
   getMessages() {
     getUnreadMessages().then(response => {
-      console.log(response[Object.keys(response)[0]]);
       for (var i = 0; i < response.length; i++) {
         console.log(response[i].value);
       }

@@ -18,7 +18,7 @@ import {
   PHONE_MIN_LENGTH
 } from "../../constants";
 
-import { Tab, Tabs, Nav, NavItem, Row, Col } from "react-bootstrap";
+import { Tab, Nav, NavItem, Row, Col } from "react-bootstrap";
 
 import { Form, Input, Button, notification, Select } from "antd";
 
@@ -65,9 +65,7 @@ class Signup extends Component {
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.validateUsernameAvailability = this.validateUsernameAvailability.bind(
-      this
-    );
+    this.validateUsernameAvailability = this.validateUsernameAvailability.bind(this);
     this.validateEmailAvailability = this.validateEmailAvailability.bind(this);
     this.isFormInvalid = this.isFormInvalid.bind(this);
     this.isFormInvalidStaff = this.isFormInvalidStaff.bind(this);
@@ -104,7 +102,7 @@ class Signup extends Component {
         notification.success({
           message: "Polling App",
           description:
-            "Thank you! You're successfully registered. Please Login to continue!"
+            "Multumim ! V-ati inregistrat cu succes. Va rugam sa va logati !"
         });
         this.props.history.push("/login");
       })
@@ -112,7 +110,7 @@ class Signup extends Component {
         notification.error({
           message: "Polling App",
           description:
-            error.message || "Sorry! Something went wrong. Please try again!"
+            error.message || "Ne pare rau ! Ceva este in neregula. Va rugam reincercati !"
         });
       });
   }

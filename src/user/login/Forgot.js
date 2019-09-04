@@ -1,8 +1,6 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import { ACCESS_TOKEN } from "../../constants";
 
-import { Form, Input, Button, Icon, notification } from "antd";
+import { Form, Input, Button, Icon } from "antd";
 const FormItem = Form.Item;
 
 
