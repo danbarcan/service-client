@@ -139,7 +139,7 @@ class Job extends Component {
   handleMultipleSelect(value) {
     console.log(`selected ${value}`);
     this.setState({
-      categories: [value]
+      categories: value
     })
   }
 
@@ -182,9 +182,10 @@ class Job extends Component {
           userId: this.props.currentUser.id,
           description: this.state.description.value,
           email: this.state.email.value,
-          latLng: this.state.latLng,
-          cat: this.state.categories
-
+          lat: this.state.latLng.lat,
+          lng: this.state.latLng.lng,
+          categories: this.state.categories,
+          carId: this.state.chosenCar
         }
       }
     }
