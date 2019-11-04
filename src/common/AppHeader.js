@@ -72,7 +72,7 @@ class AppHeader extends Component {
         <div className="layout">
           <div className="app-title">
             <div className="logo" />
-            <Link to="/">Serviceul Meu</Link>
+            <Link to="/">Smart Service</Link>
           </div>
 
           <Menu

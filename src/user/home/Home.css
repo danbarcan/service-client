@@ -130,6 +130,7 @@ h2 {
   margin: 0 auto;
   display: flex;
   border-top: 2px solid #ebebeb;
+  border-bottom: 2px solid #ebebeb;
   padding: 100px 0px;
 }
 .icons-text--container {
@@ -152,7 +153,7 @@ h2 {
 
 .services-list {
   width: 100%;
-  padding: 100px 25%;
+  padding: 10% 0;
   font-size: 20px;
   line-height: 30px;
   background-color: #292b32;
@@ -166,7 +167,7 @@ h2 {
 
 .services-carousel {
   padding: 100px;
-  margin:10%;
+  margin:5%;
   background-color: #F4F7F6;
   text-align: center;
 }
@@ -195,28 +196,43 @@ h2 {
 }
 
 .services-carousel .ant-carousel {
-  width: 50%;
+  width: 60%;
   margin: 0 auto;
+  background-color: #F4F7F6;
+  border: 3px solid #001730;
+  
 }
 
 .ant-carousel .slick-dots li.slick-active button {
   color: black;
 }
 
+.services-carousel h3{
+  padding-bottom:50px;
+}
+
 
 footer {
-  display: flex !important;
+  display: inline-block;
   background-color: #333535;
-  padding: 0 10%;
+  padding: 5% 0;
   color: white;
 }
 .footer-container {
   width: 50%;
-  text-align: left;
+  display:inline-block;
+  margin: 0 auto;
+  text-align:center;
+
+}
+
+footer h2, h3 {
+  color:white;
 }
 
 .footer-container h2{
-  text-align:left;
+  margin-bottom:50px;
+
 }
 
 footer ul li {
@@ -230,9 +246,12 @@ footer ul{
 }
 
 .footer-signup {
-  justify-content: flex-end;
-  right: 0;
-  margin-left: 100px;
+  width:50%;
+  display:inline-block;
+  margin: 0 auto;
+  text-align:center;
+
+
 }
 
 .home .icons .icon-single i svg {
@@ -262,4 +281,22 @@ footer ul{
 
 .modal-content{
   padding: 0 20px;
+}
+
+.ant-layout-header{
+  height:67px;
+}
+
+
+.popupLink{
+  border:0;
+  background:none;
+  color:white;
+}
+
+.popupLink:hover{
+  background:none;
+  border:none;
+  border-bottom:1px solid white;
+  color:white;
 }

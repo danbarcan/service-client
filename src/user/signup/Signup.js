@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import {
   signup,
   checkUsernameAvailability,
-  checkEmailAvailability, getCategories
+  checkEmailAvailability, getCategories, checkCUI
 } from "../../util/APIUtils";
 import "./Signup.css";
 import { Link } from "react-router-dom";
@@ -17,6 +17,13 @@ import {
   PHONE_MAX_LENGTH,
   PHONE_MIN_LENGTH
 } from "../../constants";
+
+import {
+  geocodeByAddress,
+  getLatLng,
+} from 'react-places-autocomplete';
+import PlacesAutocomplete from 'react-places-autocomplete';
+
 
 import { Tab, Nav, NavItem, Row, Col } from "react-bootstrap";
 
@@ -33,6 +40,8 @@ getCategories().then(response => {
     children.push(<Option key={i}>{response[i].description}</Option>);
   }
 })
+
+
 
 class Signup extends Component {
   constructor(props) {
@@ -56,12 +65,12 @@ class Signup extends Component {
       service_name: {
         value: ""
       },
-      service_address: {
-        value: ""
-      },
+      service_address: '',
       cui: {
         value: ""
-      }
+      },
+      categories: [],
+      latLng: ''
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -69,6 +78,7 @@ class Signup extends Component {
     this.validateEmailAvailability = this.validateEmailAvailability.bind(this);
     this.isFormInvalid = this.isFormInvalid.bind(this);
     this.isFormInvalidStaff = this.isFormInvalidStaff.bind(this);
+    this.handleMultipleSelect = this.handleMultipleSelect.bind(this);
   }
 
   handleInputChange(event, validationFun) {
@@ -84,6 +94,25 @@ class Signup extends Component {
     });
   }
 
+  handleMultipleSelect(value) {
+    console.log(`selected ${value}`);
+    this.setState({
+      categories: [value]
+    })
+  }
+
+  // Autocomplete Location
+  handleChange = service_address => {
+    this.setState({ service_address });
+  };
+
+  handleSelect = service_address => {
+    geocodeByAddress(service_address).then(this.setState({ service_address: service_address }))
+      .then(results => getLatLng(results[0]))
+      .then(latLng => this.setState({ latLng: latLng }))
+      .catch(error => console.error('Error', error));
+  };
+
   handleSubmit(event) {
     event.preventDefault();
 
@@ -94,8 +123,10 @@ class Signup extends Component {
       password: this.state.password.value,
       phone: this.state.phone.value,
       serviceName: this.state.service_name.value,
-      serviceAddress: this.state.service_address.value,
-      cui: this.state.cui.value
+      cui: this.state.cui.value,
+      cat: this.state.categories,
+      lat: this.state.latLng.lat,
+      lng: this.state.latLng.lng
     };
     signup(signupRequest)
       .then(response => {
@@ -132,7 +163,6 @@ class Signup extends Component {
       this.state.phone.validateStatus === "success" &&
       this.state.password.validateStatus === "success" &&
       this.state.service_name.validateStatus === "success" &&
-      this.state.service_address.validateStatus === "success" &&
       this.state.cui.validateStatus === "success"
     );
   }
@@ -375,25 +405,46 @@ class Signup extends Component {
                       </FormItem>
                       <FormItem
                         label="Adresa"
-                        validateStatus={
-                          this.state.service_address.validateStatus
-                        }
-                        help={this.state.service_address.errorMsg}
+
                       >
-                        <Input
-                          size="large"
-                          name="service_address"
-                          type="text"
-                          autoComplete="off"
-                          placeholder="Adresa"
-                          value={this.state.service_address.value}
-                          onChange={event =>
-                            this.handleInputChange(
-                              event,
-                              this.validateServiceAddress
-                            )
-                          }
-                        />
+                        <PlacesAutocomplete
+                          value={this.state.service_address}
+                          onChange={this.handleChange}
+                          onSelect={this.handleSelect}
+                        >
+                          {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
+                            <div>
+                              <input
+                                {...getInputProps({
+                                  placeholder: 'Ex: Bucuresti, Cluj',
+                                  className: 'location-search-input',
+                                })}
+                              />
+                              <div className="autocomplete-dropdown-container">
+                                {loading && <div>Loading...</div>}
+                                {suggestions.map(suggestion => {
+                                  const className = suggestion.active
+                                    ? 'suggestion-item--active'
+                                    : 'suggestion-item';
+                                  // inline style for demonstration purpose
+                                  const style = suggestion.active
+                                    ? { backgroundColor: '#fafafa', cursor: 'pointer' }
+                                    : { backgroundColor: '#ffffff', cursor: 'pointer' };
+                                  return (
+                                    <div
+                                      {...getSuggestionItemProps(suggestion, {
+                                        className,
+                                        style,
+                                      })}
+                                    >
+                                      <span>{suggestion.description}</span>
+                                    </div>
+                                  );
+                                })}
+                              </div>
+                            </div>
+                          )}
+                        </PlacesAutocomplete>
                       </FormItem>
                       <FormItem label="Ce fel de reparatii face service-ul ?">
                         <Select
@@ -503,6 +554,16 @@ class Signup extends Component {
         errorMsg: "Codul unic de identificare este obligatoriu. "
       };
     } else {
+      // Fetch request pentru termene care sa verifice cuiul unei firme 
+
+      // if (cui.toString().length > 7) {
+      //   fetch('https://termene.ro/api/dateFirmaSumar.php?cui=' + cui, {
+      //     method: 'POST'
+      //   }).then(function (response) {
+      //     return response.json();
+      //   })
+      // }
+
       return {
         validateStatus: "success",
         errorMsg: null

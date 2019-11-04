@@ -5,11 +5,8 @@ import { Form, Input, Button, Icon, notification } from "antd";
 import {
   NAME_MIN_LENGTH,
   NAME_MAX_LENGTH,
-  USERNAME_MIN_LENGTH,
-  USERNAME_MAX_LENGTH,
   EMAIL_MAX_LENGTH,
   PASSWORD_MIN_LENGTH,
-  PASSWORD_MAX_LENGTH,
   PHONE_MAX_LENGTH,
   PHONE_MIN_LENGTH
 } from "../../constants";
@@ -64,7 +61,6 @@ export class Profile extends Component {
   }
 
   handleNewPassword(event) {
-    console.log('hei');
     // if (event.target.value === this.state.pw) {
     //   notification.warning({
     //     message: "Polling App",
@@ -125,7 +121,6 @@ export class Profile extends Component {
   }
 
   isFormInvalid() {
-    console.log(this.props);
     return !(
       this.state.name.validateStatus === "success" &&
       this.state.pw.validateStatus === "success" &&

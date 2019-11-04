@@ -259,3 +259,11 @@ export function getCategories() {
     method: "GET"
   });
 }
+
+export function checkCUI(cui) {
+  return request({
+    url: "https://termene.ro/api/dateFirmaSumar.php?cui=" + cui + "&tip=1 ",
+    method: "POST",
+    body: JSON.stringify(cui)
+  });
+}

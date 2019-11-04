@@ -134,12 +134,12 @@ class App extends Component {
           {/* <UnreadMessage style={this.state.showMyComponent ? {} : { display: 'none' }}> */}
           <div className=" unreadMessages">
             Ai 2 mesaje necitite. Verifica acum
-            </div> />
+          </div>
           {/* </UnreadMessage> */}
 
 
 
-          <Content className="app-content container">
+          <Content className="app-content ">
             <div className="container">
 
               <div className="user-nav">
@@ -184,7 +184,7 @@ class App extends Component {
             onLogout={this.handleLogout}
           />
 
-          <Content className="app-content container">
+          <Content className="app-content ">
             <div className="container" />
             <h3>Admin Dashboard</h3>
           </Content>
@@ -200,7 +200,7 @@ class App extends Component {
             onLogout={this.handleLogout}
           />
 
-          <Content className="app-content container">
+          <Content className="app-content ">
             <div className="container" />
             <h3>Services Dashboard</h3>
             <Switch>
@@ -230,7 +230,7 @@ class App extends Component {
             onLogout={this.handleLogout}
           />
 
-          <Content className="app-content container">
+          <Content className="app-content">
             <Switch>
               <Route
                 path="/login"
