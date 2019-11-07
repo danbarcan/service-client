@@ -3,6 +3,8 @@ import { Link, withRouter } from "react-router-dom";
 import "./AppHeader.css";
 import { Layout, Menu, Dropdown, Icon } from "antd";
 import { getUnreadMessages } from "../util/APIUtils";
+import logo from '../img/logo.png';
+
 const Header = Layout.Header;
 
 class AppHeader extends Component {
@@ -72,9 +74,10 @@ class AppHeader extends Component {
         <div className="layout">
           <div className="app-title">
             <div className="logo" />
-            <Link to="/">Smart Service</Link>
+            <Link to='/' >
+              <img className="navLogo" src={logo} alt="Smart Service Logo"></img>
+            </Link>
           </div>
-
           <Menu
             className="app-menu"
             mode="horizontal"

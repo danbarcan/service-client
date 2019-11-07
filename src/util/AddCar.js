@@ -8,6 +8,7 @@ import {
 import { Form, Input, Button, notification } from "antd";
 import { Modal } from "react-bootstrap";
 import "./AddCar.css";
+import carLogo from '../img/car-logo.png';
 
 const FormItem = Form.Item;
 
@@ -124,14 +125,19 @@ class AddCar extends Component {
       };
       addCar(carRequest)
         .then(response => {
+          this.setState({
+            cars: response,
+            isLoading: false
+          });
+        })
+        .then(response => {
           notification.success({
             message: "Polling App",
             description: "Multumim ! Masina a fost adaugat cu success!"
           });
         })
-        .then(function () {
-          window.location.reload();
-        })
+
+        .then(this.getAllCars())
         .catch(error => {
           notification.error({
             message: "Polling App",
@@ -150,13 +156,16 @@ class AddCar extends Component {
       };
       updateCar(carUpdateRequest)
         .then(response => {
+          this.setState({
+            cars: response,
+            isLoading: false
+          });
+        })
+        .then(response => {
           notification.success({
             message: "Polling App",
             description: "Multumim ! Masina a fost adaugat cu success!"
           });
-        })
-        .then(function () {
-          window.location.reload();
         })
         .catch(error => {
           notification.error({
@@ -191,6 +200,7 @@ class AddCar extends Component {
         <h3>Masinile adaugate:</h3>
         {this.state.cars.map(c => (
           <div className="car-container" key={c.id}>
+            <img src={carLogo} alt="Car Logo"></img>
             <h2>
               <span>
                 {c.make} {c.model}

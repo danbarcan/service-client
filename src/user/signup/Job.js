@@ -176,9 +176,7 @@ class Job extends Component {
     for (var i = 0; i < this.state.cars.length; i++) {
       if (this.state.chosenCar === this.state.cars[i].id) {
         var jobRequest = {
-          make: this.state.cars[i].make,
-          model: this.state.cars[i].model,
-          year: this.state.cars[i].year,
+          carId: this.state.chosenCar,
           userId: this.props.currentUser.id,
           description: this.state.description.value,
           email: this.state.email.value,
@@ -442,8 +440,8 @@ class Job extends Component {
                   <Select
                     mode="multiple"
                     style={{ width: '100%' }}
-                    placeholder="Please select"
-                    defaultValue={['Toate Categoriile']}
+                    placeholder="Categoria de reparatie dorita"
+
                     onChange={this.handleMultipleSelect}
                   >
                     {children}

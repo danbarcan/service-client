@@ -300,3 +300,9 @@ footer ul{
   border-bottom:1px solid white;
   color:white;
 }
+
+.footerLogo img{
+  width:300px;
+  height:150px;
+
+}

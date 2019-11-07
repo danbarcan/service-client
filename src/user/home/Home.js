@@ -5,6 +5,8 @@ import "./Home.css";
 import { Link } from 'react-router-dom';
 import { Modal } from "react-bootstrap";
 import { Form, Input, Button, Icon, notification, Carousel } from "antd";
+import logoWhite from '../../img/LogoWhite.ro.png';
+
 const FormItem = Form.Item;
 
 class Home extends Component {
@@ -246,7 +248,9 @@ class Home extends Component {
         </div>
         <footer>
           <div className="footer-container">
-            <h2>Smart Service</h2>
+            <div className="footerLogo">
+              <img src={logoWhite} alt=" Smart Service Logo White"></img>
+            </div>
             <div className="footer-social">
               <h3> Ne gasesti si aici:</h3>
               <Icon type="mail" href="http://google.com" />
@@ -397,8 +401,8 @@ class Home extends Component {
             <h3> Termeni si conditii </h3>
           </Modal.Header>
           <Modal.Body>
-            <div class="row">
-              <div class="col-lg border border-light p-5">
+            <div className="row">
+              <div className="col-lg border border-light p-5">
                 <p>Site-ul (numit in continuare “site”) este administrat de DD Web & Software Solutions SRL.</p>
                 <p>&nbsp;</p>
                 <p>1. <strong>Drepturi de proprietate intelectuala</strong></p>

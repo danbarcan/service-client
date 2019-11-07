@@ -4,6 +4,10 @@
   margin: 0 auto;
 }
 
+.transparent {
+  background-color:transparent !important;
+}
+
 
 .pac-container{
   z-index: 9999999;
@@ -18,6 +22,7 @@ body {
 .job-container {
   width: 100%;
   border: 1px solid #d3d3d3;
+  background-color:white;
   padding: 20px;
   margin: 20px auto;
   position:relative;
@@ -98,3 +103,4 @@ h1 {
   margin: 0 auto;
 
 }
+

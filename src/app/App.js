@@ -140,12 +140,17 @@ class App extends Component {
 
 
           <Content className="app-content ">
-            <div className="container">
+            <div className=" transparent container">
 
               <div className="user-nav">
                 <h3> Salut {this.state.currentUserName}</h3>
                 <hr />
                 <Switch>
+
+                  <Route exact path="/"
+                    render={props =>
+                      (<Job currentUser={this.state.currentUser} />
+                      )} />
                   <Route
                     exact
                     path="/Masini"
@@ -168,7 +173,6 @@ class App extends Component {
                     )}
                   />
                 </Switch>
-                <Job currentUser={this.state.currentUser} />
               </div>
             </div>
           </Content>

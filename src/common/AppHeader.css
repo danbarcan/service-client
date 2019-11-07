@@ -85,6 +85,8 @@
   }
 }
 
-.logo {
-  background-image: url("../img/logo.png");
+.navLogo{
+
+  width: 140px;
+  height:70px;
 }
