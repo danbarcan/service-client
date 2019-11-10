@@ -8,7 +8,6 @@ import {
 } from "../util/APIUtils";
 import "./Chat.css";
 import { Modal } from "react-bootstrap";
-import TextArea from "antd/lib/input/TextArea";
 import { Form, Input, Button, Icon, notification, Rate } from "antd";
 const FormItem = Form.Item;
 
@@ -90,7 +89,6 @@ export class Chat extends Component {
   getConversation(id) {
     getMessagesByJob(id)
       .then(response => {
-        console.log(response);
         // daca in response arrayu e gol facem setstate la conversation cu nimic . altfel trimitem ce avem acuma.
         // Aratat numai conversatiile care au userul in ele in loc sa aratam toate conversatiile. Daca in job exista user id-ul gen.
         this.setState({
@@ -104,13 +102,9 @@ export class Chat extends Component {
       activeConversationId: id,
       isLoading: true
     });
-    console.log(this.state.conversation);
-
-
   }
 
   handleReview(event) {
-    event.target.reset();
     const review = this.state.reviewText;
     const reviewRequest = {
       jobId: this.props.jobDetails.jobId,
@@ -121,23 +115,23 @@ export class Chat extends Component {
     sendReview(reviewRequest)
       .then(response => {
         notification.success({
-          message: "Polling App",
+          message: "Smart Service",
           description: "Multumim. Mesajul a fost trimis "
         })
       })
       .catch(error => {
         notification.error({
-          message: "Polling App",
+          message: "Smart Service",
           description:
             error.message || "Ne cerem scuze nu am putut trimite recenzia. Va rugam reincercati"
         });
       })
-      .then(
-        this.setState({
-          reviewStars: 0,
-          reviewText: " "
-        })
-      )
+    // .then(
+    //   this.setState({
+    //     reviewStars: 0,
+    //     reviewText: " "
+    //   })
+    // )
 
   }
 
@@ -153,7 +147,7 @@ export class Chat extends Component {
     sendMessage(messageRequest)
       .then(response => {
         notification.success({
-          message: "Polling App",
+          message: "Smart Service",
           description: "Multumim. Mesajul a fost trimis "
         })
         this.setState({
@@ -163,7 +157,7 @@ export class Chat extends Component {
       })
       .catch(error => {
         notification.error({
-          message: "Polling App",
+          message: "Smart Service",
           description:
             error.message || "Ne cerem scuze nu am putut trimite mesajul. Va rugam reincercati"
         });
@@ -231,7 +225,6 @@ export class Chat extends Component {
   }
 
   render() {
-    console.log(this.props)
     return (
       <div className="chat">
         <div className="chat__heading">
@@ -283,7 +276,6 @@ export class Chat extends Component {
             </Button>
             </Form>
             <div className="conversationBox">
-              <p>Hey</p>
               {this.state.conversation &&
                 this.state.conversation.map(d => (
                   <p key={d.id}>

@@ -64,10 +64,17 @@ h1 {
   padding-top:0px;
 }
 
-.rating-star{
+.rating-star svg{
   color:#ffe234;
-  width:2em;
-  height:2em;
+  width:20px;
+  height:20px;
+  vertical-align:sub;
+
+}
+
+.ratingBackground{
+  padding:10px;
+
 }
 
 

@@ -63,7 +63,7 @@ export class Profile extends Component {
   handleNewPassword(event) {
     // if (event.target.value === this.state.pw) {
     //   notification.warning({
-    //     message: "Polling App",
+    //     message: "Smart Service",
     //     description:
     //       " Parola trebuie sa fie diferita. Va rugam reincercati",
     //     duration: 10
@@ -103,7 +103,7 @@ export class Profile extends Component {
       updateUser(userRequest)
         .then(response => {
           notification.success({
-            message: "Polling App",
+            message: "Smart Service",
             description: "Multumim ! Noile detalii au fost salvate!"
           });
           this.setState({
@@ -112,7 +112,7 @@ export class Profile extends Component {
         })
         .catch(error => {
           notification.error({
-            message: "Polling App",
+            message: "Smart Service",
             description:
               "Oups! Va rugam sa introduceti parola actuala corecta!"
           });

@@ -132,7 +132,7 @@ class AddCar extends Component {
         })
         .then(response => {
           notification.success({
-            message: "Polling App",
+            message: "Smart Service",
             description: "Multumim ! Masina a fost adaugat cu success!"
           });
         })
@@ -140,7 +140,7 @@ class AddCar extends Component {
         .then(this.getAllCars())
         .catch(error => {
           notification.error({
-            message: "Polling App",
+            message: "Smart Service",
             description:
               error.message ||
               "Oups! Ceva nu a mers corect, va rugam reincercati!"
@@ -163,13 +163,13 @@ class AddCar extends Component {
         })
         .then(response => {
           notification.success({
-            message: "Polling App",
+            message: "Smart Service",
             description: "Multumim ! Masina a fost adaugat cu success!"
           });
         })
         .catch(error => {
           notification.error({
-            message: "Polling App",
+            message: "Smart Service",
             description:
               error.message ||
               "Oups! Ceva nu a mers corect, va rugam reincercati!"

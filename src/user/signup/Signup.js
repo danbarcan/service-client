@@ -131,7 +131,7 @@ class Signup extends Component {
     signup(signupRequest)
       .then(response => {
         notification.success({
-          message: "Polling App",
+          message: "Smart Service",
           description:
             "Multumim ! V-ati inregistrat cu succes. Va rugam sa va logati !"
         });
@@ -139,7 +139,7 @@ class Signup extends Component {
       })
       .catch(error => {
         notification.error({
-          message: "Polling App",
+          message: "Smart Service",
           description:
             error.message || "Ne pare rau ! Ceva este in neregula. Va rugam reincercati !"
         });

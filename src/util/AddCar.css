@@ -23,3 +23,6 @@
   margin:10px;
 }
 
+.car-container span{
+  text-transform: capitalize;
+}

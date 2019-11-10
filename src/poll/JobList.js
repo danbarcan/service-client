@@ -142,13 +142,13 @@ class JobList extends Component {
     createOffer(offerRequest)
       .then(response => {
         notification.success({
-          message: "Polling App",
+          message: "Smart Service",
           description: "Multumim ! Oferta a fost trimisa cu succes!"
         });
       })
       .catch(error => {
         notification.error({
-          message: "Polling App",
+          message: "Smart Service",
           description:
             error.message ||
             "Oups! Ceva nu a mers corect, va rugam reincercati!"

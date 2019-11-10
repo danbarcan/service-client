@@ -91,7 +91,7 @@ class Home extends Component {
     createAnonJob(jobRequest)
       .then(response => {
         notification.success({
-          message: "Polling App",
+          message: "Smart Service",
           description: "Thank you! Your job has been succesfully registered. "
         });
       })
@@ -100,7 +100,7 @@ class Home extends Component {
       })
       .catch(error => {
         notification.error({
-          message: "Polling App",
+          message: "Smart Service",
           description:
             error.message || "Sorry! Something went wrong. Please try again!"
         });

@@ -4,6 +4,7 @@ import { Route, withRouter, Switch } from "react-router-dom";
 import { getCurrentUser, getUnreadMessages } from "../util/APIUtils";
 import { ACCESS_TOKEN } from "../constants";
 
+
 import Login from "../user/login/Login";
 import Forgot from "../user/login/Forgot";
 import Home from "../user/home/Home";
@@ -92,20 +93,20 @@ class App extends Component {
     this.setState({
       currentUser: null,
       isAuthenticated: false
-    });
+    })
     this.props.history.push("/home");
-
     window.location.reload();
 
     notification[notificationType]({
-      message: "Polling App",
+      message: "Smart Service",
       description: description
     });
   }
 
+
   handleLogin() {
     notification.success({
-      message: "Polling App",
+      message: "Smart Service",
       description: "Te-ai logat cu succes."
     });
     this.loadCurrentUser();
@@ -191,6 +192,9 @@ class App extends Component {
           <Content className="app-content ">
             <div className="container" />
             <h3>Admin Dashboard</h3>
+
+
+
           </Content>
           <AppFooter currentUser={this.state.currentUser} {...this.state} />
         </Layout>

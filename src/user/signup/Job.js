@@ -31,6 +31,10 @@ const FormItem = Form.Item;
 const { Option } = Select;
 const children = [];
 
+const searchOptions = {
+  componentRestrictions: { country: ['ro'] }
+}
+
 getCategories().then(response => {
   console.log(response);
   for (let i = 0; i < response.length; i++) {
@@ -176,7 +180,6 @@ class Job extends Component {
     for (var i = 0; i < this.state.cars.length; i++) {
       if (this.state.chosenCar === this.state.cars[i].id) {
         var jobRequest = {
-          carId: this.state.chosenCar,
           userId: this.props.currentUser.id,
           description: this.state.description.value,
           email: this.state.email.value,
@@ -190,17 +193,20 @@ class Job extends Component {
 
     createJob(jobRequest)
       .then(response => {
+        this.setState({
+          jobs: response,
+          isLoading: false
+        });
+      })
+      .then(response => {
         notification.success({
-          message: "Polling App",
+          message: "Smart Service",
           description: "Multumim ! Cererea a fost inregistrata ! "
         });
       })
-      .then(function () {
-        window.location.reload();
-      })
       .catch(error => {
         notification.error({
-          message: "Polling App",
+          message: "Smart Service",
           description:
             error.message || "Ne pare rau ! Ceva nu a functionat . Va rugam reincercati !"
         });
@@ -232,8 +238,14 @@ class Job extends Component {
     promise
       .then(response => {
         console.log(response);
+        var availJobs = [];
+        for (var i = 0; i < response.length; i++) {
+          if (response[i].jobState !== "COMPLETED") {
+            availJobs.push(response[i])
+          }
+        }
         this.setState({
-          jobs: response,
+          jobs: availJobs,
           isLoading: false
         });
       })
@@ -354,9 +366,9 @@ class Job extends Component {
                   <div className="offer-container">
                     <h2> Service-ul care se va ocupa de reparatie este : {j.acceptedService.name} </h2>
                     <img src={serviceImage} alt="Serviceimg" />
-                    <p>{j.acceptedService.rating} <Icon className="rating-star" type="star" theme="filled" /></p>
+                    <p className="ratingBackground">{j.acceptedService.rating} <Icon className="rating-star" type="star" theme="filled" /></p>
                     <p>Adresa: {j.location}</p>
-                    <p>Numar : {j.acceptedService.phoneNumber}</p>
+                    <p>Numar : <a href="tel:${j.acceptedService.phoneNumber}"> {j.acceptedService.phoneNumber}</a></p>
                     <p>Pret : {j.offers[0].cost} Ron </p>
                     <p> Durata : {j.offers[0].duration} Ore </p>
                     <p>Mesaj : {j.description}</p>
@@ -469,10 +481,13 @@ class Job extends Component {
 
                 <FormItem label="Locatie">
                   <PlacesAutocomplete
+                    searchOptions={searchOptions}
                     value={this.state.address}
                     onChange={this.handleChange}
                     onSelect={this.handleSelect}
+
                   >
+
                     {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
                       <div>
                         <input
