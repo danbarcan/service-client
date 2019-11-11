@@ -548,28 +548,49 @@ class Signup extends Component {
   };
 
   validateCUI = cui => {
-    if (!cui) {
+    if (cui.toString().length < 8 || cui.toString().length > 8) {
       return {
         validateStatus: "error",
-        errorMsg: "Codul unic de identificare este obligatoriu. "
+        errorMsg: "Codul unic de identificare este invalid . Va rugam reincercati . "
       };
     } else {
       // Fetch request pentru termene care sa verifice cuiul unei firme 
+      if (cui.toString().length === 8) {
+        var condition = false;
 
-      // if (cui.toString().length > 7) {
-      //   fetch('https://termene.ro/api/dateFirmaSumar.php?cui=' + cui, {
-      //     method: 'POST'
-      //   }).then(function (response) {
-      //     return response.json();
-      //   })
-      // }
-
-      return {
-        validateStatus: "success",
-        errorMsg: null
-      };
+        checkCUI(cui)
+          .then(response => {
+            if (response.cui) {
+              this.setState({
+                cui: {
+                  value: cui,
+                  validateStatus: "success",
+                  errorMsg: null
+                }
+              });
+            } else {
+              this.setState({
+                cui: {
+                  value: cui,
+                  validateStatus: "error",
+                  errorMsg: "Este o problema cu Codul Unic de Inregistrare . Va rugam reincercati . "
+                }
+              })
+            }
+          })
+          .catch(error => {
+            // Marking validateStatus as success, Form will be recchecked at server
+            this.setState({
+              cui: {
+                value: cui,
+                validateStatus: "error",
+                errorMsg: 'Este o problema cu Codul Unic de Inregistrare . Va rugam reincercati .'
+              }
+            });
+          });
+      }
     }
-  };
+  }
 
   validatePhone = phone => {
     if (phone.length < PHONE_MIN_LENGTH) {

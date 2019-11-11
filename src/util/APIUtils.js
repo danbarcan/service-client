@@ -261,9 +261,16 @@ export function getCategories() {
 }
 
 export function checkCUI(cui) {
+  let url = 'https://termene.ro/api/dateFirmaSumar.php?cui=';
+  let username = 'dd_web';
+  let password = 'btP4Qtcq';
+  let headers = new Headers();
+  headers.set('Authorization', 'Basic ' + btoa(username + ":" + password));
+
   return request({
     url: "https://termene.ro/api/dateFirmaSumar.php?cui=" + cui + "&tip=1 ",
     method: "POST",
-    body: JSON.stringify(cui)
+    headers: headers
   });
+
 }
