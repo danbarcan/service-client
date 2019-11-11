@@ -35,9 +35,8 @@ const { Option } = Select;
 const children = [];
 
 getCategories().then(response => {
-  console.log(response);
   for (let i = 0; i < response.length; i++) {
-    children.push(<Option key={i}>{response[i].description}</Option>);
+    children.push(<Option key={response[i].description.toString()}>{response[i].description.toString()}</Option>);
   }
 })
 
@@ -67,7 +66,8 @@ class Signup extends Component {
       },
       service_address: '',
       cui: {
-        value: ""
+        value: "",
+        errorMsg: ' Verificarea CUI-ului se face prin intermediul Termene.ro '
       },
       categories: [],
       latLng: ''
@@ -584,7 +584,7 @@ class Signup extends Component {
               cui: {
                 value: cui,
                 validateStatus: "error",
-                errorMsg: 'Este o problema cu Codul Unic de Inregistrare . Va rugam reincercati .'
+                errorMsg: 'Este o problema cu Codul Unic de Inregistrare . Va rugam reincercati . Alternativ, puteti sa ne contactati la contact@smart-service.ro '
               }
             });
           });

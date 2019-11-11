@@ -36,9 +36,8 @@ const searchOptions = {
 }
 
 getCategories().then(response => {
-  console.log(response);
   for (let i = 0; i < response.length; i++) {
-    children.push(<Option key={i}>{response[i].description}</Option>);
+    children.push(<Option key={response[i].description.toString()}>{response[i].description.toString()}</Option>);
   }
 })
 
