@@ -5,7 +5,8 @@ import {
   getCurrentUser,
   hideJob,
   getUnreadMessages,
-  unhideJob
+  unhideJob,
+  deleteOffer
 } from "../util/APIUtils";
 import { Button, notification, Form, Input } from "antd";
 import { Modal } from "react-bootstrap";
@@ -47,6 +48,7 @@ class JobList extends Component {
     this.showNew = this.showNew.bind(this);
     this.showSent = this.showSent.bind(this);
     this.showHidden = this.showHidden.bind(this);
+    this.deleteOffer = this.deleteOffer.bind(this);
   }
 
   handleClose() {
@@ -101,14 +103,46 @@ class JobList extends Component {
     })
   }
 
-  hideJob(id) {
-    hideJob(id);
-    window.location.reload();
+  hideJob(offerId) {
+    hideJob(offerId);
+
+    let availJobsArray = this.state.availJobs;
+    let hiddenJobsArray = this.state.hiddenJobs;
+
+    Object.keys(availJobsArray).forEach((key) => {
+
+      if (availJobsArray[key].id == offerId) {
+        hiddenJobsArray.push(availJobsArray[key]);
+        this.setState({ hiddenJobs: hiddenJobsArray })
+      }
+    })
+
+    let updatedJobs = [...availJobsArray].filter(jobs => jobs.id !== offerId);
+    this.setState({ availJobs: updatedJobs });
+    notification.success({
+      message: "Smart Service",
+      description: "Multumim ! Cererea a fost ascunsa !"
+    });
   }
 
-  unhideJob(id) {
-    unhideJob(id)
-    window.location.reload();
+  unhideJob(offerId) {
+    unhideJob(offerId);
+    let availJobsArray = this.state.availJobs;
+    let hiddenJobsArray = this.state.hiddenJobs;
+
+    Object.keys(hiddenJobsArray).forEach((key) => {
+
+      if (hiddenJobsArray[key].id == offerId) {
+        availJobsArray.push(hiddenJobsArray[key]);
+        this.setState({ availJobs: availJobsArray })
+      }
+    })
+    let updatedJobs = [...hiddenJobsArray].filter(jobs => jobs.id !== offerId);
+    this.setState({ hiddenJobs: updatedJobs });
+    notification.success({
+      message: "Smart Service",
+      description: "Multumim ! Oferta a fost afisata din nou si se afla in Cereri Active!"
+    });
   }
 
   seeChat(id) {
@@ -123,9 +157,6 @@ class JobList extends Component {
         duration: item.duration
       }
     });
-
-    console.log(item)
-
   }
 
   handleSubmit(event) {
@@ -224,6 +255,17 @@ class JobList extends Component {
     this.getAllJobs();
     getCurrentUser();
     console.log(this.state);
+  }
+
+  deleteOffer(id) {
+    if (window.confirm("Sigur doriti sa stergeti aceasta cerere ?")) {
+      alert("Va multumim !");
+      deleteOffer(id);
+      let state = this.state.offeredJobs;
+      let updatedJobs = [...state].filter(jobs => jobs.id !== id);
+      state = updatedJobs;
+      this.setState({ offeredJobs: updatedJobs });
+    }
   }
 
   handleInputChange(event, validationFun) {
@@ -389,8 +431,6 @@ class JobList extends Component {
         </div>
 
       )
-
-
 
     } else if (this.state.showSent === true) {
       return (

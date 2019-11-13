@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Route, withRouter, Switch } from "react-router-dom";
 
-import { getCurrentUser, getUnreadMessages } from "../util/APIUtils";
+import { getCurrentUser, getUnreadMessages, getAllMessages } from "../util/APIUtils";
 import { ACCESS_TOKEN } from "../constants";
 
 
@@ -31,7 +31,8 @@ class App extends Component {
       currentUserName: null,
       currentUser: null,
       isAuthenticated: false,
-      isLoading: false
+      isLoading: false,
+      showMyComponent: false
     };
     this.handleLogout = this.handleLogout.bind(this);
     this.loadCurrentUser = this.loadCurrentUser.bind(this);
@@ -71,9 +72,31 @@ class App extends Component {
   getMessages() {
 
     getUnreadMessages().then(response => {
-      console.log(response);
+      let data = response;
+      var total = 0;
+      Object.keys(data).forEach(function (key) {
+        total = total + data[key];
+      })
+
+      if (total > 1) {
+        this.setState({
+          showMyComponent: true
+        })
+        getAllMessages().then(response => {
+          let Dataset = response
+          Object.keys(Dataset).forEach(function (key) {
+            console.log(Dataset[key][0].read);
+            console.log('idul jobului ', Dataset[key][0].job.id);
+
+            // if (Dataset[key][0].read === false) {
+            //   console.log(' idul jobului este ', response.key[0].job.id)
+            // }
+          })
+        })
+      }
     })
   }
+
 
   getUserProfile() {
     console.log(this.state);
@@ -109,9 +132,11 @@ class App extends Component {
       message: "Smart Service",
       description: "Te-ai logat cu succes."
     });
-    this.loadCurrentUser();
+    this.loadCurrentUser()
 
     this.props.history.push("/");
+    this.getMessages();
+
   }
 
   componentDidMount() {
@@ -131,14 +156,9 @@ class App extends Component {
             currentUser={this.state.currentUser}
             onLogout={this.handleLogout}
           />
-
-          {/* <UnreadMessage style={this.state.showMyComponent ? {} : { display: 'none' }}> */}
-          <div className=" unreadMessages">
-            Ai 2 mesaje necitite. Verifica acum
-          </div>
-          {/* </UnreadMessage> */}
-
-
+          {this.state.showMyComponent ? <div className="unreadMessages">
+            Aveti mesaje necitite. Verifica acum !
+          </div> : null}
 
           <Content className="app-content ">
             <div className=" transparent container">
@@ -189,6 +209,7 @@ class App extends Component {
             onLogout={this.handleLogout}
           />
 
+
           <Content className="app-content ">
             <div className="container" />
             <h3>Admin Dashboard</h3>
@@ -209,22 +230,26 @@ class App extends Component {
           />
 
           <Content className="app-content ">
-            <div className="container" />
-            <h3>Services Dashboard</h3>
-            <Switch>
-              <Route
-                exact
-                path="/"
-                render={props => (<JobList currentUser={this.state.currentUser} />
-                )}
-              />
-              <Route
-                exact
-                path="/Profile"
-                render={props => (<Profile currentUser={this.state.currentUser} />
-                )}
-              />
-            </Switch>
+            {this.state.showMyComponent ? <div className="unreadMessages">
+              Aveti mesaje necitite. Verifica acum !
+            </div> : null}
+            <div className="container">
+              <h3>Services Dashboard</h3>
+              <Switch>
+                <Route
+                  exact
+                  path="/"
+                  render={props => (<JobList currentUser={this.state.currentUser} />
+                  )}
+                />
+                <Route
+                  exact
+                  path="/Profile"
+                  render={props => (<Profile currentUser={this.state.currentUser} />
+                  )}
+                />
+              </Switch>
+            </div>
           </Content>
           <AppFooter />
         </Layout>

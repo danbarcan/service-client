@@ -14,7 +14,6 @@ class AppHeader extends Component {
       unreadMessage: false
     }
     this.handleMenuClick = this.handleMenuClick.bind(this);
-    this.getMessages = this.getMessages.bind(this)
   }
 
 
@@ -23,17 +22,7 @@ class AppHeader extends Component {
     this.props.onLogout();
 
   }
-
-  getMessages() {
-    getUnreadMessages().then(response => {
-      for (var i = 0; i < response.length; i++) {
-        console.log(response[i].value);
-      }
-    })
-  }
-
   render() {
-    this.getMessages();
     let menuItems;
     if (this.props.currentUser) {
       menuItems = [
@@ -46,7 +35,7 @@ class AppHeader extends Component {
           <Link to="/Masini">Masini </Link>
         </Menu.Item>,
         <Menu.Item key="Profile" className="nav-item">
-          <Link to="/Profile">Profile</Link>
+          <Link to="/Profile">Profil</Link>
         </Menu.Item>,
         <Menu.Item key="logout" className="nav-item">
           <Link to="/home" onClick={this.handleMenuClick} >Logout</Link>

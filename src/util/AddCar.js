@@ -90,7 +90,7 @@ class AddCar extends Component {
   }
 
   deleteCar(carId) {
-    if (window.confirm("Sigur doriti sa stergeti aceasta masina ?")) {
+    if (window.confirm("Sigur doriti sa stergeti aceasta masina ? Stergand masina se vor sterge si toate cererile.")) {
       deleteCar(carId);
       alert("Va multumim !");
       let state = this.state.cars;
