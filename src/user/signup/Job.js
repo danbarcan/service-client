@@ -37,8 +37,9 @@ const searchOptions = {
 
 getCategories().then(response => {
   for (let i = 0; i < response.length; i++) {
-    // children.push(<Option key={response[i].description.toString()}>{response[i].description.toString()}</Option>);
-    children.push(<Option key={response[i].id}>{response[i].description.toString()}</Option>);
+    console.log(children);
+    children.push(<Option key={response[i].description.toString()} > {response[i].description.toString()}</Option>);
+    // children.push(<Option key={response[i].id}>{response[i].description.toString()}</Option>);
   }
 })
 
@@ -126,7 +127,6 @@ class Job extends Component {
   }
 
   handleShow() {
-
     this.setState({ show: true });
   }
 
@@ -141,7 +141,7 @@ class Job extends Component {
 
 
   handleMultipleSelect(value) {
-    console.log(`selected ${value}`);
+
     this.setState({
       categories: value
     })
