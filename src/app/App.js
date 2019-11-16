@@ -102,10 +102,7 @@ class App extends Component {
     console.log(this.state);
   }
 
-  componentDidMount() {
-    this.loadCurrentUser();
-    this.getUserProfile();
-  }
+
 
   handleLogout(
     notificationType = "success",
@@ -140,8 +137,8 @@ class App extends Component {
   }
 
   componentDidMount() {
-    this.getMessages();
-
+    this.loadCurrentUser();
+    this.getUserProfile();
   }
 
   render() {
