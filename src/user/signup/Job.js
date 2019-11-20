@@ -348,72 +348,75 @@ class Job extends Component {
                 {/* If there is a car show car details to make it clear which car is getting fixed */}
                 {j.car &&
                   <span>
-                    Masina : {j.car.make} {j.car.model} {j.car.year}
+                    Masina {j.car.make} {j.car.model}
                   </span>
                 }
                 <span>
                   id: {j.id}, descriere: {j.description}
                 </span>
-
               </h2>
 
               <Button
                 onClick={() => this.deleteJob(j.id)}
                 className="btn btn-danger"
               >
-                Sterge
-                </Button>
+                <Icon className="trashIcon" type="delete"></Icon>
+              </Button>
 
               <hr></hr>
-              {j.acceptedService ?
-                (
-                  <div className="offer-container">
-                    <h2> Service-ul care se va ocupa de reparatie este : {j.acceptedService.name} </h2>
-                    <img src={serviceImage} alt="Serviceimg" />
-                    <p className="ratingBackground">{j.acceptedService.rating} <Icon className="rating-star" type="star" theme="filled" /></p>
-                    <p>Adresa: {j.location}</p>
-                    <p>Numar : <a href="tel:${j.acceptedService.phoneNumber}"> {j.acceptedService.phoneNumber}</a></p>
-                    <p>Pret : {j.offers[0].cost} Ron </p>
-                    <p> Durata : {j.offers[0].duration} Ore </p>
-                    <p>Mesaj : {j.description}</p>
-                    <Button onClick={() => this.seeChat(j.id, j.acceptedService.name, j.offers[0].cost, j.offers[0].duration, j.description)} className="btn btn-success" >
-                      Vezi conversatie
-                    </Button>
-                  </div>
-                ) : (
-                  j.offers && j.offers.length ?
-                    (j.offers.map(o => (
-                      <div className="offer-container" key={o.id}>
-                        <img src={serviceImage} alt="Serviceimg" />
-                        <h3>Oferta de la {o.user.username}</h3>
-                        <p>{o.rating} <Icon className="rating-star" type="star" theme="filled" /></p>
-                        <p>Adresa: </p>
-                        <p>Pret : {o.cost} Ron </p>
-                        <p> Durata : {o.duration} Ore </p>
-                        <p>Mesaj : {o.description}</p>
 
-                        <Button
-                          onClick={() =>
-                            this.acceptOffer(
-                              o.id,
-                              j.id,
-                              o.user.username,
-                              o.cost,
-                              o.description
-                            )
-                          }
-                          className="btn btn-success"
-                        >
-                          Accept
-                       </Button>
-                      </div>
-                    ))
-                    ) : (
-                      /* If there are no offers currently display , here is where the message is displayed */
-                      <p>Inca nu am gasit suficient oferte pentru cererea dumneavoastra. Va rugam reveniti</p>
-                    )
-                )
-              }
+              <div className="row ">
+                {j.acceptedService ?
+                  (
+                    <div className="offer-container col-md-6">
+                      <h2> Service-ul care se va ocupa de reparatie este : {j.acceptedService.name} </h2>
+                      <img src={serviceImage} alt="Serviceimg" />
+                      <p className="ratingBackground">{j.acceptedService.rating} <Icon className="rating-star" type="star" theme="filled" /></p>
+                      <p><Icon type="home" theme="filled"></Icon>Adresa: {j.location}</p>
+                      <p>Numar : <a href="tel:${j.acceptedService.phoneNumber}"> {j.acceptedService.phoneNumber}</a></p>
+                      <p>Pret : {j.offers[0].cost} Ron </p>
+                      <p>Durata : {j.offers[0].duration} Ore </p>
+                      <p>Mesaj : {j.description}</p>
+                      <Button onClick={() => this.seeChat(j.id, j.acceptedService.name, j.offers[0].cost, j.offers[0].duration, j.description)} className="btn btn-success" >
+                        Vezi conversatie
+                      </Button>
+                    </div>
+                  ) : (
+                    j.offers && j.offers.length ?
+                      (j.offers.map(o => (
+                        <div className="offer-container col-md-6" key={o.id}>
+                          <h3>{o.user.username}</h3>
+                          <p>{o.rating} <Icon className="rating-star" type="star" theme="filled" /></p>
+
+                          <img src={serviceImage} alt="Serviceimg" />
+
+                          <p><Icon type="pushpin"></Icon> Adresa: {o.user.serviceDetails.address}</p>
+                          <p> <Icon type="dollar" /> Pret : {o.cost} Ron </p>
+                          <p><Icon type="clock-circle" /> Durata : {o.duration} Ore </p>
+                          <p><Icon type="wechat" /> Mesaj : {o.description}</p>
+
+                          <Button
+                            onClick={() =>
+                              this.acceptOffer(
+                                o.id,
+                                j.id,
+                                o.user.username,
+                                o.cost,
+                                o.description
+                              )
+                            }
+                            className="btn btn-success">
+                            Accepta oferta
+                          </Button>
+                        </div>
+                      ))
+                      ) : (
+                        /* If there are no offers currently display , here is where the message is displayed */
+                        <p>Inca nu am gasit suficient oferte pentru cererea dumneavoastra. Va rugam reveniti</p>
+                      )
+                  )
+                }
+              </div>
             </div>
           ))
         }

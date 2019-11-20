@@ -111,7 +111,7 @@ class JobList extends Component {
 
     Object.keys(availJobsArray).forEach((key) => {
 
-      if (availJobsArray[key].id == offerId) {
+      if (availJobsArray[key].id === offerId) {
         hiddenJobsArray.push(availJobsArray[key]);
         this.setState({ hiddenJobs: hiddenJobsArray })
       }
