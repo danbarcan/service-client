@@ -127,10 +127,17 @@ class AddCar extends Component {
         .then(response => {
           this.setState({
             cars: response,
+            make: {
+              value: ""
+            },
+            model: {
+              value: ""
+            },
+            year: {
+              value: ""
+            },
             isLoading: false
           });
-        })
-        .then(response => {
           notification.success({
             message: "Smart Service",
             description: "Multumim ! Masina a fost adaugat cu success!"
@@ -395,10 +402,18 @@ class AddCar extends Component {
     };
   };
   validateYear = year => {
-    return {
-      validateStatus: "success",
-      errorMsg: null
-    };
+    if (year.length === 4) {
+      return {
+        validateStatus: "success",
+        errorMsg: null
+      };
+    } else {
+      return {
+        validateStatus: "error",
+        errorMsg: `Anul masinii nu este corect`
+      };
+    }
+
   };
 }
 export default AddCar;

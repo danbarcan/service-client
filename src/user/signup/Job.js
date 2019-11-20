@@ -193,16 +193,20 @@ class Job extends Component {
 
     createJob(jobRequest)
       .then(response => {
-        this.setState({
-          jobs: response,
-          isLoading: false
-        });
-      })
-      .then(response => {
         notification.success({
           message: "Smart Service",
           description: "Multumim ! Cererea a fost inregistrata ! "
         });
+        this.setState({
+          jobs: response,
+          show: false,
+          description: {
+            value: ""
+          },
+          categories: [],
+          isLoading: false
+        });
+
       })
       .catch(error => {
         notification.error({
@@ -377,7 +381,7 @@ class Job extends Component {
                     </Button>
                   </div>
                 ) : (
-                  j.offers.length > 0 ?
+                  j.offers && j.offers.length ?
                     (j.offers.map(o => (
                       <div className="offer-container" key={o.id}>
                         <img src={serviceImage} alt="Serviceimg" />
