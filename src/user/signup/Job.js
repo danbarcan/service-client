@@ -38,8 +38,8 @@ const searchOptions = {
 getCategories().then(response => {
   for (let i = 0; i < response.length; i++) {
     console.log(children);
-    children.push(<Option key={response[i].description.toString()} > {response[i].description.toString()}</Option>);
-    // children.push(<Option key={response[i].id}>{response[i].description.toString()}</Option>);
+    //children.push(<Option key={response[i].description.toString()} > {response[i].description.toString()}</Option>);
+    children.push(<Option key={response[i].id}>{response[i].description.toString()}</Option>);
   }
 })
 
@@ -454,6 +454,7 @@ class Job extends Component {
                     style={{ width: '100%' }}
                     placeholder="Categoria de reparatie dorita"
                     onChange={this.handleMultipleSelect}
+                    optionFilterProp="children"
                   >
                     {children}
                   </Select>
