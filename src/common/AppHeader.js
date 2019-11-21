@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
 import "./AppHeader.css";
-import { Layout, Menu, Dropdown, Icon } from "antd";
+import { Layout, Menu, Dropdown, Icon, Button, Drawer } from "antd";
 import { getUnreadMessages } from "../util/APIUtils";
 import logo from '../img/logo.png';
 
@@ -16,7 +16,16 @@ class AppHeader extends Component {
     this.handleMenuClick = this.handleMenuClick.bind(this);
   }
 
-
+  showDrawer = () => {
+    this.setState({
+      visible: true,
+    });
+  };
+  onClose = () => {
+    this.setState({
+      visible: false,
+    });
+  };
   handleMenuClick({ key }) {
 
     this.props.onLogout();
@@ -24,7 +33,9 @@ class AppHeader extends Component {
   }
   render() {
     let menuItems;
+
     if (this.props.currentUser) {
+
       menuItems = [
         <Menu.Item key="/">
           <Link to="/">
@@ -56,6 +67,8 @@ class AppHeader extends Component {
           <Link to="/signup">Inregistrare</Link>
         </Menu.Item>
       ];
+
+
     }
 
     return (
@@ -75,8 +88,23 @@ class AppHeader extends Component {
           >
             {menuItems}
           </Menu>
+          <Button className="barsMenu" type="primary" onClick={this.showDrawer}>
+            <Icon type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'} />
+          </Button>
+          <Drawer
+            title=""
+            placement="right"
+            closable={true}
+            onClose={this.onClose}
+            visible={this.state.visible}
+          >
+            <Menu>
+              {menuItems}
+            </Menu>
+
+          </Drawer>
         </div>
-      </Header>
+      </Header >
     );
   }
 }

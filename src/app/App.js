@@ -102,8 +102,6 @@ class App extends Component {
     console.log(this.state);
   }
 
-
-
   handleLogout(
     notificationType = "success",
     description = "You're successfully logged out."
@@ -253,13 +251,14 @@ class App extends Component {
       );
     } else {
       return (
+
+
         <Layout className="app-container">
           <AppHeader
             isAuthenticated={this.state.isAuthenticated}
             currentUser={this.state.currentUser}
             onLogout={this.handleLogout}
           />
-
           <Content className="app-content">
             <Switch>
               <Route
@@ -285,9 +284,10 @@ class App extends Component {
               />
               <Route component={NotFound} />
             </Switch>
-          </Content>
-          <AppFooter />
+            <AppFooter />
+          </Content >
         </Layout>
+
       );
     }
   }

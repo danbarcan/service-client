@@ -373,10 +373,10 @@ class Job extends Component {
                       <img src={serviceImage} alt="Serviceimg" />
                       <p className="ratingBackground">{j.acceptedService.rating} <Icon className="rating-star" type="star" theme="filled" /></p>
                       <p><Icon type="home" theme="filled"></Icon>Adresa: {j.location}</p>
-                      <p>Numar : <a href="tel:${j.acceptedService.phoneNumber}"> {j.acceptedService.phoneNumber}</a></p>
-                      <p>Pret : {j.offers[0].cost} Ron </p>
-                      <p>Durata : {j.offers[0].duration} Ore </p>
-                      <p>Mesaj : {j.description}</p>
+                      <p><Icon type="phone" />Numar : <a href="tel:${j.acceptedService.phoneNumber}"> {j.acceptedService.phoneNumber}</a></p>
+                      <p><Icon type="dollar" />Pret : {j.offers[0].cost} Ron </p>
+                      <p><Icon type="clock-circle" />Durata : {j.offers[0].duration} Ore </p>
+                      <p><Icon type="wechat" />Mesaj : {j.description}</p>
                       <Button onClick={() => this.seeChat(j.id, j.acceptedService.name, j.offers[0].cost, j.offers[0].duration, j.description)} className="btn btn-success" >
                         Vezi conversatie
                       </Button>
@@ -391,7 +391,7 @@ class Job extends Component {
                           <img src={serviceImage} alt="Serviceimg" />
 
                           <p><Icon type="pushpin"></Icon> Adresa: {o.user.serviceDetails.address}</p>
-                          <p> <Icon type="dollar" /> Pret : {o.cost} Ron </p>
+                          <p><Icon type="dollar" /> Pret : {o.cost} Ron </p>
                           <p><Icon type="clock-circle" /> Durata : {o.duration} Ore </p>
                           <p><Icon type="wechat" /> Mesaj : {o.description}</p>
 

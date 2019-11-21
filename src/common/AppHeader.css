@@ -90,3 +90,40 @@
   width: 140px;
   height:70px;
 }
+
+
+
+
+
+
+.barsMenu{
+  display:block;
+  position:absolute;
+  right:20px;
+  top:15px;
+}
+
+.barsMenu:hover{
+  background-color: white;
+}
+
+.app-menu{
+  display:none;
+}
+
+@media(min-width:768px){
+  .barsMenu{
+    display:none;
+  }
+  .app-menu{
+    display:block;
+  }
+}
+
+.menuBars .ant-menu-item a{
+  font-size:18px;
+}
+
+.ant-menu-vertical{
+  border-right:0;
+}
