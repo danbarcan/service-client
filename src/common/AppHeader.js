@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
 import "./AppHeader.css";
 import { Layout, Menu, Dropdown, Icon, Button, Drawer } from "antd";
-import { getUnreadMessages } from "../util/APIUtils";
 import logo from '../img/logo.png';
 
 const Header = Layout.Header;

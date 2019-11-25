@@ -268,7 +268,7 @@ export function checkCUI(cui) {
   headers.set('Authorization', 'Basic ' + btoa(username + ":" + password));
 
   return request({
-    url: "https://termene.ro/api/dateFirmaSumar.php?cui=" + cui + "&tip=1 ",
+    url: url + cui + "&tip=1 ",
     method: "POST",
     headers: headers
   });

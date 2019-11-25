@@ -556,8 +556,6 @@ class Signup extends Component {
     } else {
       // Fetch request pentru termene care sa verifice cuiul unei firme 
       if (cui.toString().length === 8) {
-        var condition = false;
-
         checkCUI(cui)
           .then(response => {
             if (response.cui) {
