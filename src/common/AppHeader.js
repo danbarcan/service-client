@@ -97,7 +97,8 @@ class AppHeader extends Component {
             onClose={this.onClose}
             visible={this.state.visible}
           >
-            <Menu>
+            <Menu onClick={this.onClose}
+            >
               {menuItems}
             </Menu>
 

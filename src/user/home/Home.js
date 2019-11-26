@@ -168,7 +168,7 @@ class Home extends Component {
           <h3>Cate ceva despre serviceuri aici </h3>
           <Carousel effect="fade" arrows="true">
             <div className="service-container">
-              <img src={serviceImage} alt="Serviceimg" />
+              <img className="service-container__image" src={serviceImage} alt=" Serviceimg" />
               <div className="service-body">
                 <h3>Bosch Service</h3>
                 <p>
@@ -256,7 +256,7 @@ class Home extends Component {
               <Icon type="mail" href="http://google.com" />
               <Icon type="phone" />
               <Icon type="facebook" />
-              <Icon type="Instagram" />
+              <Icon type="instagram" />
             </div>
             <div className="footer-popups">
               <Button className="popupLink" onClick={() => this.setState({ show: false, termeniShow: true, confidentialityShow: false })}>Termeni si conditii</Button><br></br>
