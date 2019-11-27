@@ -8,7 +8,7 @@ import { ACCESS_TOKEN } from "../constants";
 import Login from "../user/login/Login";
 import Forgot from "../user/login/Forgot";
 import Home from "../user/home/Home";
-import Contact from "../user/contact/Contact";
+import Service from "../user/contact/Contact";
 import Job from "../user/signup/Job";
 import Signup from "../user/signup/Signup";
 import Profile from "../user/profile/Profile";
@@ -269,7 +269,7 @@ class App extends Component {
               />
               <Route path="/signup" component={Signup} />
               <Route path="/home" component={Home} />
-              <Route path="/contact" component={Contact} />
+              <Route path="/contact" component={Service} />
               <Route path="/forgot-password" component={Forgot} />
 
               <Route

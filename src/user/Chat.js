@@ -29,9 +29,6 @@ export class Chat extends Component {
 
     };
 
-    console.log(this.state);
-    console.log(this.props);
-
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleClose = this.handleClose.bind(this);
@@ -57,8 +54,6 @@ export class Chat extends Component {
       showModal: false
     })
   }
-
-
 
   getAllMessages() {
 
@@ -264,8 +259,13 @@ export class Chat extends Component {
                   onChange={event => this.handleChange(event)}
                 />
               </FormItem>
+              <FormItem>
+                <Input type="submit" className="chat-form-button" value="Trimite"></Input>
+              </FormItem>
 
-              <Button
+
+
+              {/* <Button
                 type="primary"
                 htmlType="submit"
                 size="large"
@@ -273,7 +273,7 @@ export class Chat extends Component {
                 className="chat-form-button"
               >
                 Trimite mesaj
-            </Button>
+            </Button> */}
             </Form>
             <div className="conversationBox">
               {this.state.conversation &&
@@ -289,7 +289,6 @@ export class Chat extends Component {
             <h2> Detaliile cererii si oferta acceptata:</h2>
             <h3>
               <br></br>
-
               Pret: {this.props.jobDetails.cost} Ron
               <br></br>
               Durata: {this.props.jobDetails.duration} Ore
@@ -297,9 +296,7 @@ export class Chat extends Component {
               Descriere: {this.props.jobDetails.description}
             </h3>
             <Button type="primary" className="btn btn-warning" size="large" onClick={() => this.review(this.props.jobDetails.jobId)}> Reparatia s-a terminat !</Button>
-
           </div>
-
         </div>
         <Modal show={this.state.showModal} onHide={this.handleClose}>
           <Modal.Header closeButton>
@@ -334,7 +331,7 @@ export class Chat extends Component {
             </Form>
           </Modal.Body>
         </Modal>
-      </div>
+      </div >
     );
   }
 }

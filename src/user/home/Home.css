@@ -285,24 +285,18 @@ h2 {
   .services-carousel .ant-carousel {
     width: 60%;
   }
-
-
-
 }
 
-
 footer {
-  display: inline-block;
   background-color: #333535;
   padding:10% 0;
   color: white;
 }
+
 .footer-container {
-  width: 50%;
   display:inline-block;
   margin: 0 auto;
   text-align:center;
-
 }
 
 footer h2, h3 {
@@ -311,7 +305,6 @@ footer h2, h3 {
 
 .footer-container h2{
   margin-bottom:50px;
-
 }
 
 footer ul li {
@@ -334,6 +327,9 @@ footer ul{
 @media(min-width:768px){
   .footer-signup{
     width:50%;
+  }
+  .footer{
+    display:flex !important;
   }
 }
 
@@ -359,7 +355,6 @@ footer ul{
   font-size:40px;
   color:red;
   opacity:.8;
-
 }
 
 .modal-content{
@@ -414,5 +409,4 @@ footer ul{
   .footer-social svg{
     font-size:30px;
   }
-  
 }

@@ -26,6 +26,7 @@ body {
   position:relative;
 }
 
+
 .hiddenJobs-container,
 .currentJobs-container,
 .activeJobs-container,
@@ -42,6 +43,7 @@ body {
 
 .job-container h2 {
   text-align:left;
+  width:80%;
 }
 
 h1 {
@@ -59,7 +61,6 @@ h1 {
   max-width:200px;
   border-radius:100%;
   height:auto;
-  float:left;
   padding :20px;
   padding-top:0px;
 }
@@ -67,6 +68,16 @@ h1 {
 .offer-container{
   width:100%;
   padding:10px;
+  text-align:center;
+}
+
+@media(min-width:768px){
+  .offer-container img{
+    float:left;
+  }
+  .offer-container{
+    text-align:left;
+  }
 }
 
 .rating-star svg{
