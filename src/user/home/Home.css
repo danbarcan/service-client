@@ -328,8 +328,9 @@ footer ul{
   .footer-signup{
     width:50%;
   }
-  .footer{
+  footer{
     display:flex !important;
+    padding:5% 0;
   }
 }
 
