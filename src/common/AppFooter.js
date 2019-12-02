@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
 import "./AppFooter.css";
-import { Layout, Menu, Dropdown, Icon, Button } from "antd";
+import { Icon, Button } from "antd";
 import logoWhite from '../img/LogoWhite.ro.png';
 import { Modal } from "react-bootstrap";
 
 
-const Header = Layout.Header;
+// const Header = Layout.Header;
 
 class AppFooter extends Component {
   constructor(props) {
@@ -45,6 +45,11 @@ class AppFooter extends Component {
         <div className="footer-container">
           <div className="footerLogo">
             <img src={logoWhite} alt=" Smart Service Logo White"></img>
+            <div className="footer-popups">
+              <Button className="popupLink" onClick={() => this.setState({ show: false, termeniShow: true, confidentialityShow: false })}>Termeni si conditii</Button><br></br>
+              <Button className="popupLink" onClick={() => this.setState({ show: false, termeniShow: false, confidentialityShow: true })}>Prelucrarea datelor cu caracter personal</Button>
+            </div>
+            <Link to="/">&#169; 2018 DDW&S</Link>
           </div>
           <div className="footer-social">
             <h3> Ne gasesti si aici:</h3>
@@ -53,24 +58,8 @@ class AppFooter extends Component {
             <Icon type="facebook" />
             <Icon type="instagram" />
           </div>
-          <div className="footer-popups">
-            <Button className="popupLink" onClick={() => this.setState({ show: false, termeniShow: true, confidentialityShow: false })}>Termeni si conditii</Button><br></br>
-            <Button className="popupLink" onClick={() => this.setState({ show: false, termeniShow: false, confidentialityShow: true })}>Prelucrarea datelor cu caracter personal</Button>
-
-          </div>
-          <Link to="/">&#169; 2018 DDW&S</Link>
-
         </div>
 
-
-        <div className="footer-signup">
-          <h3> Pentru serviceuri :</h3>
-          <Button className="hero-button" onClick={() => this.openModal()}>
-            Inscriete acum
-        </Button>
-
-
-        </div>
 
         <Modal size="lg" show={this.state.confidentialityShow} onHide={() => this.setState({ show: false, termeniShow: false, confidentialityShow: false })}>
           <Modal.Header closeButton>
@@ -226,37 +215,37 @@ class AppFooter extends Component {
   }
 }
 
-function ProfileDropdownMenu(props) {
-  const dropdownMenu = (
-    <Menu onClick={props.handleMenuClick} className="profile-dropdown-menu">
-      <Menu.Item key="user-info" className="dropdown-item" disabled>
-        <div className="user-full-name-info">{props.currentUser.name}</div>
-        <div className="username-info">@{props.currentUser.username}</div>
-      </Menu.Item>
-      <Menu.Divider />
-      <Menu.Item key="profile" className="dropdown-item">
-        <Link to={`/users/${props.currentUser.username}`}>Profile</Link>
-      </Menu.Item>
-      <Menu.Item key="logout" className="dropdown-item">
-        <Link to="/home">Logout</Link>
-      </Menu.Item>
-    </Menu>
-  );
+// function ProfileDropdownMenu(props) {
+//   const dropdownMenu = (
+//     <Menu onClick={props.handleMenuClick} className="profile-dropdown-menu">
+//       <Menu.Item key="user-info" className="dropdown-item" disabled>
+//         <div className="user-full-name-info">{props.currentUser.name}</div>
+//         <div className="username-info">@{props.currentUser.username}</div>
+//       </Menu.Item>
+//       <Menu.Divider />
+//       <Menu.Item key="profile" className="dropdown-item">
+//         <Link to={`/users/${props.currentUser.username}`}>Profile</Link>
+//       </Menu.Item>
+//       <Menu.Item key="logout" className="dropdown-item">
+//         <Link to="/home">Logout</Link>
+//       </Menu.Item>
+//     </Menu>
+//   );
 
-  return (
-    <Dropdown
-      overlay={dropdownMenu}
-      trigger={["click"]}
-      getPopupContainer={() =>
-        document.getElementsByClassName("profile-menu")[0]
-      }
-    >
-      <a className="ant-dropdown-link">
-        <Icon type="user" className="nav-icon" style={{ marginRight: 0 }} />{" "}
-        <Icon type="down" />
-      </a>
-    </Dropdown>
-  );
-}
+//   return (
+//     <Dropdown
+//       overlay={dropdownMenu}
+//       trigger={["click"]}
+//       getPopupContainer={() =>
+//         document.getElementsByClassName("profile-menu")[0]
+//       }
+//     >
+//       <a className="ant-dropdown-link">
+//         <Icon type="user" className="nav-icon" style={{ marginRight: 0 }} />{" "}
+//         <Icon type="down" />
+//       </a>
+//     </Dropdown>
+//   );
+// }
 
 export default withRouter(AppFooter);

@@ -288,14 +288,13 @@ class JobList extends Component {
       this.getAllJobs();
     }
   }
-
   render() {
     const menu =
       <ul className="services-menu">
-        <li><Button onClick={() => this.showActiveOnly()}>Cereri Active</Button></li>
-        <li><Button onClick={() => this.showNew()}>Cereri Noi</Button></li>
-        <li><Button onClick={() => this.showSent()}>Oferte Trimise</Button></li>
-        <li><Button onClick={() => this.showHidden()}>Cereri Ascunse</Button></li>
+        <li><Button className={this.state.showActive ? 'active' : ''} onClick={() => this.showActiveOnly()}>Cereri Active</Button></li>
+        <li><Button className={this.state.showNew ? 'active' : ''} onClick={() => this.showNew()}>Cereri Noi</Button></li>
+        <li><Button className={this.state.showSent ? 'active' : ''} onClick={() => this.showSent()}>Oferte Trimise</Button></li>
+        <li><Button className={this.state.showHidden ? 'active' : ''} onClick={() => this.showHidden()}>Cereri Ascunse</Button></li>
       </ul>
     if (this.state.chat === true) {
       return (
@@ -304,24 +303,19 @@ class JobList extends Component {
     }
     else if (this.state.showActive === true) {
       return (
-        <div className="container">
+        <div>
           {menu}
           <div className="activeJobs-container">
             <h3>Oferte acceptate de utilizator</h3>
             <div className="jobs-container">
               {this.state.currentJobs &&
                 this.state.currentJobs.map(d => (
-                  <div className="job-container">
-                    <h2>
-                      Cerere de la <span>{d.user.name} :</span>
-                    </h2>
-                    <p>
-                      Masina <Icon type="car"></Icon>  {d.car.make} {d.car.model}<br></br>
-                      An <Icon type="calendar"></Icon>  {d.car.year}
-                    </p>
-                    <p>
-                      <em>Problema:</em> <span key={d.id}>{d.description}</span>
-                    </p>
+                  <div className="job-container col-md-4 ">
+                    <h2> Cerere de la <span>{d.user.name}</span></h2>
+
+                    <p>Masina <Icon type="car"></Icon>  {d.car.make} {d.car.model}</p>
+                    <p>An <Icon type="calendar"></Icon>  {d.car.year}</p>
+                    <p>Problema <Icon type="tool"></Icon><span key={d.id}>{d.description}</span></p>
                     <Button
                       onClick={() => this.seeChat(d.id)}
                       className="btn btn-success"
@@ -337,7 +331,7 @@ class JobList extends Component {
       )
     } else if (this.state.showNew === true) {
       return (
-        <div className="container">
+        <div>
 
           {menu}
           <div className="newJobs-container">
@@ -346,28 +340,24 @@ class JobList extends Component {
 
               {this.state.availJobs &&
                 this.state.availJobs.map(d => (
-                  <div className="job-container">
-                    <h2>
-                      Job de la <span>{d.user.name} :</span>
-                    </h2>
-                    <p>
-                      <em>Masina, Model, An:</em>
-                    </p>
-                    <p>
-                      <em>Problema:</em> <span key={d.id}>{d.description}</span>
-                    </p>
+                  <div className="job-container col-md-4">
+                    <h2> Cerere de la <span>{d.user.name}</span></h2>
+
+                    <p>Masina <Icon type="car"></Icon>  {d.car.make} {d.car.model}</p>
+                    <p>An <Icon type="calendar"></Icon>  {d.car.year}</p>
+                    <p>Problema <Icon type="tool"></Icon><span key={d.id}>{d.description}</span></p>
                     <Button
                       onClick={() => this.acceptOffer(d.id, d.description)}
                       className="btn btn-success"
                     >
                       Trimite Oferta
-                </Button>
+                    </Button>
                     <Button
                       onClick={() => this.hideJob(d.id)}
                       className="btn btn-warning"
                     >
                       Ascunde
-                </Button>
+                    </Button>
                   </div>
                 ))}
             </div>
@@ -440,7 +430,7 @@ class JobList extends Component {
 
     } else if (this.state.showSent === true) {
       return (
-        <div className="container">
+        <div>
           {menu}
           <div className="currentJobs-container">
             <h3>Oferte trimise</h3>
@@ -448,18 +438,12 @@ class JobList extends Component {
 
               {this.state.offeredJobs &&
                 this.state.offeredJobs.map(d => (
-                  <div className="job-container">
-                    <h2>
-                      Cerere de la <span>{d.user.name} :</span>
-                    </h2>
-                    <p>
-                      Masina <Icon type="car"></Icon>  {d.car.make} {d.car.model}<br></br>
-                      An <Icon type="calendar"></Icon>  {d.car.year}
-                    </p>
-                    <p>
-                      <em>Problema:</em> <span key={d.id}>{d.description}</span>
-                    </p>
+                  <div className="job-container col-md-4">
+                    <h2> Cerere de la <span>{d.user.name}</span></h2>
 
+                    <p>Masina <Icon type="car"></Icon>  {d.car.make} {d.car.model}</p>
+                    <p>An <Icon type="calendar"></Icon>  {d.car.year}</p>
+                    <p>Problema <Icon type="tool"></Icon><span key={d.id}>{d.description}</span></p>
                     <Button
                       onClick={() => this.deleteOffer(d.id)}
                       className="btn btn-danger"
@@ -474,7 +458,7 @@ class JobList extends Component {
       )
     } else if (this.state.showHidden === true) {
       return (
-        <div className="container">
+        <div>
           {menu}
           <div className="hiddenJobs-container">
             <h3>Cereri ascunse</h3>
@@ -482,16 +466,12 @@ class JobList extends Component {
 
               {this.state.hiddenJobs &&
                 this.state.hiddenJobs.map(d => (
-                  <div className="job-container">
-                    <h2>
-                      Job de la <span>{d.user.name} :</span>
-                    </h2>
-                    <p>
-                      <em>Masina, Model, An:</em>
-                    </p>
-                    <p>
-                      <em>Problema:</em> <span key={d.id}>{d.description}</span>
-                    </p>
+                  <div className="job-container col-md-4">
+                    <h2> Cerere de la <span>{d.user.name}</span></h2>
+
+                    <p>Masina <Icon type="car"></Icon>  {d.car.make} {d.car.model}</p>
+                    <p>An <Icon type="calendar"></Icon>  {d.car.year}</p>
+                    <p>Problema <Icon type="tool"></Icon><span key={d.id}>{d.description}</span></p>
                     <Button
                       onClick={() => this.acceptOffer(d.id, d.description)}
                       className="btn btn-success"
@@ -520,22 +500,15 @@ class JobList extends Component {
 
               {this.state.offeredJobs &&
                 this.state.offeredJobs.map(d => (
-                  <div className="job-container">
-                    <h2>
-                      Cerere de la <span>{d.user.name} :</span>
-                    </h2>
-                    <p>
-                      Masina <Icon type="car"></Icon>  {d.car.make} {d.car.model}<br></br>
-                      An <Icon type="calendar"></Icon>  {d.car.year}
-                    </p>
-                    <p>
-                      <em>Problema:</em> <span key={d.id}>{d.description}</span>
-                    </p>
+                  <div className="job-container col-md-4">
+                    <h2> Cerere de la <span>{d.user.name}</span></h2>
 
+                    <p>Masina <Icon type="car"></Icon>  {d.car.make} {d.car.model}</p>
+                    <p>An <Icon type="calendar"></Icon>  {d.car.year}</p>
+                    <p>Problema <Icon type="tool"></Icon><span key={d.id}>{d.description}</span></p>
                     <Button
                       onClick={() => this.deleteOffer(d.id)}
-                      className="btn btn-danger"
-                    >
+                      className="btn btn-danger">
                       Sterge Oferta
                   </Button>
                   </div>
@@ -549,17 +522,12 @@ class JobList extends Component {
 
               {this.state.hiddenJobs &&
                 this.state.hiddenJobs.map(d => (
-                  <div className="job-container">
-                    <h2>
-                      Job de la <span>{d.user.name} :</span>
-                    </h2>
-                    <p>
-                      <em>Masina, Model, An:</em>
-                    </p>
-                    <p>
-                      <em>Problema:</em> <span key={d.id}>{d.description}</span>
-                    </p>
+                  <div className="job-container col-md-4">
+                    <h2> Cerere de la <span>{d.user.name}</span></h2>
 
+                    <p>Masina <Icon type="car"></Icon>  {d.car.make} {d.car.model}</p>
+                    <p>An <Icon type="calendar"></Icon>  {d.car.year}</p>
+                    <p>Problema <Icon type="tool"></Icon><span key={d.id}>{d.description}</span></p>
                     <Button
                       onClick={() => this.acceptOffer(d.id, d.description)}
                       className="btn btn-success"

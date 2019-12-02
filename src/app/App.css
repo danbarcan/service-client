@@ -21,11 +21,14 @@ body {
   width: 100%;
   border: 1px solid #d3d3d3;
   background-color:white;
-  padding: 20px;
-  margin: 20px;
   position:relative;
+  margin-bottom:10px;
 }
 
+.job-container .btn{
+  margin-right:10px;
+  width:50%;
+}
 
 .hiddenJobs-container,
 .currentJobs-container,
@@ -35,19 +38,22 @@ body {
 }
 
 .jobs-container{
-  display:flex;
+  display:block;
+  text-align:center;
 }
 
 .job-container .btn-danger {
-  margin-right: 10px;
-  position:absolute;
-  right:0px;
-  top:30px;
+  width:100%;
 }
 
 .job-container h2 {
-  text-align:left;
-  width:80%;
+  text-align:center;
+  width:100%;
+}
+
+.job-container .btn{
+  width:100%;
+  margin-bottom:10px;
 }
 
 h1 {
@@ -82,6 +88,22 @@ h1 {
   .offer-container{
     text-align:left;
   }
+
+  .job-container h2 {
+    text-align:left;
+    width:80%;
+  }
+
+  .job-container {
+    padding:20px;
+    text-align:left;
+  }
+
+  .job-container .btn-danger {
+    margin-right: 10px;
+    width:100%;
+  }
+
 }
 
 .rating-star svg{
@@ -129,9 +151,12 @@ h1 {
 .anticon{
   vertical-align:middle;
   margin-left:10px;
-  margin-right:10px;
   width:15px;
   height:15px;
+}
+
+.job-container .anticon{
+    margin-right:10px;
 }
 
 .anticon-delete{

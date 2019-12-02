@@ -229,7 +229,6 @@ class App extends Component {
               Aveti mesaje necitite. Verifica acum !
             </div> : null}
             <div className="container">
-              <h3>Services Dashboard</h3>
               <Switch>
                 <Route
                   exact

@@ -282,6 +282,7 @@ h2 {
     padding: 100px;
     margin:5%;
   }
+  
   .services-carousel .ant-carousel {
     width: 60%;
   }
@@ -328,6 +329,7 @@ footer ul{
   .footer-signup{
     width:50%;
   }
+
   footer{
     display:flex !important;
     padding:5% 0;
@@ -348,7 +350,6 @@ footer ul{
   color: rgba(18, 22, 67, 1);
   border:1px solid rgba(18, 22, 67, 1);
 }
-
 
 .modal-dialog .close{
   position:absolute;
@@ -391,12 +392,16 @@ footer ul{
 }
 
 .footer-social svg{
-  font-size:60px;
+  font-size:40px;
 }
 
 .footer-social .anticon{
-  width:50px;
-  height:50px;
+  width: auto;
+  height: auto;
+}
+
+.anticon-menu-fold{
+  margin-left:0 !important;
 }
 
 @media(min-width:768px){
@@ -404,9 +409,23 @@ footer ul{
     width:300px;
     height:150px;
   }
-  .footer-container{
+
+  .footerLogo{
     width:50%;
   }
+
+  .footer-container{
+    display:flex;
+    width:1440px !important;
+    margin-left: 0 auto;
+    margin-right:0 auto;
+  }
+
+  .footer-social{
+    margin-top:50px;
+    width:50%;
+  }
+
   .footer-social svg{
     font-size:30px;
   }

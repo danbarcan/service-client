@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import { Button } from 'antd';
+import { Button, Input, Form } from 'antd';
 import "./Contact.css";
+import FormItem from "antd/lib/form/FormItem";
 
 
 class Service extends Component {
@@ -18,17 +19,26 @@ class Service extends Component {
         <div className="avantaje-container">
           <h2> Avantaje </h2>
           <ul>
-            <li>Clienti noi</li>
+            <li>Transparenta totala</li>
             <li>Zeci de cereri in fiecare zi</li>
-            <li>Reclama gratuita</li>
-            <li>Munca buna este in sfarsit rasplatita prin reviewuri</li>
+            <li>Tu iti alegi clientii cu care lucrezi</li>
+            <li>Munca de calitate este apreciata </li>
+            <li><b>Gratuit</b></li>
           </ul>
-          - <em>Gratuit</em>
         </div>
 
         <h2>Exemple de cereri</h2>
 
-        <h2> Inroleaza-te aici</h2>
+        <div class="contact-us">
+          <h2> Inroleaza-te aici</h2>
+          <Form>
+            <FormItem>
+              <Input>
+
+              </Input>
+            </FormItem>
+          </Form>
+        </div>
 
       </div>
 
