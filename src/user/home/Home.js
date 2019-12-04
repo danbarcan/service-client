@@ -279,7 +279,7 @@ class Home extends Component {
                   <FormItem
                     label="Model"
                     hasFeedback
-                    validateStatus={this.state.model.validateStatus}
+                    validateStatus={this.state.model.validateModel}
                     help={this.state.model.errorMsg}
                   >
                     <Input
@@ -296,7 +296,7 @@ class Home extends Component {
                   <FormItem
                     label="An"
                     hasFeedback
-                    validateStatus={this.state.year.validateStatus}
+                    validateStatus={this.state.year.validateYear}
                     help={this.state.year.errorMsg}
                   >
                     <Input

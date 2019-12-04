@@ -104,6 +104,13 @@ h1 {
     width:100%;
   }
 
+  .active-jobs .job-container .btn-danger{
+    width:auto;
+    position:absolute;
+    top:30px;
+    right:0;
+  }
+
 }
 
 .rating-star svg{

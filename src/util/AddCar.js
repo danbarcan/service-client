@@ -413,7 +413,6 @@ class AddCar extends Component {
         errorMsg: `Anul masinii nu este corect`
       };
     }
-
   };
 }
 export default AddCar;

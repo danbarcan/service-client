@@ -29,7 +29,7 @@ class Service extends Component {
 
         <h2>Exemple de cereri</h2>
 
-        <div class="contact-us">
+        <div className="contact-us">
           <h2> Inroleaza-te aici</h2>
           <Form>
             <FormItem>

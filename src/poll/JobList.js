@@ -25,8 +25,15 @@ class JobList extends Component {
       chatId: "",
       editId: "",
       response: "",
-      duration: "",
-      cost: "",
+      duration: {
+        value: ""
+      },
+      cost: {
+        value: ""
+      },
+      description: {
+        value: ''
+      },
       availJobs: [],
       hiddenJobs: [],
       currentJobs: [],
@@ -49,6 +56,7 @@ class JobList extends Component {
     this.showSent = this.showSent.bind(this);
     this.showHidden = this.showHidden.bind(this);
     this.deleteOffer = this.deleteOffer.bind(this);
+    this.isFormInvalid = this.isFormInvalid.bind(this);
   }
 
   handleClose() {
@@ -164,9 +172,9 @@ class JobList extends Component {
     event.preventDefault();
     const offerRequest = {
       serviceId: this.props.currentUser.id,
-      cost: this.state.cost,
-      description: this.state.description,
-      duration: this.state.duration,
+      cost: this.state.cost.value,
+      description: this.state.description.value,
+      duration: this.state.duration.value,
       jobId: this.state.editId
     };
     console.log(offerRequest);
@@ -251,6 +259,14 @@ class JobList extends Component {
       });
   }
 
+  isFormInvalid() {
+    return !(
+      this.state.cost.validateStatus === "success" &&
+      this.state.duration.validateStatus === "success" &&
+      this.state.description.validateStatus === "success"
+    );
+  }
+
   componentDidMount() {
     this.getAllJobs();
     getCurrentUser();
@@ -274,7 +290,10 @@ class JobList extends Component {
     const inputValue = target.value;
 
     this.setState({
-      [inputName]: inputValue
+      [inputName]: {
+        value: inputValue,
+        ...validationFun(inputValue)
+      }
     });
   }
 
@@ -367,43 +386,55 @@ class JobList extends Component {
             <Modal.Body>
               <div className="signup-container">
                 <h1 className="page-title">Trimite Oferta </h1>
-                <p>Problema : {this.state.description}</p>
+                <p>Problema : {this.state.description.value}</p>
                 <div className="signup-content">
                   <Form
                     onSubmit={this.handleSubmit}
                     className="edditOffer-form"
                   >
-                    <FormItem label="Durata" hasFeedback>
+                    <FormItem label="Durata / Ore *"
+                      validateStatus={this.state.duration.validateStatus}
+                      help={this.state.duration.errorMsg} hasFeedback>
                       <Input
                         size="large"
                         name="duration"
+                        type="number"
                         autoComplete="off"
                         placeholder="Durata"
+                        value={this.state.duration.value}
+                        required
                         onChange={event =>
-                          this.handleInputChange(event, this.validateResponse)
+                          this.handleInputChange(event, this.validateDuration)
                         }
                       />
                     </FormItem>
-                    <FormItem label="Cost" hasFeedback>
+                    <FormItem label="Cost / RON * "
+                      validateStatus={this.state.cost.validateStatus}
+                      help={this.state.cost.errorMsg} hasFeedback>
                       <Input
                         size="large"
                         name="cost"
                         type="number"
                         autoComplete="off"
                         placeholder="Cost"
+                        value={this.state.cost.value}
+                        required
                         onChange={event =>
-                          this.handleInputChange(event, this.validateResponse)
+                          this.handleInputChange(event, this.validateCost)
                         }
                       />
                     </FormItem>
-                    <FormItem label="Mesaj catre client" hasFeedback>
+                    <FormItem label="Mesaj catre client *"
+                      validateStatus={this.state.description.validateStatus}
+                      help={this.state.description.errorMsg} hasFeedback>
                       <Input
                         size="large"
                         name="description"
+                        required
                         autoComplete="off"
                         placeholder="Raspuns"
                         onChange={event =>
-                          this.handleInputChange(event, this.validateResponse)
+                          this.handleInputChange(event, this.validateMessage)
                         }
                       />
                     </FormItem>
@@ -414,7 +445,8 @@ class JobList extends Component {
                         htmlType="submit"
                         size="large"
                         className="signup-form-button"
-                        onClick={this.handleClose}
+                        onClick={this.handleSubmit}
+                        disabled={this.isFormInvalid()}
                       >
                         Trimite
                       </Button>
@@ -612,11 +644,47 @@ class JobList extends Component {
     }
   }
 
-  validateResponse = response => {
-    return {
-      validateStatus: "success",
-      errorMsg: null
+  validateDuration = duration => {
+    if (parseInt(duration) > 10000) {
+
+      return {
+        validateStatus: "error",
+        errorMsg: 'Durata nu poate sa fie mai mare de 10000 de ore. '
+      };
+    } else {
+      return {
+        validateStatus: "success",
+        errorMsg: null
+      };
+    }
+
+  };
+  validateCost = cost => {
+    if (cost < 1) {
+      return {
+        validateStatus: "error",
+        errorMsg: 'Costul trebuie sa fie mai mare decat 0. '
+      };
+    } else {
+      return {
+        validateStatus: "success",
+        errorMsg: null
+      };
     };
+  }
+  validateMessage = description => {
+    if (description.length < 5) {
+      return {
+        validateStatus: "error",
+        errorMsg: 'Mesajul catre client trebuie sa depaseasca 5 caractere. '
+      }
+    } else {
+      return {
+        validateStatus: "success",
+        errorMsg: null
+      };
+    }
+
   };
 }
 
