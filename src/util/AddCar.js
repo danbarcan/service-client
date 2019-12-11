@@ -1,16 +1,27 @@
 import React, { Component } from "react";
 import {
-  addCar,
-  getAllCars,
-  updateCar,
-  deleteCar
+  addCar, getAllCars, updateCar, deleteCar, getAll, getAllDetailsByTypeYearId, getAllModelsByManufacturerId, getAllTypeYearsByModelId
+
 } from "./APIUtils";
-import { Form, Input, Button, notification } from "antd";
+import { Form, Input, Button, notification, Select } from "antd";
 import { Modal } from "react-bootstrap";
 import "./AddCar.css";
 import carLogo from '../img/car-logo.png';
 
 const FormItem = Form.Item;
+const children = [];
+const childrenModel = [];
+const childrenType = [];
+const childrenDetails = [];
+const { Option } = Select;
+
+
+getAll().then(response => {
+  console.log(response)
+  for (let i = 0; i < response.length; i++) {
+    children.push(<Option key={response[i].id}>{response[i].name.toString()}</Option>);
+  }
+})
 
 class AddCar extends Component {
   constructor(props, context) {
@@ -23,6 +34,9 @@ class AddCar extends Component {
         value: ""
       },
       year: {
+        value: ""
+      },
+      motor: {
         value: ""
       },
       cars: [],
@@ -113,15 +127,69 @@ class AddCar extends Component {
     });
   }
 
+  changeCar = value => {
+    console.log(value)
+    this.setState({
+      make: {
+        value: value
+      }
+    }, this.getModelsByMake)
+
+  }
+
+  getModelsByMake() {
+    getAllModelsByManufacturerId(this.state.make.value).then(response => {
+      for (let i = 0; i < response.length; i++) {
+        childrenModel.push(<Option key={response[i].id}>{response[i].name.toString()}</Option>);
+      }
+    })
+  }
+
+  changeModel = value => {
+    console.log(value)
+    this.setState({
+      model: {
+        value: value
+      }
+    }, this.getTypeByModel)
+  }
+
+  getTypeByModel() {
+    getAllTypeYearsByModelId(this.state.model.value).then(response => {
+      for (let i = 0; i < response.length; i++) {
+        childrenType.push(<Option key={response[i].id}>{response[i].name.toString()}</Option>);
+      }
+    })
+  }
+
+  changeType = value => {
+    console.log(value)
+    this.setState({
+      year: { value: value }
+    }, this.getDetailsByType)
+  }
+
+  getDetailsByType() {
+    getAllDetailsByTypeYearId(this.state.year.value).then(response => {
+      for (let i = 0; i < response.length; i++) {
+        childrenDetails.push(<Option key={response[i].id}>{response[i].type.toString()}</Option>);
+      }
+    })
+  }
+
+  changeDetails = value => {
+    console.log(value)
+    this.setState({
+      motor: { value: value }
+    })
+  }
+
   handleSubmit(event) {
     event.preventDefault();
     console.log(this.state);
     if (!this.state.carId) {
       const carRequest = {
-        userId: this.props.currentUser.id,
-        make: this.state.make.value,
-        model: this.state.model.value,
-        year: this.state.year.value
+        detailsId: this.state.motor.value
       };
       addCar(carRequest)
         .then(response => {
@@ -236,57 +304,45 @@ class AddCar extends Component {
               <h1 className="page-title">Adaugati Masina </h1>
               <div className="signup-content">
                 <Form onSubmit={this.handleSubmit} className="signup-form">
-                  <FormItem
-                    label="Marca"
-                    hasFeedback
-                    validateStatus={this.state.make.validateStatus}
-                    help={this.state.make.errorMsg}
-                  >
-                    <Input
-                      size="large"
-                      name="make"
-                      autoComplete="off"
-                      placeholder="Marca"
-                      value={this.state.make.value}
-                      onChange={event =>
-                        this.handleInputChange(event, this.validateMake)
-                      }
-                    />
+                  <FormItem label="Marca *" >
+                    <Select
+                      style={{ width: '100%' }}
+                      placeholder="Marca masinii"
+                      optionFilterProp="children"
+                      onChange={this.changeCar}
+                    >
+                      {children}
+                    </Select>
                   </FormItem>
-                  <FormItem
-                    label="Model"
-                    hasFeedback
-                    validateStatus={this.state.model.validateStatus}
-                    help={this.state.model.errorMsg}
-                  >
-                    <Input
-                      size="large"
-                      name="model"
-                      autoComplete="off"
-                      placeholder="Model"
-                      value={this.state.model.value}
-                      onChange={event =>
-                        this.handleInputChange(event, this.validateModel)
-                      }
-                    />
+
+                  <FormItem label="Model *">
+                    <Select
+                      style={{ width: '100%' }}
+                      placeholder="Modelul masinii"
+                      optionFilterProp="children"
+                      onChange={this.changeModel}
+                    >
+                      {childrenModel}
+                    </Select>
                   </FormItem>
-                  <FormItem
-                    label="An"
-                    hasFeedback
-                    validateStatus={this.state.year.validateStatus}
-                    help={this.state.year.errorMsg}
-                  >
-                    <Input
-                      size="large"
-                      name="year"
-                      type="number"
-                      autoComplete="off"
-                      placeholder="An"
-                      value={this.state.year.value}
-                      onChange={event =>
-                        this.handleInputChange(event, this.validateYear)
-                      }
-                    />
+
+                  <FormItem label="An *" >
+                    <Select
+                      style={{ width: '100%' }}
+                      placeholder="Anul masinii"
+                      optionFilterProp="children"
+                      onChange={this.changeType}
+                    >
+                      {childrenType}
+                    </Select>
+                  </FormItem>
+
+                  <FormItem label="Motorizare *" hasFeedback>
+                    <Select onChange={this.changeDetails}
+                      placeholder="Motorizarea"
+                      optionFilterProp="children">
+                      {childrenDetails}
+                    </Select>
                   </FormItem>
 
                   <FormItem>
@@ -302,6 +358,7 @@ class AddCar extends Component {
                     </Button>
                   </FormItem>
                 </Form>
+
               </div>
             </div>
           </Modal.Body>

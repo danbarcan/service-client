@@ -192,7 +192,8 @@ class JobList extends Component {
             error.message ||
             "Oups! Ceva nu a mers corect, va rugam reincercati!"
         });
-      });
+      })
+    window.location.reload();
   }
 
   getAllJobs() {
@@ -445,7 +446,7 @@ class JobList extends Component {
                         htmlType="submit"
                         size="large"
                         className="signup-form-button"
-                        onClick={this.handleSubmit}
+                        onClick={this.handleClose}
                         disabled={this.isFormInvalid()}
                       >
                         Trimite

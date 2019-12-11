@@ -1,11 +1,23 @@
 import React, { Component } from "react";
 import serviceImage from "../../img/hero.jpg";
-import { createAnonJob } from "../../util/APIUtils";
+import { createAnonJob, getAll, getAllDetailsByTypeYearId, getAllModelsByManufacturerId, getAllTypeYearsByModelId } from "../../util/APIUtils";
 import "./Home.css";
 import { Modal } from "react-bootstrap";
-import { Form, Input, Button, Icon, notification, Carousel } from "antd";
+import { Form, Input, Button, Icon, notification, Carousel, Select } from "antd";
 
 const FormItem = Form.Item;
+const children = [];
+const childrenModel = [];
+const childrenType = [];
+const childrenDetails = [];
+const { Option } = Select;
+
+getAll().then(response => {
+  console.log(response)
+  for (let i = 0; i < response.length; i++) {
+    children.push(<Option key={response[i].id}>{response[i].name.toString()}</Option>);
+  }
+})
 
 class Home extends Component {
   constructor(props) {
@@ -21,6 +33,9 @@ class Home extends Component {
         value: ""
       },
       year: {
+        value: ""
+      },
+      motor: {
         value: ""
       },
       description: {
@@ -62,6 +77,63 @@ class Home extends Component {
     this.setState({ show: false });
   }
 
+  changeCar = value => {
+    console.log(value)
+    this.setState({
+      make: {
+        value: value
+      }
+    }, this.getModelsByMake)
+
+  }
+
+  getModelsByMake() {
+    getAllModelsByManufacturerId(this.state.make.value).then(response => {
+      for (let i = 0; i < response.length; i++) {
+        childrenModel.push(<Option key={response[i].id}>{response[i].name.toString()}</Option>);
+      }
+    })
+  }
+
+  changeModel = value => {
+    console.log(value)
+    this.setState({
+      model: {
+        value: value
+      }
+    }, this.getTypeByModel)
+  }
+
+  getTypeByModel() {
+    getAllTypeYearsByModelId(this.state.model.value).then(response => {
+      for (let i = 0; i < response.length; i++) {
+        childrenType.push(<Option key={response[i].id}>{response[i].name.toString()}</Option>);
+      }
+    })
+  }
+
+  changeType = value => {
+    console.log(value)
+    this.setState({
+      year: { value: value }
+    }, this.getDetailsByType)
+  }
+
+  getDetailsByType() {
+    getAllDetailsByTypeYearId(this.state.year.value).then(response => {
+      for (let i = 0; i < response.length; i++) {
+        childrenDetails.push(<Option key={response[i].id}>{response[i].type.toString()}</Option>);
+      }
+    })
+  }
+
+  changeDetails = value => {
+    console.log(value)
+    this.setState({
+      motor: { value: value }
+    })
+  }
+
   handleInputChange(event, validationFun) {
     const target = event.target;
     const inputName = target.name;
@@ -79,9 +151,7 @@ class Home extends Component {
     event.preventDefault();
 
     const jobRequest = {
-      make: this.state.make.value,
-      model: this.state.model.value,
-      year: this.state.year.value,
+      detailsId: this.state.motor.value,
       description: this.state.description.value,
       email: this.state.email.value
     };
@@ -259,60 +329,51 @@ class Home extends Component {
               <div className="signup-content">
 
                 <Form onSubmit={this.handleSubmit} className="signup-form">
-                  <FormItem
-                    label="Marca"
-                    hasFeedback
-                    validateStatus={this.state.make.validateStatus}
-                    help={this.state.make.errorMsg}
-                  >
-                    <Input
-                      size="large"
-                      name="make"
-                      autoComplete="off"
-                      placeholder="Marca"
-                      value={this.state.make.value}
-                      onChange={event =>
-                        this.handleInputChange(event, this.validateMake)
-                      }
-                    />
+
+                  <FormItem label="Marca *" >
+                    <Select
+                      style={{ width: '100%' }}
+                      placeholder="Marca masinii"
+                      optionFilterProp="children"
+
+                      onChange={this.changeCar}
+                    >
+                      {children}
+                    </Select>
                   </FormItem>
-                  <FormItem
-                    label="Model"
-                    hasFeedback
-                    validateStatus={this.state.model.validateModel}
-                    help={this.state.model.errorMsg}
-                  >
-                    <Input
-                      size="large"
-                      name="model"
-                      autoComplete="off"
-                      placeholder="Model"
-                      value={this.state.model.value}
-                      onChange={event =>
-                        this.handleInputChange(event, this.validateModel)
-                      }
-                    />
+
+                  <FormItem label="Model *">
+                    <Select
+                      style={{ width: '100%' }}
+                      placeholder="Modelul masinii"
+                      optionFilterProp="children"
+                      onChange={this.changeModel}
+                    >
+                      {childrenModel}
+                    </Select>
                   </FormItem>
-                  <FormItem
-                    label="An"
-                    hasFeedback
-                    validateStatus={this.state.year.validateYear}
-                    help={this.state.year.errorMsg}
-                  >
-                    <Input
-                      size="large"
-                      name="year"
-                      type="number"
-                      autoComplete="off"
-                      placeholder="An"
-                      value={this.state.year.value}
-                      onChange={event =>
-                        this.handleInputChange(event, this.validateYear)
-                      }
-                    />
+
+                  <FormItem label="An *" >
+                    <Select
+                      style={{ width: '100%' }}
+                      placeholder="Anul masinii"
+                      optionFilterProp="children"
+                      onChange={this.changeType}
+                    >
+                      {childrenType}
+                    </Select>
                   </FormItem>
+
+                  <FormItem label="Motorizare *" hasFeedback>
+                    <Select onChange={this.changeDetails}
+                      placeholder="Motorizarea"
+                      optionFilterProp="children">
+                      {childrenDetails}
+                    </Select>
+                  </FormItem>
+
                   <FormItem
-                    label="Descriere"
+                    label="Descriere problema cu care doriti ajutor *"
                     hasFeedback
                     validateStatus={this.state.description.validateStatus}
                     help={this.state.description.errorMsg}
@@ -322,7 +383,7 @@ class Home extends Component {
                       name="description"
                       type="text"
                       autoComplete="off"
-                      placeholder="Descriere"
+                      placeholder="Descriere problema"
                       value={this.state.description.value}
                       onChange={event =>
                         this.handleInputChange(event, this.validateDescription)
@@ -330,7 +391,7 @@ class Home extends Component {
                     />
                   </FormItem>
                   <FormItem
-                    label="Email"
+                    label="Email *"
                     hasFeedback
                     validateStatus={this.state.email.validateStatus}
                     help={this.state.email.errorMsg}
@@ -347,6 +408,8 @@ class Home extends Component {
                       }
                     />
                   </FormItem>
+
+                  <p> Campurile marcate cu * sunt obligatorii pentru a trimite o cerere.</p>
 
                   <FormItem>
                     <Button

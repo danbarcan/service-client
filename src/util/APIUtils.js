@@ -274,3 +274,33 @@ export function checkCUI(cui) {
   });
 
 }
+
+// Toate masinile din DB
+export function getAll() {
+  return request({
+    url: API_BASE_URL + "/public/allCars",
+    method: "GET"
+  })
+
+}
+
+export function getAllDetailsByTypeYearId(id) {
+  return request({
+    url: API_BASE_URL + '/public/allDetailsByTypeYearId?typeYearId=' + id,
+    method: "GET"
+  })
+}
+
+export function getAllModelsByManufacturerId(id) {
+  return request({
+    url: API_BASE_URL + '/public/allModelsByManufacturerId?manufacturerId=' + id,
+    method: "GET"
+  })
+}
+
+export function getAllTypeYearsByModelId(id) {
+  return request({
+    url: API_BASE_URL + '/public/allTypeYearsByModelId?modelId= ' + id,
+    method: "GET"
+  })
+}

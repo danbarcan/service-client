@@ -128,15 +128,11 @@ class Job extends Component {
     this.setState({ show: true });
   }
 
-
-
   chooseCar(id) {
     this.setState({
       chosenCar: id
     });
-
   }
-
 
   handleMultipleSelect(value) {
 
@@ -144,9 +140,6 @@ class Job extends Component {
       categories: value
     })
   }
-
-
-
 
   getCars() {
 
@@ -424,7 +417,6 @@ class Job extends Component {
 
   render() {
 
-
     if (this.state.chat === false) {
       return (
 
@@ -439,12 +431,12 @@ class Job extends Component {
           {this.getOffers()}
           <Modal show={this.state.show} onHide={this.handleClose}>
             <Modal.Header closeButton>
-              <h1 className="page-title"> Cu ce te putem ajuta ? </h1>
+              <h1 className="page-title">Cu ce te putem ajuta ? </h1>
             </Modal.Header>
             <Modal.Body>
               <Form onSubmit={this.handleSubmit} className="signup-form">
                 <FormItem
-                  label=" Alegeti masina: ">
+                  label=" Alegeti masina *">
                   {this.state.cars.map(c => (
                     <Button name="car" key={c.id} onClick={() => this.chooseCar(c.id)}
                       value={c.id}>{c.make} - {c.model} - {c.year}
@@ -453,12 +445,11 @@ class Job extends Component {
                   }
                 </FormItem>
                 <FormItem
-                  label="Alegeti categoria reparatiei">
+                  label="Alegeti categoria reparatiei *">
                   <Select
                     mode="multiple"
                     style={{ width: '100%' }}
                     placeholder="Categoria de reparatie dorita"
-                    onChange={this.handleMultipleSelect}
                     optionFilterProp="children"
                   >
                     {children}
@@ -466,7 +457,7 @@ class Job extends Component {
                 </FormItem>
 
                 <FormItem
-                  label="Descrie problema masinii"
+                  label="Descrie problema masinii *"
                   hasFeedback
                   validateStatus={this.state.description.validateStatus}
                   help={this.state.description.errorMsg}
@@ -484,7 +475,7 @@ class Job extends Component {
                   />
                 </FormItem>
 
-                <FormItem label="Locatie">
+                <FormItem label="Locatie *">
                   <PlacesAutocomplete
                     searchOptions={searchOptions}
                     value={this.state.address}
