@@ -1,21 +1,28 @@
 import React, { Component } from "react";
 import serviceImage from "../../img/hero.jpg";
-import { createAnonJob, getAll, getAllDetailsByTypeYearId, getAllModelsByManufacturerId, getAllTypeYearsByModelId } from "../../util/APIUtils";
+import { createAnonJob, getCategories, getAll } from "../../util/APIUtils";
 import "./Home.css";
 import { Modal } from "react-bootstrap";
 import { Form, Input, Button, Icon, notification, Carousel, Select } from "antd";
+import {
+  geocodeByAddress,
+  getLatLng,
+} from 'react-places-autocomplete';
+import PlacesAutocomplete from 'react-places-autocomplete';
+import CarDetailsForm from "../../util/CarDetailsForm";
+
 
 const FormItem = Form.Item;
 const children = [];
-const childrenModel = [];
-const childrenType = [];
-const childrenDetails = [];
+const childrenCategories = [];
+const searchOptions = {
+  componentRestrictions: { country: ['ro'] }
+}
 const { Option } = Select;
 
-getAll().then(response => {
-  console.log(response)
+getCategories().then(response => {
   for (let i = 0; i < response.length; i++) {
-    children.push(<Option key={response[i].id}>{response[i].name.toString()}</Option>);
+    childrenCategories.push(<Option key={response[i].id}>{response[i].description.toString()}</Option>);
   }
 })
 
@@ -43,7 +50,10 @@ class Home extends Component {
       },
       email: {
         value: ""
-      }
+      },
+      categories: [],
+      latLng: ''
+
     };
 
     this.openModal = this.openModal.bind(this);
@@ -53,7 +63,19 @@ class Home extends Component {
     this.handleClose = this.handleClose.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
     this.isFormInvalid = this.isFormInvalid.bind(this);
+    this.handleMultipleSelect = this.handleMultipleSelect.bind(this);
   }
+
+  handleChange = address => {
+    this.setState({ address });
+  };
+
+  handleSelect = address => {
+    geocodeByAddress(address).then(this.setState({ address: address }))
+      .then(results => getLatLng(results[0]))
+      .then(latLng => this.setState({ latLng: latLng }))
+      .catch(error => console.error('Error', error));
+  };
 
   openModal() {
     this.setState({
@@ -77,60 +99,15 @@ class Home extends Component {
     this.setState({ show: false });
   }
 
-  changeCar = value => {
-    console.log(value)
+  callbackFunction = (childData) => {
+    console.log(childData);
+    this.setState({ motor: { value: childData } })
+  }
+
+  handleMultipleSelect(value) {
+    console.log(`selected ${value}`);
     this.setState({
-      make: {
-        value: value
-      }
-    }, this.getModelsByMake)
-
-  }
-
-  getModelsByMake() {
-    getAllModelsByManufacturerId(this.state.make.value).then(response => {
-      for (let i = 0; i < response.length; i++) {
-        childrenModel.push(<Option key={response[i].id}>{response[i].name.toString()}</Option>);
-      }
-    })
-  }
-
-  changeModel = value => {
-    console.log(value)
-    this.setState({
-      model: {
-        value: value
-      }
-    }, this.getTypeByModel)
-  }
-
-  getTypeByModel() {
-    getAllTypeYearsByModelId(this.state.model.value).then(response => {
-      for (let i = 0; i < response.length; i++) {
-        childrenType.push(<Option key={response[i].id}>{response[i].name.toString()}</Option>);
-      }
-    })
-  }
-
-  changeType = value => {
-    console.log(value)
-    this.setState({
-      year: { value: value }
-    }, this.getDetailsByType)
-  }
-
-  getDetailsByType() {
-    getAllDetailsByTypeYearId(this.state.year.value).then(response => {
-      for (let i = 0; i < response.length; i++) {
-        childrenDetails.push(<Option key={response[i].id}>{response[i].type.toString()}</Option>);
-      }
-    })
-  }
-
-  changeDetails = value => {
-    console.log(value)
-    this.setState({
-      motor: { value: value }
+      categories: [value]
     })
   }
 
@@ -149,11 +126,13 @@ class Home extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-
     const jobRequest = {
       detailsId: this.state.motor.value,
       description: this.state.description.value,
-      email: this.state.email.value
+      email: this.state.email.value,
+      categories: this.state.categories,
+      lat: this.state.latLng.lat,
+      lng: this.state.latLng.lng
     };
 
     createAnonJob(jobRequest)
@@ -319,7 +298,7 @@ class Home extends Component {
         {/* Modal politica de confidentialitate */}
 
         {/* Modal inscriere service pe site */}
-        <Modal show={this.state.show} onHide={this.handleClose}>
+        <Modal dialogClassName="modal-90w" show={this.state.show} onHide={this.handleClose}>
 
           <Modal.Header closeButton>
             <h3> Cu ce te putem ajuta ?</h3>
@@ -329,86 +308,107 @@ class Home extends Component {
               <div className="signup-content">
 
                 <Form onSubmit={this.handleSubmit} className="signup-form">
+                  <div className="carDetails-container">
+                    <CarDetailsForm parentCallback={this.callbackFunction} />
+                  </div>
 
-                  <FormItem label="Marca *" >
-                    <Select
-                      style={{ width: '100%' }}
-                      placeholder="Marca masinii"
-                      optionFilterProp="children"
+                  <div className="userDetails-container">
+                    <FormItem
+                      label="Alegeti categoria reparatiei *">
+                      <Select
+                        mode="multiple"
+                        size="large"
+                        style={{ width: '100%' }}
+                        placeholder="Categoria reparatiei "
+                        onChange={this.handleMultipleSelect}
+                      >
+                        {childrenCategories}
+                      </Select>
+                    </FormItem>
 
-                      onChange={this.changeCar}
+                    <FormItem
+                      label="Descriere problema cu care doriti ajutor *"
+                      hasFeedback
+                      validateStatus={this.state.description.validateStatus}
+                      help={this.state.description.errorMsg}
                     >
-                      {children}
-                    </Select>
-                  </FormItem>
+                      <Input
+                        size="large"
+                        name="description"
+                        type="text"
+                        autoComplete="off"
+                        placeholder="Descriere problema"
+                        value={this.state.description.value}
+                        onChange={event =>
+                          this.handleInputChange(event, this.validateDescription)
+                        }
+                      />
+                    </FormItem>
 
-                  <FormItem label="Model *">
-                    <Select
-                      style={{ width: '100%' }}
-                      placeholder="Modelul masinii"
-                      optionFilterProp="children"
-                      onChange={this.changeModel}
+                    <FormItem label="Locatie *">
+                      <PlacesAutocomplete
+                        searchOptions={searchOptions}
+                        value={this.state.address}
+                        onChange={this.handleChange}
+                        onSelect={this.handleSelect}
+                        size="large"
+
+                      >
+                        {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
+                          <div>
+                            <input
+                              size="large"
+                              {...getInputProps({
+                                placeholder: 'Ex: Bucuresti, Cluj',
+                                className: 'location-search-input',
+                              })}
+                            />
+                            <div className="autocomplete-dropdown-container">
+                              {loading && <div>Loading...</div>}
+                              {suggestions.map(suggestion => {
+                                const className = suggestion.active
+                                  ? 'suggestion-item--active'
+                                  : 'suggestion-item';
+                                // inline style for demonstration purpose
+                                const style = suggestion.active
+                                  ? { backgroundColor: '#fafafa', cursor: 'pointer' }
+                                  : { backgroundColor: '#ffffff', cursor: 'pointer' };
+                                return (
+                                  <div
+                                    {...getSuggestionItemProps(suggestion, {
+                                      className,
+                                      style,
+                                    })}
+                                  >
+                                    <span>{suggestion.description}</span>
+                                  </div>
+                                );
+                              })}
+                            </div>
+                          </div>
+                        )}
+                      </PlacesAutocomplete>
+                    </FormItem>
+
+                    <FormItem
+                      label="Email *"
+                      hasFeedback
+                      validateStatus={this.state.email.validateStatus}
+                      help={this.state.email.errorMsg}
                     >
-                      {childrenModel}
-                    </Select>
-                  </FormItem>
-
-                  <FormItem label="An *" >
-                    <Select
-                      style={{ width: '100%' }}
-                      placeholder="Anul masinii"
-                      optionFilterProp="children"
-                      onChange={this.changeType}
-                    >
-                      {childrenType}
-                    </Select>
-                  </FormItem>
-
-                  <FormItem label="Motorizare *" hasFeedback>
-                    <Select onChange={this.changeDetails}
-                      placeholder="Motorizarea"
-                      optionFilterProp="children">
-                      {childrenDetails}
-                    </Select>
-                  </FormItem>
-
-                  <FormItem
-                    label="Descriere problema cu care doriti ajutor *"
-                    hasFeedback
-                    validateStatus={this.state.description.validateStatus}
-                    help={this.state.description.errorMsg}
-                  >
-                    <Input
-                      size="large"
-                      name="description"
-                      type="text"
-                      autoComplete="off"
-                      placeholder="Descriere problema"
-                      value={this.state.description.value}
-                      onChange={event =>
-                        this.handleInputChange(event, this.validateDescription)
-                      }
-                    />
-                  </FormItem>
-                  <FormItem
-                    label="Email *"
-                    hasFeedback
-                    validateStatus={this.state.email.validateStatus}
-                    help={this.state.email.errorMsg}
-                  >
-                    <Input
-                      size="large"
-                      name="email"
-                      type="text"
-                      autoComplete="off"
-                      placeholder="Email"
-                      value={this.state.email.value}
-                      onChange={event =>
-                        this.handleInputChange(event, this.validateDescription)
-                      }
-                    />
-                  </FormItem>
-
+                      <Input
+                        size="large"
+                        name="email"
+                        type="text"
+                        autoComplete="off"
+                        placeholder="Email"
+                        value={this.state.email.value}
+                        onChange={event =>
+                          this.handleInputChange(event, this.validateDescription)
+                        }
+                      />
+                    </FormItem>
+                  </div>
                   <p> Campurile marcate cu * sunt obligatorii pentru a trimite o cerere.</p>
 
                   <FormItem>

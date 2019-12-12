@@ -430,3 +430,28 @@ footer ul{
     font-size:30px;
   }
 }
+
+
+@media(min-width:1024px){
+  .modal-90w{
+    width:75% !important;
+    max-width: none!important;
+  }
+  
+  .carDetails-container{
+    width:50%;
+    display:inline-block;
+  
+  }
+  
+  .userDetails-container{
+    width:50%;
+    display:inline-block;
+    padding-left:20px;
+  }
+  
+  
+}
+.signup-form input{
+  margin-bottom:0 !important;
+}

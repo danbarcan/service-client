@@ -24,13 +24,9 @@ import {
 } from 'react-places-autocomplete';
 import PlacesAutocomplete from 'react-places-autocomplete';
 
-
-
 const FormItem = Form.Item;
-
 const { Option } = Select;
 const children = [];
-
 const searchOptions = {
   componentRestrictions: { country: ['ro'] }
 }
@@ -92,8 +88,6 @@ class Job extends Component {
     this.handleMultipleSelect = this.handleMultipleSelect.bind(this);
   }
 
-
-
   handleChange = address => {
     this.setState({ address });
   };
@@ -104,8 +98,6 @@ class Job extends Component {
       .then(latLng => this.setState({ latLng: latLng }))
       .catch(error => console.error('Error', error));
   };
-
-
 
   handleInputChange(event, validationFun) {
     const target = event.target;
@@ -125,7 +117,13 @@ class Job extends Component {
   }
 
   handleShow() {
-    this.setState({ show: true });
+    console.log(this.state)
+    if (this.state.cars.length > 0) {
+      this.setState({ show: true });
+    } else {
+      alert('Mai intai trebuie sa adaugati o masina.')
+      this.props.history.push('/Masini')
+    }
   }
 
   chooseCar(id) {
@@ -135,20 +133,17 @@ class Job extends Component {
   }
 
   handleMultipleSelect(value) {
-
     this.setState({
       categories: value
     })
   }
 
   getCars() {
-
     let promise;
     promise = getAllCars(this.props.currentUser.id);
     if (!promise) {
       return;
     }
-
     this.setState({
       isLoading: true
     });
@@ -219,8 +214,6 @@ class Job extends Component {
   }
 
   getJobs() {
-
-
     let promise;
     promise = getJobs(this.props.currentUser.id);
     if (!promise) {
@@ -378,7 +371,6 @@ class Job extends Component {
                         <div className="offer-container col-md-6" key={o.id}>
                           <h3>{o.user.username}</h3>
                           <p>{o.rating} <Icon className="rating-star" type="star" theme="filled" /></p>
-
                           <img src={serviceImage} alt="Serviceimg" />
 
                           <p><Icon type="pushpin"></Icon> Adresa: {o.user.serviceDetails.address}</p>
@@ -444,6 +436,7 @@ class Job extends Component {
                   ))
                   }
                 </FormItem>
+
                 <FormItem
                   label="Alegeti categoria reparatiei *">
                   <Select
@@ -481,9 +474,7 @@ class Job extends Component {
                     value={this.state.address}
                     onChange={this.handleChange}
                     onSelect={this.handleSelect}
-
                   >
-
                     {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
                       <div>
                         <input
@@ -517,9 +508,8 @@ class Job extends Component {
                       </div>
                     )}
                   </PlacesAutocomplete>
-
-
                 </FormItem>
+
                 <FormItem>
                   <Button
                     type="primary"
