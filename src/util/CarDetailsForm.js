@@ -46,12 +46,15 @@ class CarDetailsForm extends Component {
       make: {
         value: value
       }
+
     }, this.getModelsByMake)
       ;
   }
 
   getModelsByMake() {
+
     getAllModelsByManufacturerId(this.state.make.value).then(response => {
+      childrenModel.length = 0;
       for (let i = 0; i < response.length; i++) {
         childrenModel.push(<Option key={response[i].id}>{response[i].name.toString()}</Option>);
       }
@@ -69,6 +72,7 @@ class CarDetailsForm extends Component {
 
   getTypeByModel() {
     getAllTypeYearsByModelId(this.state.model.value).then(response => {
+      childrenType.length = 0;
       for (let i = 0; i < response.length; i++) {
         childrenType.push(<Option key={response[i].id}>{response[i].name.toString()}</Option>);
       }
@@ -84,6 +88,7 @@ class CarDetailsForm extends Component {
 
   getDetailsByType() {
     getAllDetailsByTypeYearId(this.state.year.value).then(response => {
+      childrenDetails.length = 0;
       for (let i = 0; i < response.length; i++) {
         childrenDetails.push(<Option key={response[i].id}>{response[i].type.toString()}</Option>);
       }

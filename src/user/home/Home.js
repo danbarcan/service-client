@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import serviceImage from "../../img/hero.jpg";
-import { createAnonJob, getCategories, getAll } from "../../util/APIUtils";
+import { createAnonJob, getCategories } from "../../util/APIUtils";
 import "./Home.css";
 import { Modal } from "react-bootstrap";
 import { Form, Input, Button, Icon, notification, Carousel, Select } from "antd";
@@ -13,7 +13,6 @@ import CarDetailsForm from "../../util/CarDetailsForm";
 
 
 const FormItem = Form.Item;
-const children = [];
 const childrenCategories = [];
 const searchOptions = {
   componentRestrictions: { country: ['ro'] }

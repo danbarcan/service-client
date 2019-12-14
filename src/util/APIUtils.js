@@ -278,7 +278,7 @@ export function checkCUI(cui) {
 // Toate masinile din DB
 export function getAll() {
   return request({
-    url: API_BASE_URL + "/public/allCars",
+    url: API_BASE_URL + "/public/liteManufacturers ",
     method: "GET"
   })
 
@@ -293,14 +293,14 @@ export function getAllDetailsByTypeYearId(id) {
 
 export function getAllModelsByManufacturerId(id) {
   return request({
-    url: API_BASE_URL + '/public/allModelsByManufacturerId?manufacturerId=' + id,
+    url: API_BASE_URL + '/public/liteModelsByManufacturerId?manufacturerId=' + id,
     method: "GET"
   })
 }
 
 export function getAllTypeYearsByModelId(id) {
   return request({
-    url: API_BASE_URL + '/public/allTypeYearsByModelId?modelId= ' + id,
+    url: API_BASE_URL + '/public/liteTypeYearsByModelId?modelId= ' + id,
     method: "GET"
   })
 }

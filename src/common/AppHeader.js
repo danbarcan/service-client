@@ -75,7 +75,7 @@ class AppHeader extends Component {
         <div className="layout">
           <div className="app-title">
             <div className="logo" />
-            <Link to='/' >
+            <Link to='/home' >
               <img className="navLogo" src={logo} alt="Smart Service Logo"></img>
             </Link>
           </div>

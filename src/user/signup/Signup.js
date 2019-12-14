@@ -403,10 +403,7 @@ class Signup extends Component {
                           }
                         />
                       </FormItem>
-                      <FormItem
-                        label="Adresa"
-
-                      >
+                      <FormItem label="Adresa">
                         <PlacesAutocomplete
                           value={this.state.service_address}
                           onChange={this.handleChange}
