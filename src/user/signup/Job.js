@@ -357,7 +357,7 @@ class Job extends Component {
                       <img src={serviceImage} alt="Serviceimg" />
                       <p className="ratingBackground">{j.acceptedService.rating} <Icon className="rating-star" type="star" theme="filled" /></p>
                       <p><Icon type="home" theme="filled"></Icon>Adresa: {j.location}</p>
-                      <p><Icon type="phone" />Numar : <a href="tel:${j.acceptedService.phoneNumber}"> {j.acceptedService.phoneNumber}</a></p>
+                      <p><Icon type="phone" />Numar : <a href="tel:{j.acceptedService.phoneNumber}"> {j.acceptedService.phoneNumber}</a></p>
                       <p><Icon type="dollar" />Pret : {j.offers[0].cost} Ron </p>
                       <p><Icon type="clock-circle" />Durata : {j.offers[0].duration} Ore </p>
                       <p><Icon type="wechat" />Mesaj : {j.description}</p>

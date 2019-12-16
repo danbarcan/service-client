@@ -646,8 +646,7 @@ class JobList extends Component {
   }
 
   validateDuration = duration => {
-    if (parseInt(duration) > 10000) {
-
+    if (parseInt(duration, 10) >= 10000) {
       return {
         validateStatus: "error",
         errorMsg: 'Durata nu poate sa fie mai mare de 10000 de ore. '
@@ -658,8 +657,8 @@ class JobList extends Component {
         errorMsg: null
       };
     }
-
   };
+
   validateCost = cost => {
     if (cost < 1) {
       return {
@@ -671,8 +670,9 @@ class JobList extends Component {
         validateStatus: "success",
         errorMsg: null
       };
-    };
-  }
+    }
+  };
+
   validateMessage = description => {
     if (description.length < 5) {
       return {
@@ -685,7 +685,6 @@ class JobList extends Component {
         errorMsg: null
       };
     }
-
   };
 }
 
