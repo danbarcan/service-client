@@ -2,7 +2,9 @@ import { API_BASE_URL, ACCESS_TOKEN } from "../constants";
 
 const request = options => {
   const headers = new Headers({
-    "Content-Type": "application/json"
+    "Content-Type": "application/json",
+    "Access-Control-Allow-Origin": "*"
+
   });
 
   if (localStorage.getItem(ACCESS_TOKEN)) {
