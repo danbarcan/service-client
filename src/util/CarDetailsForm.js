@@ -109,11 +109,15 @@ class CarDetailsForm extends Component {
       <div className="">
         < FormItem label="Marca *" >
           <Select
+            showSearch
             style={{ width: '100%' }}
             size="large"
-            placeholder="Marca masinii"
+            placeholder="Marca "
             optionFilterProp="children"
             onChange={this.changeCar}
+            filterOption={(input, option) =>
+              option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+            }
           >
             {children}
           </Select>
