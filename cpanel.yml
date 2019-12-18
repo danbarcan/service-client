@@ -1,0 +1,5 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home4/cadastru/public_html/agrostedan
+    - /bin/cp -R * $DEPLOYPATH

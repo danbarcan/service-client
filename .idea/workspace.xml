@@ -240,6 +240,12 @@
       </list>
     </option>
   </component>
+  <component name="WindowStateProjectService">
+    <state x="530" y="279" key="VCS.ChangelistChooser" timestamp="1576531662821">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="530" y="279" key="VCS.ChangelistChooser/0.0.1366.728@0.0.1366.728" timestamp="1576531662821" />
+  </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/package-lock.json" />
     <entry file="file://$PROJECT_DIR$/src/common/AppHeader.css">
