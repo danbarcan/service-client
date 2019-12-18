@@ -444,6 +444,7 @@ class Job extends Component {
                     style={{ width: '100%' }}
                     placeholder="Categoria de reparatie dorita"
                     optionFilterProp="children"
+                    onChange={this.handleMultipleSelect}
                   >
                     {children}
                   </Select>

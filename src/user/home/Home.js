@@ -106,7 +106,7 @@ class Home extends Component {
   handleMultipleSelect(value) {
     console.log(`selected ${value}`);
     this.setState({
-      categories: [value]
+      categories: value
     })
   }
 
