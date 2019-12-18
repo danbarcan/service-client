@@ -15,6 +15,7 @@ import Profile from "../user/profile/Profile";
 import AppHeader from "../common/AppHeader";
 import AppFooter from "../common/AppFooter";
 import NotFound from "../common/NotFound";
+import Admin from "../common/Admin";
 import Chat from "../user/Chat";
 import LoadingIndicator from "../common/LoadingIndicator";
 import { Layout, notification } from "antd";
@@ -208,7 +209,13 @@ class App extends Component {
           <Content className="app-content ">
             <div className="container" />
             <h3>Admin Dashboard</h3>
-
+            <Route
+              exact
+              path="/Chat"
+              render={props => (
+                <Admin currentUser={this.state.currentUser} />
+              )}
+            />
 
 
           </Content>

@@ -112,7 +112,7 @@ class CarDetailsForm extends Component {
             showSearch
             style={{ width: '100%' }}
             size="large"
-            placeholder="Marca "
+            placeholder="Marca masinii"
             optionFilterProp="children"
             onChange={this.changeCar}
             filterOption={(input, option) =>
