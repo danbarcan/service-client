@@ -246,6 +246,8 @@ class Job extends Component {
 
   getOffers() {
 
+    console.log(this.state)
+
     let promise;
     promise = getOffers(this.props.currentUser.id);
     if (!promise) {

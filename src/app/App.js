@@ -7,6 +7,7 @@ import { ACCESS_TOKEN } from "../constants";
 
 import Login from "../user/login/Login";
 import Forgot from "../user/login/Forgot";
+import Forgot from "../user/login/NewPassword";
 import Home from "../user/home/Home";
 import Service from "../user/contact/Contact";
 import Job from "../user/signup/Job";
@@ -22,6 +23,7 @@ import { Layout, notification } from "antd";
 import JobList from "../poll/JobList";
 import AddCar from "../util/AddCar";
 import "./App.css";
+import NewPassword from "../user/login/NewPassword";
 
 const { Content } = Layout;
 
@@ -277,16 +279,17 @@ class App extends Component {
               <Route path="/home" component={Home} />
               <Route path="/contact" component={Service} />
               <Route path="/forgot-password" component={Forgot} />
+              <Route path="/new-password" component={NewPassword}
 
               <Route
                 path="/users/:username"
                 render={props => (
-                  <Profile
-                    isAuthenticated={this.state.isAuthenticated}
-                    currentUser={this.state.currentUser}
-                    {...props}
-                  />
-                )}
+                <Profile
+                  isAuthenticated={this.state.isAuthenticated}
+                  currentUser={this.state.currentUser}
+                  {...props}
+                />
+              )}
               />
               <Route component={NotFound} />
             </Switch>

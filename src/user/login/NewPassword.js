@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import { SendEmail } from "../../util/APIUtils"
 import { Form, Input, Button, Icon } from "antd";
 const FormItem = Form.Item;
+import { SendNewPassword } from "../../util/APIUtils";
 
-class Forgot extends Component {
+class NewPassword extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -18,25 +18,23 @@ class Forgot extends Component {
   }
 
   handleSubmit(event) {
-    SendEmail(this.state.value);
+    SendNewPassword(this.state.value);
   }
 
   render() {
 
     return (
-      <div className="login-container">
+      <div class="login-container">
         <Form onSubmit={this.handleSubmit} className="login-form">
-          <h4> Nici o problema. Vom trimite o parola noua in cel mai scurt timp.
-            <br></br> Va rugam completati numele de utilizator sau adresa de email.</h4>
+          <h4> Va rugam introduceti noua parola.</h4>
 
           <FormItem label="Nume de utilizator sau email" required>
+
             <Input
               prefix={<Icon type="user" />}
               size="large"
-              value={this.state.value}
               name="usernameOrEmail"
-              placeholder="Username or Email"
-              onChange={this.handleChange}
+              placeholder="Noua parola"
             />
           </FormItem>
 
@@ -44,10 +42,12 @@ class Forgot extends Component {
             <Button
               type="primary"
               htmlType="submit"
+              value={this.state.value}
               size="large"
               className="login-form-button"
+              onChange={this.handleChange}
             >
-              Trimite parola noua
+              Salveaza noua parola
           </Button>
           </FormItem>
         </Form>
@@ -56,4 +56,4 @@ class Forgot extends Component {
   }
 }
 
-export default Forgot;
+export default NewPassword;

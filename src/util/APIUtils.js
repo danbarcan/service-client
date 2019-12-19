@@ -306,3 +306,19 @@ export function getAllTypeYearsByModelId(id) {
     method: "GET"
   })
 }
+
+// Parola
+
+export function SendEmail(value) {
+  return request({
+    url: API_BASE_URL + '/public/ResetPassword?email= ' + value,
+    method: "GET"
+  })
+}
+
+export function SendNewPassword(value) {
+  return request({
+    url: API_BASE_URL + '/public/ResetPassword?email= ' + value,
+    method: "GET"
+  })
+}
