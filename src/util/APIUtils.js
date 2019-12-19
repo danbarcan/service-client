@@ -311,14 +311,14 @@ export function getAllTypeYearsByModelId(id) {
 
 export function SendEmail(value) {
   return request({
-    url: API_BASE_URL + '/public/ResetPassword?email= ' + value,
+    url: API_BASE_URL + '/auth/resetPwd?email=' + value,
     method: "GET"
   })
 }
 
 export function SendNewPassword(value) {
   return request({
-    url: API_BASE_URL + '/public/ResetPassword?email= ' + value,
+    url: API_BASE_URL + 'auth/changePwd?password=' + value + '&token=743d5b35-e3b1-47b1-8edf-e66d6ac483c7 ',
     method: "GET"
   })
 }

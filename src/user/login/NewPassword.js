@@ -26,11 +26,11 @@ class NewPassword extends Component {
   render() {
 
     return (
-      <div class="login-container">
+      <div className="login-container">
         <Form onSubmit={this.handleSubmit} className="login-form">
           <h4> Va rugam introduceti noua parola.</h4>
 
-          <FormItem label="Nume de utilizator sau email" required>
+          <FormItem label="Noua parola" required>
 
             <Input
               prefix={<Icon type="user" />}
