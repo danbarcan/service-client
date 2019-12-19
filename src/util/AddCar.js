@@ -70,9 +70,7 @@ class AddCar extends Component {
       });
   }
 
-  editCar(id, make, model, year) {
-    console.log(this.state);
-
+  editCar(id, make, model, power) {
     this.setState({
       editshow: true,
       make: {
@@ -82,7 +80,10 @@ class AddCar extends Component {
         value: model
       },
       year: {
-        value: year
+        value: power
+      },
+      motor: {
+        value: power
       },
       carId: { value: id }
     });
@@ -113,7 +114,6 @@ class AddCar extends Component {
   }
 
   callbackFunction = (childData) => {
-    console.log(childData);
     this.setState({ motor: { value: childData } })
   }
 
@@ -156,11 +156,12 @@ class AddCar extends Component {
         });
     } else {
       const carUpdateRequest = {
-        userId: this.state.currentUser.id,
+        userId: this.props.currentUser.id,
         id: this.state.carId.value,
         make: this.state.make.value,
         model: this.state.model.value,
-        year: this.state.year.value
+        year: this.state.year.value,
+        detailsId: this.state.motor.value
       };
       updateCar(carUpdateRequest)
         .then(response => {
@@ -196,8 +197,6 @@ class AddCar extends Component {
 
   componentDidMount() {
 
-    console.log(this.state);
-    console.log(this.props);
     this.getAllCars();
   }
 
@@ -211,14 +210,14 @@ class AddCar extends Component {
         {this.state.cars.map(c => (
           <div className="car-container" key={c.id}>
             <img src={carLogo} alt="Car Logo"></img>
-            <h2>
+            <h3>
               <span>
-                {c.make} {c.model}
+                {c.manufacturer} {c.model}
               </span>
               <br></br>
-              {c.year}</h2>
+              {c.power}</h3>
             <Button
-              onClick={() => this.editCar(c.id, c.make, c.model, c.year)}
+              onClick={() => this.editCar(c.id, c.manufacturer, c.model, c.power)}
               className="btn btn-warning"
             >
               Editeaza
@@ -264,62 +263,11 @@ class AddCar extends Component {
           <Modal.Header closeButton />
           <Modal.Body>
             <div className="signup-container">
-              <h1 className="page-title">Editati Masina </h1>
+              <h1 className="page-title">Editati masina curenta : </h1>
+              <h2>{this.state.make.value} {this.state.model.value} </h2>
               <div className="signup-content">
                 <Form onSubmit={this.handleSubmit} className="signup-form">
-                  <FormItem
-                    label="Marca"
-                    hasFeedback
-                    validateStatus={this.state.make.validateStatus}
-                    help={this.state.make.errorMsg}
-                  >
-                    <Input
-                      size="large"
-                      name="make"
-                      autoComplete="off"
-                      placeholder="Marca"
-                      value={this.state.make.value}
-                      onChange={event =>
-                        this.handleInputChange(event, this.validateMake)
-                      }
-                    />
-                  </FormItem>
-                  <FormItem
-                    label="Model"
-                    hasFeedback
-                    validateStatus={this.state.model.validateStatus}
-                    help={this.state.model.errorMsg}
-                  >
-                    <Input
-                      size="large"
-                      name="model"
-                      autoComplete="off"
-                      placeholder="Model"
-                      value={this.state.model.value}
-                      onChange={event =>
-                        this.handleInputChange(event, this.validateModel)
-                      }
-                    />
-                  </FormItem>
-                  <FormItem
-                    label="An"
-                    hasFeedback
-                    validateStatus={this.state.year.validateStatus}
-                    help={this.state.year.errorMsg}
-                  >
-                    <Input
-                      size="large"
-                      name="year"
-                      type="number"
-                      autoComplete="off"
-                      placeholder="An"
-                      value={this.state.year.value}
-                      onChange={event =>
-                        this.handleInputChange(event, this.validateYear)
-                      }
-                    />
-                  </FormItem>
-
+                  <CarDetailsForm parentCallback={this.callbackFunction} />
                   <FormItem>
                     <Button
                       type="primary"

@@ -15,7 +15,6 @@ const { Option } = Select;
 
 
 getAll().then(response => {
-  console.log(response)
   for (let i = 0; i < response.length; i++) {
     children.push(<Option key={response[i].id}>{response[i].name.toString()}</Option>);
   }
@@ -41,10 +40,17 @@ class CarDetailsForm extends Component {
   }
 
   changeCar = value => {
-    console.log(value)
     this.setState({
       make: {
         value: value
+      }, model: {
+        value: ""
+      },
+      year: {
+        value: ""
+      },
+      motor: {
+        value: ""
       }
 
     }, this.getModelsByMake)
@@ -62,10 +68,15 @@ class CarDetailsForm extends Component {
   }
 
   changeModel = value => {
-    console.log(value)
     this.setState({
       model: {
         value: value
+      },
+      year: {
+        value: ""
+      },
+      motor: {
+        value: ""
       }
     }, this.getTypeByModel)
   };
@@ -80,9 +91,9 @@ class CarDetailsForm extends Component {
   }
 
   changeType = value => {
-    console.log(value)
     this.setState({
-      year: { value: value }
+      year: { value: value },
+      motor: { value: "" }
     }, this.getDetailsByType)
   }
 
@@ -96,7 +107,6 @@ class CarDetailsForm extends Component {
   }
 
   changeDetails = value => {
-    console.log(value)
     this.props.parentCallback(value)
 
     this.setState({

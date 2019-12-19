@@ -3,6 +3,7 @@ import { Link, withRouter } from "react-router-dom";
 import "./AppFooter.css";
 import { Icon, Button } from "antd";
 import logoWhite from '../img/LogoWhite.ro.png';
+import logoCircle from '../img/Logo-circle-ro.png'
 import { Modal } from "react-bootstrap";
 
 
@@ -44,6 +45,7 @@ class AppFooter extends Component {
       <footer>
         <div className="footer-container">
           <div className="footerLogo">
+            <img className="hidden" src={logoCircle}></img>
             <img src={logoWhite} alt=" Smart Service Logo White"></img>
             <div className="footer-popups">
               <Button className="popupLink" onClick={() => this.setState({ show: false, termeniShow: true, confidentialityShow: false })}>Termeni si conditii</Button><br></br>

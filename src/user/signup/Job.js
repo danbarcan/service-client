@@ -332,7 +332,7 @@ class Job extends Component {
                 {/* If there is a car show car details to make it clear which car is getting fixed */}
                 {j.car &&
                   <span>
-                    Masina {j.car.make} {j.car.model}
+                    Masina {j.manufacturer} {j.model}
                   </span>
                 }
                 <span>
@@ -431,7 +431,7 @@ class Job extends Component {
                   label=" Alegeti masina *">
                   {this.state.cars.map(c => (
                     <Button name="car" key={c.id} onClick={() => this.chooseCar(c.id)}
-                      value={c.id}>{c.make} - {c.model} - {c.year}
+                      value={c.id}>{c.manufacturer} - {c.model}
                     </Button>
                   ))
                   }
