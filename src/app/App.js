@@ -7,7 +7,7 @@ import { ACCESS_TOKEN } from "../constants";
 
 import Login from "../user/login/Login";
 import Forgot from "../user/login/Forgot";
-import Forgot from "../user/login/NewPassword";
+import NewPassword from "../user/login/NewPassword";
 import Home from "../user/home/Home";
 import Service from "../user/contact/Contact";
 import Job from "../user/signup/Job";
