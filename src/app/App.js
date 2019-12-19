@@ -279,17 +279,17 @@ class App extends Component {
               <Route path="/home" component={Home} />
               <Route path="/contact" component={Service} />
               <Route path="/forgot-password" component={Forgot} />
-              <Route path="/new-password" component={NewPassword}
+              <Route path="/new-password" component={NewPassword} />
 
               <Route
                 path="/users/:username"
                 render={props => (
-                <Profile
-                  isAuthenticated={this.state.isAuthenticated}
-                  currentUser={this.state.currentUser}
-                  {...props}
-                />
-              )}
+                  <Profile
+                    isAuthenticated={this.state.isAuthenticated}
+                    currentUser={this.state.currentUser}
+                    {...props}
+                  />
+                )}
               />
               <Route component={NotFound} />
             </Switch>
