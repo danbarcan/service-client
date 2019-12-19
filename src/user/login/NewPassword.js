@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import { Form, Input, Button, Icon } from "antd";
-const FormItem = Form.Item;
 import { SendNewPassword } from "../../util/APIUtils";
+
+
+const FormItem = Form.Item;
 
 class NewPassword extends Component {
   constructor(props) {

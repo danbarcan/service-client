@@ -23,7 +23,6 @@ import { Layout, notification } from "antd";
 import JobList from "../poll/JobList";
 import AddCar from "../util/AddCar";
 import "./App.css";
-import NewPassword from "../user/login/NewPassword";
 
 const { Content } = Layout;
 
