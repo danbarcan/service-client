@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { SendEmail } from "../../util/APIUtils"
-import { Form, Input, Button, Icon } from "antd";
+import { Form, Input, Button, Icon, notification } from "antd";
 const FormItem = Form.Item;
 
 class Forgot extends Component {
@@ -18,7 +18,13 @@ class Forgot extends Component {
   }
 
   handleSubmit(event) {
-    SendEmail(this.state.value);
+    SendEmail(this.state.value)
+
+    notification.success({
+      message: "Smart Service",
+      description: "Multumim ! Veti primi un email cu noua parola in cel mai scurt timp"
+    });
+    this.props.history.push("/home");
   }
 
   render() {

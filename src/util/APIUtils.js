@@ -316,9 +316,9 @@ export function SendEmail(value) {
   })
 }
 
-export function SendNewPassword(value) {
+export function SendNewPassword(value, token) {
   return request({
-    url: API_BASE_URL + 'auth/changePwd?password=' + value + '&token=743d5b35-e3b1-47b1-8edf-e66d6ac483c7 ',
+    url: API_BASE_URL + '/auth/changePwd?password=' + value + '&token=' + token,
     method: "GET"
   })
 }
