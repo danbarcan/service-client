@@ -10,6 +10,7 @@ import {
 } from 'react-places-autocomplete';
 import PlacesAutocomplete from 'react-places-autocomplete';
 import CarDetailsForm from "../../util/CarDetailsForm";
+import { Link } from "react-router-dom";
 
 
 const FormItem = Form.Item;
@@ -271,7 +272,7 @@ class Home extends Component {
             </div>
           </Carousel>
 
-          <Button className="hero-button btn-success"> Devino un service partener</Button>
+          <Button className="hero-button btn-success"><Link to="/contact"> Devino un service partener</Link></Button>
         </div>
 
         <div className="services-list">

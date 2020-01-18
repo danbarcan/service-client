@@ -66,8 +66,6 @@ class AppHeader extends Component {
           <Link to="/signup">Inregistrare</Link>
         </Menu.Item>
       ];
-
-
     }
 
     return (

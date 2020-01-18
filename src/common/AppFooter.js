@@ -45,8 +45,8 @@ class AppFooter extends Component {
       <footer>
         <div className="footer-container">
           <div className="footerLogo">
-            <img className="hidden" src={logoCircle}></img>
-            <img src={logoWhite} alt=" Smart Service Logo White"></img>
+            <img className="hidden" src={logoCircle} alt="logo circle"></img>
+            <img src={logoWhite} alt="Smart Service Logo White"></img>
             <div className="footer-popups">
               <Button className="popupLink" onClick={() => this.setState({ show: false, termeniShow: true, confidentialityShow: false })}>Termeni si conditii</Button><br></br>
               <Button className="popupLink" onClick={() => this.setState({ show: false, termeniShow: false, confidentialityShow: true })}>Prelucrarea datelor cu caracter personal</Button>

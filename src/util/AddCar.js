@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { addCar, getAllCars, updateCar, deleteCar } from "./APIUtils";
-import { Form, Input, Button, notification } from "antd";
+import { Form, Button, notification } from "antd";
 import { Modal } from "react-bootstrap";
 import "./AddCar.css";
 import carLogo from '../img/car-logo.png';

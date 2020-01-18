@@ -455,3 +455,13 @@ footer ul{
 .signup-form input{
   margin-bottom:0 !important;
 }
+
+.categorie-reparatie{
+  font-size:10px;
+  background-color:lightgrey;
+  padding:4px;
+}
+
+.active-jobs p{
+  margin:15px;
+}

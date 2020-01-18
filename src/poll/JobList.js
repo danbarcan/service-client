@@ -203,6 +203,8 @@ class JobList extends Component {
       }
     })
 
+    console.log(this.state)
+
     let promise;
 
     promise = getAllJobs();
@@ -332,9 +334,8 @@ class JobList extends Component {
                 this.state.currentJobs.map(d => (
                   <div className="job-container col-md-4 ">
                     <h2> Cerere de la <span>{d.user.name}</span></h2>
-
-                    <p>Masina <Icon type="car"></Icon>  {d.car.make} {d.car.model}</p>
-                    <p>An <Icon type="calendar"></Icon>  {d.car.year}</p>
+                    <p>Categoria reparatiei {d.categories} </p>
+                    <p>Masina <Icon type="car"></Icon>  {d.car.details.typeYear.model.manufacturer.name} {d.car.details.typeYear.model.name}</p>
                     <p>Problema <Icon type="tool"></Icon><span key={d.id}>{d.description}</span></p>
                     <Button
                       onClick={() => this.seeChat(d.id)}
@@ -363,8 +364,8 @@ class JobList extends Component {
                   <div className="job-container col-md-4">
                     <h2> Cerere de la <span>{d.user.name}</span></h2>
 
-                    <p>Masina <Icon type="car"></Icon>  {d.car.make} {d.car.model}</p>
-                    <p>An <Icon type="calendar"></Icon>  {d.car.year}</p>
+                    {d.categories.map(category => (<p > Categorie:  <span className="categorie-reparatie">{category.description}</span> </p>))}
+                    <p>Masina <Icon type="car"></Icon>  {d.car.details.typeYear.model.manufacturer.name} {d.car.details.typeYear.model.name}</p>
                     <p>Problema <Icon type="tool"></Icon><span key={d.id}>{d.description}</span></p>
                     <Button
                       onClick={() => this.acceptOffer(d.id, d.description)}
@@ -474,8 +475,8 @@ class JobList extends Component {
                   <div className="job-container col-md-4">
                     <h2> Cerere de la <span>{d.user.name}</span></h2>
 
-                    <p>Masina <Icon type="car"></Icon>  {d.car.make} {d.car.model}</p>
-                    <p>An <Icon type="calendar"></Icon>  {d.car.year}</p>
+                    <p>Masina <Icon type="car"></Icon>  {d.car.details.typeYear.model.manufacturer.name} {d.car.details.typeYear.model.name}</p>
+                    {/* <p>An <Icon type="calendar"></Icon>  {d.car.details.fuel}</p> */}
                     <p>Problema <Icon type="tool"></Icon><span key={d.id}>{d.description}</span></p>
                     <Button
                       onClick={() => this.deleteOffer(d.id)}
@@ -536,8 +537,7 @@ class JobList extends Component {
                   <div className="job-container col-md-4">
                     <h2> Cerere de la <span>{d.user.name}</span></h2>
 
-                    <p>Masina <Icon type="car"></Icon>  {d.car.make} {d.car.model}</p>
-                    <p>An <Icon type="calendar"></Icon>  {d.car.year}</p>
+                    <p>Masina <Icon type="car"></Icon>  {d.car.details.typeYear.model.manufacturer.name} {d.car.details.typeYear.model.name}</p>
                     <p>Problema <Icon type="tool"></Icon><span key={d.id}>{d.description}</span></p>
                     <Button
                       onClick={() => this.deleteOffer(d.id)}

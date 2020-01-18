@@ -13,20 +13,14 @@ class NewPassword extends Component {
     this.state = {
       value: "",
       token: ""
-    },
-
-
-      this.handleChange = this.handleChange.bind(this);
+    }
+    this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-
   }
-
 
   handleChange(event) {
     this.setState({ value: event.target.value });
   }
-
-
 
   handleSubmit(event) {
     let params = this.props.location.search;
@@ -48,9 +42,6 @@ class NewPassword extends Component {
     this.props.history.push("/home");
 
   }
-
-
-
 
   render() {
 
