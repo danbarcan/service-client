@@ -10,7 +10,7 @@
 }
 
 .service-hero{
-    background-image: url(../../img/service-bg.png);
+    background:transparent url(../../img/service-bg.png);
     background-size:cover;
     background-repeat: no-repeat;
     height:900px;
@@ -18,21 +18,18 @@
     color:white;
 }
 
-.avantaje-container{
-    background-color:white;
-}
-
 .arrows-container{
-    width: 100%;
+    width: 80%;
     margin: 0 auto;
-    padding: 0 25px;
     display: flex;
-    max-width: 1200px;
+    max-width: 1440px;
     min-width: 320px;
+    padding-top:50px;
+
 }
 
 .arrow-container{
-    width:250px;
+    width:25%;
     height:240px;
     margin:30px;
     margin-right:20px;
@@ -70,5 +67,43 @@
 
 .arrow-container p{
     font-size:20px;
-    margin:10px;
+    margin-top:25px;
+    margin-left:10px;
+}
+
+.contact-us{
+    display:block;
+    width:80%;
+    clear:both;
+    margin:0 auto;
+}
+
+.contact-us h2{
+    padding-bottom:50px;
+}
+
+.h2{
+    padding-bottom: 50px;;
+}
+
+footer{
+    clear:both;
+}
+
+.signup-form button{
+    margin-top:46px;
+}
+
+.avantaje-container{
+    width:80%;
+    margin:0 auto;
+}
+
+.avantaje-container .icons{
+    padding:5%;
+}
+
+.avantaje-container .icon p{
+    font-size:20px;
+    margin:20px;
 }
