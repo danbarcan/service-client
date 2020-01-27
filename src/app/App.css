@@ -23,6 +23,7 @@ body {
   background-color:white;
   position:relative;
   margin-bottom:10px;
+  margin-right:20px;
 }
 
 .job-container .btn{
@@ -40,6 +41,7 @@ body {
 .jobs-container{
   display:block;
   text-align:center;
+  position:relative;
 }
 
 .job-container .btn-danger {
@@ -54,6 +56,10 @@ body {
 .job-container .btn{
   width:100%;
   margin-bottom:10px;
+}
+
+.job-container .text{
+  width:20px;
 }
 
 h1 {
@@ -79,6 +85,7 @@ h1 {
   width:100%;
   padding:10px;
   text-align:center;
+  position:relative;
 }
 
 @media(min-width:768px){

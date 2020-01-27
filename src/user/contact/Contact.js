@@ -12,7 +12,6 @@ import {
   geocodeByAddress,
   getLatLng,
 } from 'react-places-autocomplete';
-
 import {
   NAME_MIN_LENGTH,
   NAME_MAX_LENGTH,
@@ -24,7 +23,7 @@ import {
   PHONE_MAX_LENGTH,
   PHONE_MIN_LENGTH
 } from "../../constants";
-
+import { CustomIcon, ContainerArrow } from '../../util/Helpers.js';
 
 const children = [];
 
@@ -160,6 +159,7 @@ class Service extends Component {
     );
   }
   render() {
+
     return (
       <div>
         <div className="service-hero">
@@ -176,52 +176,18 @@ class Service extends Component {
         <div className="avantaje-container">
           <div className="icons">
             <h2> Cum te putem ajuta ?  </h2>
-
-            <div className="icon">
-              <h3>Vizibilitate</h3>
-              <div className="icon-single">
-                <Icon type="eye"></Icon>
-              </div>
-              <p>Va ajutam sa va cresteti prezenta online.</p>
-            </div>
-            <div className="icon">
-              <h3>Proiecte alese</h3>
-              <div className="icon-single">
-                <Icon type="bars"></Icon>
-              </div>
-              <p> Tu alegi proiectele care ti se potrivesc la preturile care ti se potrivesc</p>
-            </div>
-            <div className="icon">
-              <h3>Pe timpul tau</h3>
-              <div className="icon-single">
-                <Icon type="calendar"></Icon>
-              </div>
-              <p>Tu alegi cand cauti proiecte noi in functie de timpul potrivit</p>
-            </div>
+            <CustomIcon title="Vizibilitate" icon="eye" description="Va ajutam sa va cresteti prezenta online." />
+            <CustomIcon title="Proiecte alese" icon="bars" description="Tu alegi proiectele care ti se potrivesc la preturile care ti se potrivesc." />
+            <CustomIcon title="Pe timpul tau" icon="calendar" description="Tu alegi cand cauti proiecte noi in functie de timpul potrivit." />
           </div>
         </div>
         <h2> Cum functioneaza Smart-Service.ro ? </h2>
 
         <div className="arrows-container">
-          <div className="arrow-container">
-            <h6>Gaseste</h6>
-            <p>Clientii trimit cereri pentru reparatii</p>
-          </div>
-          <div className="arrow-container">
-
-            <h6>Trimite pret</h6>
-            <p>Garajul trimite cea mai buna oferta pentru utilizatori</p>
-          </div>
-          <div className="arrow-container">
-
-            <h6>Rezerva</h6>
-            <p>Odata ce utilizatorul a acceptat oferta, va intalniti pentru programare</p>
-          </div>
-          <div className="arrow-container">
-
-            <h6>Review</h6>
-            <p>Dupa ce service-ul termina reparatia clientul plateste si lasa un review</p>
-          </div>
+          <ContainerArrow title="Gaseste" description="Clientii trimit cereri pentru reparatii"></ContainerArrow>
+          <ContainerArrow title="Trimite pret" description="Garajul trimite cea mai buna oferta pentru utilizatori"></ContainerArrow>
+          <ContainerArrow title="Rezerva" description="Odata ce utilizatorul a acceptat oferta, va intalniti pentru programare"></ContainerArrow>
+          <ContainerArrow title="Review" description="Dupa ce service-ul termina reparatia clientul plateste si lasa un review"></ContainerArrow>
         </div>
         <h2>Exemple de cereri</h2>
 
@@ -415,7 +381,7 @@ class Service extends Component {
                   disabled={this.isFormInvalidStaff()}
                 >
                   Inscriete
-                        </Button>
+                </Button>
                 Deja inscris ? <Link to="/login">Logheazate!</Link>
               </FormItem>
             </div>

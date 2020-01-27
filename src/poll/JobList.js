@@ -11,6 +11,7 @@ import {
 import { Button, notification, Form, Input, Icon } from "antd";
 import { Modal } from "react-bootstrap";
 import Chat from "../user/Chat";
+import { RequestDetails } from '../util/Helpers';
 
 const FormItem = Form.Item;
 
@@ -25,6 +26,7 @@ class JobList extends Component {
       chatId: "",
       editId: "",
       response: "",
+      problem: "",
       duration: {
         value: ""
       },
@@ -67,12 +69,12 @@ class JobList extends Component {
     this.setState({ show: true });
   }
 
-  acceptOffer(id) {
+  acceptOffer(id, description) {
     this.setState({
       show: true,
+      problem: description,
       editId: id
     });
-    console.log(this.state.show);
   }
 
   showActiveOnly() {
@@ -284,6 +286,7 @@ class JobList extends Component {
       let updatedJobs = [...state].filter(jobs => jobs.id !== id);
       state = updatedJobs;
       this.setState({ offeredJobs: updatedJobs });
+
     }
   }
 
@@ -318,6 +321,83 @@ class JobList extends Component {
         <li><Button className={this.state.showSent ? 'active' : ''} onClick={() => this.showSent()}>Oferte Trimise</Button></li>
         <li><Button className={this.state.showHidden ? 'active' : ''} onClick={() => this.showHidden()}>Cereri Ascunse</Button></li>
       </ul>
+
+    const AcceptOfferModal =
+      <Modal show={this.state.show} onHide={this.handleClose}>
+        <Modal.Header closeButton />
+        <Modal.Body>
+          <div className="signup-container">
+            <h1 className="page-title">Trimite Oferta </h1>
+            <p>Problema : {this.state.problem}</p>
+            <div className="signup-content">
+              <Form
+                onSubmit={this.handleSubmit}
+                className="edditOffer-form"
+              >
+                <FormItem label="Durata / Ore *"
+                  validateStatus={this.state.duration.validateStatus}
+                  help={this.state.duration.errorMsg} hasFeedback>
+                  <Input
+                    size="large"
+                    name="duration"
+                    type="number"
+                    autoComplete="off"
+                    placeholder="Durata"
+                    value={this.state.duration.value}
+                    required
+                    onChange={event =>
+                      this.handleInputChange(event, this.validateDuration)
+                    }
+                  />
+                </FormItem>
+                <FormItem label="Cost / RON * "
+                  validateStatus={this.state.cost.validateStatus}
+                  help={this.state.cost.errorMsg} hasFeedback>
+                  <Input
+                    size="large"
+                    name="cost"
+                    type="number"
+                    autoComplete="off"
+                    placeholder="Cost"
+                    value={this.state.cost.value}
+                    required
+                    onChange={event =>
+                      this.handleInputChange(event, this.validateCost)
+                    }
+                  />
+                </FormItem>
+                <FormItem label="Mesaj catre client *"
+                  validateStatus={this.state.description.validateStatus}
+                  help={this.state.description.errorMsg} hasFeedback>
+                  <Input
+                    size="large"
+                    name="description"
+                    required
+                    autoComplete="off"
+                    placeholder="Raspuns"
+                    onChange={event =>
+                      this.handleInputChange(event, this.validateMessage)
+                    }
+                  />
+                </FormItem>
+
+                <FormItem>
+                  <Button
+                    type="primary"
+                    htmlType="submit"
+                    size="large"
+                    className="signup-form-button"
+                    onClick={this.handleClose}
+                    disabled={this.isFormInvalid()}
+                  >
+                    Trimite
+              </Button>
+                </FormItem>
+              </Form>
+            </div>
+          </div>
+        </Modal.Body>
+      </Modal>
     if (this.state.chat === true) {
       return (
         <Chat {...this.state} />
@@ -333,16 +413,10 @@ class JobList extends Component {
               {this.state.currentJobs &&
                 this.state.currentJobs.map(d => (
                   <div className="job-container col-md-4 ">
-                    <h2> Cerere de la <span>{d.user.name}</span></h2>
-                    <p>Categoria reparatiei {d.categories} </p>
-                    <p>Masina <Icon type="car"></Icon>  {d.car.details.typeYear.model.manufacturer.name} {d.car.details.typeYear.model.name}</p>
-                    <p>Problema <Icon type="tool"></Icon><span key={d.id}>{d.description}</span></p>
-                    <Button
-                      onClick={() => this.seeChat(d.id)}
-                      className="btn btn-success"
-                    >
+                    <RequestDetails name={d.user.name} categories={d.categories} car={d.car.details.typeYear.name} engine={d.car.details.type} fuel={d.car.details.fuel} problem={d.description} id={d.id}></RequestDetails>
+                    <Button onClick={() => this.seeChat(d.id)} className="btn btn-success">
                       Vezi chat
-                  </Button>
+                    </Button>
                   </div>
                 ))
               }
@@ -353,7 +427,6 @@ class JobList extends Component {
     } else if (this.state.showNew === true) {
       return (
         <div>
-
           {menu}
           <div className="newJobs-container">
             <h3>Cereri noi</h3>
@@ -362,106 +435,20 @@ class JobList extends Component {
               {this.state.availJobs &&
                 this.state.availJobs.map(d => (
                   <div className="job-container col-md-4">
-                    <h2> Cerere de la <span>{d.user.name}</span></h2>
-
-                    {d.categories.map(category => (<p > Categorie:  <span className="categorie-reparatie">{category.description}</span> </p>))}
-                    <p>Masina <Icon type="car"></Icon>  {d.car.details.typeYear.model.manufacturer.name} {d.car.details.typeYear.model.name}</p>
-                    <p>Problema <Icon type="tool"></Icon><span key={d.id}>{d.description}</span></p>
-                    <Button
-                      onClick={() => this.acceptOffer(d.id, d.description)}
-                      className="btn btn-success"
-                    >
+                    <RequestDetails name={d.user.name} categories={d.categories} car={d.car.details.typeYear.name} engine={d.car.details.type} fuel={d.car.details.fuel} problem={d.description} id={d.id}></RequestDetails>
+                    <Button onClick={() => this.acceptOffer(d.id, d.description)} className="btn btn-success">
                       Trimite Oferta
                     </Button>
-                    <Button
-                      onClick={() => this.hideJob(d.id)}
-                      className="btn btn-warning"
-                    >
+                    <Button onClick={() => this.hideJob(d.id)} className="btn btn-warning">
                       Ascunde
                     </Button>
                   </div>
                 ))}
             </div>
           </div>
-          <Modal show={this.state.show} onHide={this.handleClose}>
-            <Modal.Header closeButton />
-            <Modal.Body>
-              <div className="signup-container">
-                <h1 className="page-title">Trimite Oferta </h1>
-                <p>Problema : {this.state.description.value}</p>
-                <div className="signup-content">
-                  <Form
-                    onSubmit={this.handleSubmit}
-                    className="edditOffer-form"
-                  >
-                    <FormItem label="Durata / Ore *"
-                      validateStatus={this.state.duration.validateStatus}
-                      help={this.state.duration.errorMsg} hasFeedback>
-                      <Input
-                        size="large"
-                        name="duration"
-                        type="number"
-                        autoComplete="off"
-                        placeholder="Durata"
-                        value={this.state.duration.value}
-                        required
-                        onChange={event =>
-                          this.handleInputChange(event, this.validateDuration)
-                        }
-                      />
-                    </FormItem>
-                    <FormItem label="Cost / RON * "
-                      validateStatus={this.state.cost.validateStatus}
-                      help={this.state.cost.errorMsg} hasFeedback>
-                      <Input
-                        size="large"
-                        name="cost"
-                        type="number"
-                        autoComplete="off"
-                        placeholder="Cost"
-                        value={this.state.cost.value}
-                        required
-                        onChange={event =>
-                          this.handleInputChange(event, this.validateCost)
-                        }
-                      />
-                    </FormItem>
-                    <FormItem label="Mesaj catre client *"
-                      validateStatus={this.state.description.validateStatus}
-                      help={this.state.description.errorMsg} hasFeedback>
-                      <Input
-                        size="large"
-                        name="description"
-                        required
-                        autoComplete="off"
-                        placeholder="Raspuns"
-                        onChange={event =>
-                          this.handleInputChange(event, this.validateMessage)
-                        }
-                      />
-                    </FormItem>
-
-                    <FormItem>
-                      <Button
-                        type="primary"
-                        htmlType="submit"
-                        size="large"
-                        className="signup-form-button"
-                        onClick={this.handleClose}
-                        disabled={this.isFormInvalid()}
-                      >
-                        Trimite
-                      </Button>
-                    </FormItem>
-                  </Form>
-                </div>
-              </div>
-            </Modal.Body>
-          </Modal>
+          {AcceptOfferModal}
         </div>
-
       )
-
     } else if (this.state.showSent === true) {
       return (
         <div>
@@ -473,11 +460,7 @@ class JobList extends Component {
               {this.state.offeredJobs &&
                 this.state.offeredJobs.map(d => (
                   <div className="job-container col-md-4">
-                    <h2> Cerere de la <span>{d.user.name}</span></h2>
-
-                    <p>Masina <Icon type="car"></Icon>  {d.car.details.typeYear.model.manufacturer.name} {d.car.details.typeYear.model.name}</p>
-                    {/* <p>An <Icon type="calendar"></Icon>  {d.car.details.fuel}</p> */}
-                    <p>Problema <Icon type="tool"></Icon><span key={d.id}>{d.description}</span></p>
+                    <RequestDetails name={d.user.name} categories={d.categories} car={d.car.details.typeYear.name} engine={d.car.details.type} fuel={d.car.details.fuel} problem={d.description} id={d.id}></RequestDetails>
                     <Button
                       onClick={() => this.deleteOffer(d.id)}
                       className="btn btn-danger"
@@ -495,29 +478,21 @@ class JobList extends Component {
         <div>
           {menu}
           <div className="hiddenJobs-container">
+            {AcceptOfferModal}
+
             <h3>Cereri ascunse</h3>
             <div className="jobs-container">
 
               {this.state.hiddenJobs &&
                 this.state.hiddenJobs.map(d => (
                   <div className="job-container col-md-4">
-                    <h2> Cerere de la <span>{d.user.name}</span></h2>
-
-                    <p>Masina <Icon type="car"></Icon>  {d.car.make} {d.car.model}</p>
-                    <p>An <Icon type="calendar"></Icon>  {d.car.year}</p>
-                    <p>Problema <Icon type="tool"></Icon><span key={d.id}>{d.description}</span></p>
-                    <Button
-                      onClick={() => this.acceptOffer(d.id, d.description)}
-                      className="btn btn-success"
-                    >
+                    <RequestDetails name={d.user.name} categories={d.categories} car={d.car.details.typeYear.name} engine={d.car.details.type} fuel={d.car.details.fuel} problem={d.description} id={d.id}></RequestDetails>
+                    <Button onClick={() => this.acceptOffer(d.id, d.description)} className="btn btn-success">
                       Trimite Oferta
-              </Button>
-                    <Button
-                      onClick={() => this.unhideJob(d.id)}
-                      className="btn btn-warning"
-                    >
+                    </Button>
+                    <Button onClick={() => this.unhideJob(d.id)} className="btn btn-warning">
                       Reactiveaza
-              </Button>
+                    </Button>
                   </div>
                 ))}
             </div>
@@ -528,6 +503,25 @@ class JobList extends Component {
       return (
         <div className="alljobs">
           {menu}
+          {AcceptOfferModal}
+
+
+          <div className="activeJobs-container">
+            <h3>Oferte acceptate de utilizator</h3>
+            <div className="jobs-container">
+              {this.state.currentJobs &&
+                this.state.currentJobs.map(d => (
+                  <div className="job-container col-md-4 ">
+                    <RequestDetails name={d.user.name} categories={d.categories} car={d.car.details.typeYear.name} engine={d.car.details.type} fuel={d.car.details.fuel} problem={d.description} id={d.id}></RequestDetails>
+                    <Button onClick={() => this.seeChat(d.id)} className="btn btn-success">
+                      Vezi chat
+                    </Button>
+                  </div>
+                ))
+              }
+            </div>
+          </div>
+          <br />
           <div className="currentJobs-container">
             <h3>Oferte trimise</h3>
             <div className="jobs-container">
@@ -535,111 +529,39 @@ class JobList extends Component {
               {this.state.offeredJobs &&
                 this.state.offeredJobs.map(d => (
                   <div className="job-container col-md-4">
-                    <h2> Cerere de la <span>{d.user.name}</span></h2>
-
-                    <p>Masina <Icon type="car"></Icon>  {d.car.details.typeYear.model.manufacturer.name} {d.car.details.typeYear.model.name}</p>
-                    <p>Problema <Icon type="tool"></Icon><span key={d.id}>{d.description}</span></p>
-                    <Button
-                      onClick={() => this.deleteOffer(d.id)}
-                      className="btn btn-danger">
+                    <RequestDetails name={d.user.name} categories={d.categories} car={d.car.details.typeYear.name} engine={d.car.details.type} fuel={d.car.details.fuel} problem={d.description} id={d.id}></RequestDetails>
+                    <Button onClick={() => this.deleteOffer(d.id)} className="btn btn-danger">
                       Sterge Oferta
-                  </Button>
+                    </Button>
                   </div>
                 ))}
             </div>
           </div>
           <br />
+          <div className="newJobs-container">
+            <h3>Cereri noi</h3>
+            <div className="jobs-container">
+              {this.state.availJobs &&
+                this.state.availJobs.map(d => (
+                  <div className="job-container col-md-4">
+                    <RequestDetails name={d.user.name} categories={d.categories} car={d.car.details.typeYear.name} engine={d.car.details.type} fuel={d.car.details.fuel} problem={d.description} id={d.id}></RequestDetails>
+                    <Button onClick={() => this.acceptOffer(d.id, d.description)} className="btn btn-success">
+                      Trimite Oferta
+                    </Button>
+                    <Button onClick={() => this.hideJob(d.id)} className="btn btn-warning">
+                      Ascunde
+                    </Button>
+                  </div>
+                ))}
+            </div>
+          </div>
+          <br></br>
           <div className="hiddenJobs-container">
             <h3>Cereri ascunse</h3>
-            <div className="jobs-container">
 
-              {this.state.hiddenJobs &&
-                this.state.hiddenJobs.map(d => (
-                  <div className="job-container col-md-4">
-                    <h2> Cerere de la <span>{d.user.name}</span></h2>
-
-                    <p>Masina <Icon type="car"></Icon>  {d.car.make} {d.car.model}</p>
-                    <p>An <Icon type="calendar"></Icon>  {d.car.year}</p>
-                    <p>Problema <Icon type="tool"></Icon><span key={d.id}>{d.description}</span></p>
-                    <Button
-                      onClick={() => this.acceptOffer(d.id, d.description)}
-                      className="btn btn-success"
-                    >
-                      Trimite Oferta
-                  </Button>
-                    <Button
-                      onClick={() => this.unhideJob(d.id)}
-                      className="btn btn-warning"
-                    >
-                      Reactiveaza
-                  </Button>
-                  </div>
-                ))}
-            </div>
           </div>
           <br />
-          <Modal show={this.state.show} onHide={this.handleClose}>
-            <Modal.Header closeButton />
-            <Modal.Body>
-              <div className="signup-container">
-                <h1 className="page-title">Accepta Oferta </h1>
-                <p>Problema : {this.state.description}</p>
-                <div className="signup-content">
-                  <Form
-                    onSubmit={this.handleSubmit}
-                    className="edditOffer-form"
-                  >
-                    <FormItem label="Durata" hasFeedback>
-                      <Input
-                        size="large"
-                        name="duration"
-                        autoComplete="off"
-                        placeholder="Durata"
-                        onChange={event =>
-                          this.handleInputChange(event, this.validateResponse)
-                        }
-                      />
-                    </FormItem>
-                    <FormItem label="Cost" hasFeedback>
-                      <Input
-                        size="large"
-                        name="cost"
-                        type="number"
-                        autoComplete="off"
-                        placeholder="Cost"
-                        onChange={event =>
-                          this.handleInputChange(event, this.validateResponse)
-                        }
-                      />
-                    </FormItem>
-                    <FormItem label="Mesaj catre client" hasFeedback>
-                      <Input
-                        size="large"
-                        name="description"
-                        autoComplete="off"
-                        placeholder="Raspuns"
-                        onChange={event =>
-                          this.handleInputChange(event, this.validateResponse)
-                        }
-                      />
-                    </FormItem>
 
-                    <FormItem>
-                      <Button
-                        type="primary"
-                        htmlType="submit"
-                        size="large"
-                        className="signup-form-button"
-                        onClick={this.handleClose}
-                      >
-                        Trimite
-                      </Button>
-                    </FormItem>
-                  </Form>
-                </div>
-              </div>
-            </Modal.Body>
-          </Modal>
         </div >
       )
     }
