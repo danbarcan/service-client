@@ -276,7 +276,7 @@ class App extends Component {
               />
               <Route path="/signup" component={Signup} />
               <Route path="/home" component={Home} />
-              <Route path="/contact" component={Service} />
+              <Route path="/service" component={Service} />
               <Route path="/forgot-password" component={Forgot} />
               <Route path="/new-password/" component={NewPassword} />
 

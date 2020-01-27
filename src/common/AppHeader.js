@@ -56,8 +56,8 @@ class AppHeader extends Component {
         <Menu.Item key="/home">
           <Link to="/home">Acasa</Link>
         </Menu.Item>,
-        <Menu.Item key="/contact">
-          <Link to="/contact">Service</Link>
+        <Menu.Item key="/service">
+          <Link to="/service">Service</Link>
         </Menu.Item>,
         <Menu.Item key="/login">
           <Link to="/login">Logare</Link>

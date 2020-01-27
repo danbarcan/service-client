@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, createRef } from "react";
 import { Button, Input, Form, Select, notification, Icon } from 'antd';
 import "./Contact.css";
 import FormItem from "antd/lib/form/FormItem";
@@ -42,8 +42,12 @@ getCategories().then(response => {
 
 
 class Service extends Component {
+
   constructor(props) {
     super(props);
+    this.scrollDiv = createRef();
+
+
     this.state = {
       name: {
         value: ""
@@ -162,7 +166,9 @@ class Service extends Component {
           <div className="hero-text">
             <div className="hero-border">
               <h2 className="hero-h1">Cel mai rapid mod de a obtine clienti noi.</h2>
-              <Button className="hero-button"><Link to="#contact-us">Inregistreaza-te</Link></Button>
+              <Button onClick={() => {
+                this.scrollDiv.current.scrollIntoView({ behavior: 'smooth' });
+              }} className="hero-button">Inregistreaza-te</Button>
             </div>
           </div>
         </div>
@@ -219,10 +225,10 @@ class Service extends Component {
         </div>
         <h2>Exemple de cereri</h2>
 
-        <div className="contact-us">
+        <div ref={this.scrollDiv} className="contact-us" >
           <h2> Inroleaza-te aici</h2>
           <Form onSubmit={this.handleSubmit} className="service-form signup-form">
-            <div className="col-md-6">
+            <div className="col-sm-6">
               <FormItem
                 label="Nume"
                 validateStatus={this.state.name.validateStatus}
@@ -311,7 +317,7 @@ class Service extends Component {
                 />
               </FormItem>
             </div>
-            <div className="col-md-6">
+            <div className="col-sm-6">
               <FormItem
                 label="Nume Service"
                 validateStatus={this.state.service_name.validateStatus}

@@ -13,6 +13,10 @@ h2 {
   text-align: center;
 }
 
+.html{
+  scroll-behavior: smooth;
+}
+
 .login-container {
   max-width: 420px;
   margin: 0 auto;
@@ -44,6 +48,7 @@ h2 {
     color: white;
     padding:10px;
     top:5%;
+    max-width:800px;
 }
 
 @media(min-width:768px){
@@ -54,10 +59,13 @@ h2 {
     background-color:#F4F7F6;
     color: #001730;
   }
+  .hero-border{
+    padding:50px;
+  }
 }
 
 .hero-border{
-  padding:50px;
+  padding:25px;
   border:3px solid #001730;
 
 }
@@ -79,10 +87,14 @@ h2 {
   .hero-h2{
     font-size:42px;
   }
+
+  .hero-button{
+    margin-top: 10%;
+
+  }
 }
 
 .hero-button {
-  margin-top: 10%;
   font-size: 24px;
   height: 70px;
   background-color: #001730;
@@ -97,6 +109,7 @@ h2 {
   .hero-button {
     font-size: 40px;
   }
+
 }
 
 .icons {

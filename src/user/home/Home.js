@@ -272,7 +272,7 @@ class Home extends Component {
             </div>
           </Carousel>
 
-          <Button className="hero-button btn-success"><Link to="/service"> Devino un service partener</Link></Button>
+          <Button className="hero-button btn-success"><Link to="/contact"> Devino un service partener</Link></Button>
         </div>
 
         <div className="services-list">
