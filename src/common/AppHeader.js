@@ -31,26 +31,45 @@ class AppHeader extends Component {
 
   }
   render() {
+    console.log(this.props);
+    console.log(this.state);
     let menuItems;
 
     if (this.props.currentUser) {
+      if (this.props.currentUser.role === "ROLE_USER") {
 
-      menuItems = [
-        <Menu.Item key="/">
-          <Link to="/">
-            <Icon type="home" className="nav-icon" />
-          </Link>
-        </Menu.Item>,
-        <Menu.Item key="Cars" className="nav-item">
-          <Link to="/Masini">Masini </Link>
-        </Menu.Item>,
-        <Menu.Item key="Profile" className="nav-item">
-          <Link to="/Profile">Profil</Link>
-        </Menu.Item>,
-        <Menu.Item key="logout" className="nav-item">
-          <Link to="/home" onClick={this.handleMenuClick} >Logout</Link>
-        </Menu.Item>
-      ];
+        menuItems = [
+          <Menu.Item key="/">
+            <Link to="/">
+              <Icon type="home" className="nav-icon" />
+            </Link>
+          </Menu.Item>,
+          <Menu.Item key="Cars" className="nav-item">
+            <Link to="/Masini">Masini </Link>
+          </Menu.Item>,
+          <Menu.Item key="Profile" className="nav-item">
+            <Link to="/Profile">Profil</Link>
+          </Menu.Item>,
+          <Menu.Item key="logout" className="nav-item">
+            <Link to="/home" onClick={this.handleMenuClick} >Logout</Link>
+          </Menu.Item>
+        ];
+      }
+      else if (this.props.currentUser.role === "ROLE_SERVICE") {
+        menuItems = [
+          <Menu.Item key="/">
+            <Link to="/">
+              <Icon type="home" className="nav-icon" />
+            </Link>
+          </Menu.Item>,
+          <Menu.Item key="Profile" className="nav-item">
+            <Link to="/Profile">Profil</Link>
+          </Menu.Item>,
+          <Menu.Item key="logout" className="nav-item">
+            <Link to="/home" onClick={this.handleMenuClick} >Logout</Link>
+          </Menu.Item>
+        ];
+      }
     } else {
       menuItems = [
         <Menu.Item key="/home">

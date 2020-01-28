@@ -152,7 +152,7 @@ export class Profile extends Component {
     if (this.props.currentUser.role === "ROLE_USER") {
       return (
         <div className="profile">
-          <h2> Profil </h2>
+          <h2> Editare Profil </h2>
           <h3> Nume utilizator : {this.props.currentUser.username}</h3>
           <Form onSubmit={this.handleSubmit} className="profile-form">
             <FormItem
@@ -236,12 +236,12 @@ export class Profile extends Component {
       );
     } else {
       return (
-        <div id="profile">
+        <div className="profile">
           <h2> Editare Profil </h2>
           <h3> Nume utilizator : {this.props.currentUser.username}</h3>
 
           <Form onSubmit={this.handleSubmit} className="profile-form">
-            <FormItem
+            <FormItem label="Parola curenta:"
               validateStatus={this.state.pw.validateStatus}
               help={this.state.pw.errorMsg}>
               <Input
@@ -251,9 +251,10 @@ export class Profile extends Component {
                 type="password"
                 value={this.state.pw.value}
                 placeholder="Parola curenta"
+                onChange={event => this.handleChange(event, this.validatePw)}
               />
             </FormItem>
-            <FormItem
+            <FormItem label="Parola noua:"
               validateStatus={this.state.newpw.validateStatus}
               help={this.state.newpw.errorMsg}>
               <Input
@@ -263,9 +264,11 @@ export class Profile extends Component {
                 type="password"
                 value={this.state.newpw.value}
                 placeholder="Parola noua"
+                onChange={event => this.handleChange(event, this.validateNewPw)}
+
               />
             </FormItem>
-            <FormItem
+            <FormItem label="Numar de telefon:"
               validateStatus={this.state.phone.validateStatus}
               help={this.state.phone.errorMsg}>
               <Input
@@ -275,9 +278,11 @@ export class Profile extends Component {
                 type="number"
                 value={this.state.phone.value}
                 placeholder="Numar de telefon"
+                onChange={event => this.handleChange(event, this.validatePhone)}
+
               />
             </FormItem>
-            <FormItem
+            <FormItem label="Adresa de email:"
               validateStatus={this.state.email.validateStatus}
               help={this.state.email.errorMsg}>
               <Input
@@ -287,9 +292,11 @@ export class Profile extends Component {
                 type="email"
                 value={this.state.email.value}
                 placeholder="Adresa de email"
+                onChange={event => this.handleChange(event, this.validateEmail)}
+
               />
             </FormItem>
-            <FormItem
+            <FormItem label="Nume firma:"
               validateStatus={this.state.society.validateStatus}
               help={this.state.society.errorMsg}>
               <Input
@@ -299,9 +306,11 @@ export class Profile extends Component {
                 type="text"
                 value={this.state.society.value}
                 placeholder="Nume firma"
+                onChange={event => this.handleChange(event, this.validateCompanyName)}
+
               />
             </FormItem>
-            <FormItem
+            <FormItem label="Adresa"
               validateStatus={this.state.address.validateStatus}
               help={this.state.address.errorMsg}>
               <Input
@@ -312,6 +321,8 @@ export class Profile extends Component {
                 value={this.state.address.value}
 
                 placeholder="Adresa firma"
+                onChange={event => this.handleChange(event, this.validateCompanyAddress)}
+
               />
             </FormItem>
             <Button
@@ -431,6 +442,32 @@ export class Profile extends Component {
       return {
         validateStatus: "error",
         errorMsg: `Parola este prea scurta`
+      };
+    }
+    return {
+      validateStatus: 'success',
+      errorMsg: null
+    };
+  }
+
+  validateCompanyName = society => {
+    if (society.length < 4) {
+      return {
+        validateStatus: "error",
+        errorMsg: `Numele companiei este prea scurt`
+      };
+    }
+    return {
+      validateStatus: 'success',
+      errorMsg: null
+    };
+  }
+
+  validateCompanyAddress = address => {
+    if (address.length < 4) {
+      return {
+        validateStatus: "error",
+        errorMsg: `Adresa companiei este prea scurta`
       };
     }
     return {
