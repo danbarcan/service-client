@@ -1,10 +1,7 @@
 import React, { Component } from "react";
 import { Route, withRouter, Switch } from "react-router-dom";
-
 import { getCurrentUser, getUnreadMessages, getAllMessages } from "../util/APIUtils";
 import { ACCESS_TOKEN } from "../constants";
-
-
 import Login from "../user/login/Login";
 import Forgot from "../user/login/Forgot";
 import NewPassword from "../user/login/NewPassword";
@@ -99,7 +96,6 @@ class App extends Component {
     })
   }
 
-
   getUserProfile() {
     console.log(this.state);
   }
@@ -123,17 +119,14 @@ class App extends Component {
     });
   }
 
-
   handleLogin() {
     notification.success({
       message: "Smart Service",
       description: "Te-ai logat cu succes."
     });
     this.loadCurrentUser()
-
     this.props.history.push("/");
     this.getMessages();
-
   }
 
   componentDidMount() {
@@ -153,43 +146,21 @@ class App extends Component {
             currentUser={this.state.currentUser}
             onLogout={this.handleLogout}
           />
-          {this.state.showMyComponent ? <div className="unreadMessages">
+          {this.state.showMyComponent ? 
+          <div className="unreadMessages">
             Aveti mesaje necitite. Verifica acum !
           </div> : null}
 
           <Content className="app-content ">
             <div className=" transparent container">
-
               <div className="user-nav">
-                <h3> Salut {this.state.currentUserName}</h3>
-                <hr />
+                {/* <h3> Salut {this.state.currentUserName}</h3>
+                <hr /> */}
                 <Switch>
-
-                  <Route exact path="/"
-                    render={props =>
-                      (<Job currentUser={this.state.currentUser} />
-                      )} />
-                  <Route
-                    exact
-                    path="/Masini"
-                    render={props => (
-                      <AddCar currentUser={this.state.currentUser} />
-                    )}
-                  />
-                  <Route
-                    exact
-                    path="/Profile"
-                    render={props => (
-                      <Profile currentUser={this.state.currentUser} />
-                    )}
-                  />
-                  <Route
-                    exact
-                    path="/Chat"
-                    render={props => (
-                      <Chat currentUser={this.state.currentUser} />
-                    )}
-                  />
+                  <Route exact path="/" render={props => (<Job currentUser={this.state.currentUser} />)} />
+                  <Route exact path="/Masini" render={props => ( <AddCar currentUser={this.state.currentUser} />)}/>
+                  <Route exact path="/Profile" render={props => (<Profile currentUser={this.state.currentUser} />)}/> 
+                  <Route exact path="/Chat"  render={props => ( <Chat currentUser={this.state.currentUser} />)}/>
                 </Switch>
               </div>
             </div>
@@ -205,8 +176,6 @@ class App extends Component {
             currentUser={this.state.currentUser}
             onLogout={this.handleLogout}
           />
-
-
           <Content className="app-content ">
             <div className="container" />
             <h3>Admin Dashboard</h3>
@@ -217,8 +186,6 @@ class App extends Component {
                 <Admin currentUser={this.state.currentUser} />
               )}
             />
-
-
           </Content>
           <AppFooter currentUser={this.state.currentUser} {...this.state} />
         </Layout>
@@ -259,7 +226,6 @@ class App extends Component {
     } else {
       return (
 
-
         <Layout className="app-container">
           <AppHeader
             isAuthenticated={this.state.isAuthenticated}
@@ -289,13 +255,13 @@ class App extends Component {
                     {...props}
                   />
                 )}
-              />
+              />          
+              <Route exact path="/" component={Home}></Route>
               <Route component={NotFound} />
             </Switch>
             <AppFooter />
           </Content >
         </Layout>
-
       );
     }
   }

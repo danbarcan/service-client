@@ -92,8 +92,8 @@ export class Profile extends Component {
         id: this.props.currentUser.id,
         name: this.state.name.value,
         username: this.props.currentUser.username,
-        pw: this.state.pw.value,
-        newpw: this.state.newpw.value,
+        oldPassword: this.state.pw.value,
+        password: this.state.newpw.value,
         phone: this.state.phone.value,
         email: this.state.email.value,
         serviceName: this.state.society.value,
@@ -241,6 +241,20 @@ export class Profile extends Component {
           <h3> Nume utilizator : {this.props.currentUser.username}</h3>
 
           <Form onSubmit={this.handleSubmit} className="profile-form">
+          <FormItem
+              label="Nume"
+              validateStatus={this.state.name.validateStatus}
+              help={this.state.name.errorMsg}>
+              <Input
+                prefix={<Icon type="profile" />}
+                size="large"
+                name="name"
+                type="text"
+                value={this.state.name.value}
+                placeholder="Nume de utilizator"
+                onChange={event => this.handleChange(event, this.validateName)}
+              />
+              </FormItem>
             <FormItem label="Parola curenta:"
               validateStatus={this.state.pw.validateStatus}
               help={this.state.pw.errorMsg}>

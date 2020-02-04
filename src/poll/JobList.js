@@ -275,7 +275,6 @@ class JobList extends Component {
   componentDidMount() {
     this.getAllJobs();
     getCurrentUser();
-    console.log(this.state);
   }
 
   deleteOffer(id) {
@@ -529,7 +528,7 @@ class JobList extends Component {
               {this.state.offeredJobs &&
                 this.state.offeredJobs.map(d => (
                   <div className="job-container col-md-4">
-                    <RequestDetails name={d.user.name} categories={d.categories} car={d.car.details.typeYear.name} engine={d.car.details.type} fuel={d.car.details.fuel} problem={d.description} id={d.id}></RequestDetails>
+                    <RequestDetails key={d.user.id} name={d.user.name} categories={d.categories} car={d.car.details.typeYear.name} engine={d.car.details.type} fuel={d.car.details.fuel} problem={d.description} id={d.id}></RequestDetails>
                     <Button onClick={() => this.deleteOffer(d.id)} className="btn btn-danger">
                       Sterge Oferta
                     </Button>

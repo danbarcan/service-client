@@ -330,17 +330,15 @@ class Job extends Component {
         {
           this.state.jobs.map(j => (
             <div className="job-container" key={j.id}>
-              <h2>
                 {/* If there is a car show car details to make it clear which car is getting fixed */}
                 {j.car &&
-                  <span>
-                    Masina {j.manufacturer} {j.model}
-                  </span>
+                  <p className="title">
+                    {j.car.details.typeYear.name}
+                  </p>
                 }
-                <span>
-                  id: {j.id}, descriere: {j.description}
-                </span>
-              </h2>
+                <p className="title">
+                   Problema : {j.description}
+                </p>
 
               <Button
                 onClick={() => this.deleteJob(j.id)}
@@ -350,11 +348,12 @@ class Job extends Component {
               </Button>
 
               <hr></hr>
+              <div className="offers-container">
 
               {j.acceptedService ?
                 (
-                  <div className="offer-container col-md-6">
-                    <h2> Service-ul care se va ocupa de reparatie este : {j.acceptedService.name} </h2>
+                  <div className="offer-container">
+                    <h2> Service-ul care se va ocupa de reparatie : {j.acceptedService.name} </h2>
                     <img src={serviceImage} alt="Serviceimg" />
                     <p className="ratingBackground">{j.acceptedService.rating} <Icon className="rating-star" type="star" theme="filled" /></p>
                     <p><Icon type="home" theme="filled"></Icon>Adresa: {j.location}</p>
@@ -369,30 +368,31 @@ class Job extends Component {
                 ) : (
                   j.offers && j.offers.length ?
                     (j.offers.map(o => (
-                      <div className="offer-container col-md-6" key={o.id}>
-                        <h3>{o.user.username}</h3>
-                        <p>{o.rating} <Icon className="rating-star" type="star" theme="filled" /></p>
-                        <img src={serviceImage} alt="Serviceimg" />
 
-                        <p><Icon type="pushpin"></Icon> Adresa: {o.user.serviceDetails.address}</p>
-                        <p><Icon type="dollar" /> Pret : {o.cost} Ron </p>
-                        <p><Icon type="clock-circle" /> Durata : {o.duration} Ore </p>
-                        <p><Icon type="wechat" /> Mesaj : {o.description}</p>
+                        <div className="offer-container" key={o.id}>
+                          <h3>Oferta de la {o.user.username}</h3>
+                          <p>{o.rating} <Icon className="rating-star" type="star" theme="filled" /></p>
+                          <img src={serviceImage} alt="Serviceimg" />
 
-                        <Button
-                          onClick={() =>
-                            this.acceptOffer(
-                              o.id,
-                              j.id,
-                              o.user.username,
-                              o.cost,
-                              o.description
-                            )
-                          }
-                          className="btn btn-success">
-                          Accepta oferta
-                          </Button>
-                      </div>
+                          <p><Icon type="pushpin"></Icon> Adresa: {o.user.serviceDetails.address}</p>
+                          <p><Icon type="dollar" /> Pret : {o.cost} Ron </p>
+                          <p><Icon type="clock-circle" /> Durata : {o.duration} Ore </p>
+                          <p><Icon type="wechat" /> Mesaj : {o.description}</p>
+
+                          <Button
+                            onClick={() =>
+                              this.acceptOffer(
+                                o.id,
+                                j.id,
+                                o.user.username,
+                                o.cost,
+                                o.description
+                              )
+                            }
+                            className="btn btn-success">
+                            Accepta oferta
+                            </Button>
+                        </div>
                     ))
                     ) : (
                       /* If there are no offers currently display , here is where the message is displayed */
@@ -400,12 +400,15 @@ class Job extends Component {
                     )
                 )
               }
+                </div>
+
             </div>
           ))
         }
       </div>
     )
   }
+
 
   render() {
 

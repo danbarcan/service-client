@@ -222,11 +222,21 @@ export class Chat extends Component {
   render() {
     return (
       <div className="chat">
-        <div className="chat__heading">
-          <h1>Conversatie cu service-ul {this.props.jobId}</h1>
-          <p>Va rugam stabiliti detaliile reparatiei apoi apasati pe butonul "Reparatia s-a terminat" </p>
 
-        </div>
+        <div className="chat__details">
+            <h2> Detaliile cererii si oferta acceptata:</h2>
+            <hr></hr>
+            <h3>
+              Pret: {this.props.jobDetails.cost} Ron
+              <br></br>
+              Durata: {this.props.jobDetails.duration} Ore
+              <br></br>
+              Descriere: {this.props.jobDetails.description}
+            </h3>
+            <p>Va rugam stabiliti detaliile reparatiei apoi apasati butonul "Reparatia s-a terminat" </p>
+
+            <Button type="primary" className="btn btn-warning" size="large" onClick={() => this.review(this.props.jobDetails.jobId)}> Reparatia s-a terminat !</Button>
+          </div>
         <div className="chat__container" >
 
           {/* 
@@ -285,18 +295,7 @@ export class Chat extends Component {
                 ))}
             </div>
           </div>
-          <div className="chat__details">
-            <h2> Detaliile cererii si oferta acceptata:</h2>
-            <h3>
-              <br></br>
-              Pret: {this.props.jobDetails.cost} Ron
-              <br></br>
-              Durata: {this.props.jobDetails.duration} Ore
-              <br></br>
-              Descriere: {this.props.jobDetails.description}
-            </h3>
-            <Button type="primary" className="btn btn-warning" size="large" onClick={() => this.review(this.props.jobDetails.jobId)}> Reparatia s-a terminat !</Button>
-          </div>
+          
         </div>
         <Modal show={this.state.showModal} onHide={this.handleClose}>
           <Modal.Header closeButton>
@@ -316,6 +315,7 @@ export class Chat extends Component {
                   type="text"
                   required
                   onChange={event => this.handleChange(event)}
+                  autoSize={{ minRows: 3, maxRows: 5 }}
                 />
               </FormItem>
               <FormItem>

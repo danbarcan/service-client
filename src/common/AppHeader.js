@@ -10,7 +10,8 @@ class AppHeader extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      unreadMessage: false
+      unreadMessage: false,
+      home:''
     }
     this.handleMenuClick = this.handleMenuClick.bind(this);
   }
@@ -26,14 +27,25 @@ class AppHeader extends Component {
     });
   };
   handleMenuClick({ key }) {
-
     this.props.onLogout();
 
   }
+
+  componentDidMount(){
+    if(this.props.currentUser){
+      this.setState({
+        home:"/"
+      })
+    }else{
+      this.setState({
+        home:"/home"
+      })
+    }
+  }
+    
   render() {
-    console.log(this.props);
-    console.log(this.state);
     let menuItems;
+    
 
     if (this.props.currentUser) {
       if (this.props.currentUser.role === "ROLE_USER") {
@@ -92,7 +104,7 @@ class AppHeader extends Component {
         <div className="layout">
           <div className="app-title">
             <div className="logo" />
-            <Link to='/home' >
+            <Link to={this.state.home} >
               <img className="navLogo" src={logo} alt="Smart Service Logo"></img>
             </Link>
           </div>
@@ -118,7 +130,6 @@ class AppHeader extends Component {
             >
               {menuItems}
             </Menu>
-
           </Drawer>
         </div>
       </Header >
@@ -128,9 +139,7 @@ class AppHeader extends Component {
 
 function ProfileDropdownMenu(props) {
   const dropdownMenu = (
-    <Menu onClick={props.handleMenuClick} className="profile-dropdown-menu">
-
-    </Menu >
+    <Menu onClick={props.handleMenuClick} className="profile-dropdown-menu"></Menu >
   );
 
   return (

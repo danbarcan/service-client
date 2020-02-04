@@ -18,8 +18,8 @@
   padding: 10px;
   border: 1px solid grey;
   background-color:white;
-  
 }
+
 .chat__form {
   width: 100%;
   position: absolute;
@@ -41,8 +41,6 @@
   height:40px;
   border-radius:4px;
 }
-
-
 
 .conversationBox {
   position: relative;
@@ -76,11 +74,13 @@
 }
 
 .chat__details{
-
   border-left:2px solid #f4f7f6 ;
   font-size:20px;
-  margin-top:70px;
-
+  margin:30px 0px;
+  background-color:white;
+  width:50%;
+  padding:15px;
+  border:1px solid black;
 }
 
 .chat__details button {
@@ -88,47 +88,37 @@
   margin-bottom:20px;
 }
 
-
-
 .ant-rate svg{
   color: default !important;
 }
-
-
-
 
 @media(min-width:768px){
   .chat__box{
     width:50%;
     height: 500px;
-
+    margin-bottom:30px;
   }
+
   .chat__container{
     display:flex;
   }
+
   .chat__form{
     display:flex;
   }
+
   .chat__form input{
-    width:100%;
+    width:430px;
   }
+
   .chat__box .chat-form-button {
     width: 100%;
     height:40px;
     margin-left:10px;
   }
+
   .conversationBox{
     height:410px;
-  }
-  .chat__details{
-    width:50%;
-    margin-left: 5%;
-    padding-left:5%;
-    text-align:right;
-  }
-
-  .chat__details h2{
-    text-align:right;
   }
 
   .chat__details button {

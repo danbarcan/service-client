@@ -82,10 +82,14 @@ h1 {
 }
 
 .offer-container{
-  width:100%;
+  width:50%;
   padding:10px;
   text-align:center;
-  position:relative;
+}
+
+.offers-container{
+  display:flex;
+  flex-direction: row;
 }
 
 @media(min-width:768px){

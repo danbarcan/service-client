@@ -66,7 +66,7 @@ export function RequestDetails(props) {
   return (
     <div>
       <h2> Cerere de la <span>{props.name}</span></h2>
-      {props.categories.map(category => (<p > Categorie:  <span className="categorie-reparatie">{category.description}</span> </p>))}
+      {props.categories.map(category => (<p> Categorie:  <span className="categorie-reparatie">{category.description}</span> </p>))}
       <p><span className="text">Masina</span> <Icon type="car"></Icon>  {props.car}  </p>
       <p><span className="text">Motor</span> <Icon component={EngineIcon}></Icon>{props.engine}</p>
       <p><span className="text">Combustibil</span> <Icon type="filter"></Icon> {props.fuel}</p>

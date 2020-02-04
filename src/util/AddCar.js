@@ -203,10 +203,11 @@ class AddCar extends Component {
   render() {
     return (
       <div className="carList">
-        <Button bsstyle="primary" bssize="large" onClick={this.handleShow}>
+        <Button bsstyle="primary" bssize="large" onClick={this.handleShow} className="addCarBtn">
           Adaugati Masina
         </Button>
         <h3>Masinile adaugate:</h3>
+        
         {this.state.cars.map(c => (
           <div className="car-container" key={c.id}>
             <img src={carLogo} alt="Car Logo"></img>
