@@ -500,29 +500,3 @@ footer ul{
     width: 60%;
   }
 }
-
-
-.cities-container__services{
-  background-color:white;
-  padding:15px;
-  border:1px solid black;
-  width:100%;
-  margin:15px auto;
-}
-
-.cities-container__services h2{
-  text-align:left;
-}
-
-.cities-container__services .anticon{
-  margin-left:0;
-  margin-bottom:5px;
-}
-
-
-
-@media(min-width:768px){
-  .cities-container__services{
-    width:80%;
-  }
-}

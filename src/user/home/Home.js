@@ -3,7 +3,7 @@ import serviceImage from "../../img/hero.jpg";
 import { createAnonJob, getCategories } from "../../util/APIUtils";
 import "./Home.css";
 import { Modal } from "react-bootstrap";
-import { Form, Input, Button, Icon, notification, Carousel, Select } from "antd";
+import { Form, Input, Button, Icon, notification, Carousel, Select, Rate } from "antd";
 import {
   geocodeByAddress,
   getLatLng,
@@ -178,7 +178,6 @@ class Home extends Component {
             </div>
           </div>
         </div>
-
         <div className="icons">
           <h2>Cum functioneaza?</h2>
           <div className="icon">
@@ -216,16 +215,15 @@ class Home extends Component {
           <Carousel effect="fade" arrows="true">
             <div className="service-container">
               <img className="service-container__image" src={serviceImage} alt=" Serviceimg" />
+              <h3 className="service-container__title">Elite Auto Club</h3>
+
               <div className="service-body">
-                <h3>Bosch Service</h3>
+                <Rate disabled defaultValue={5} ></Rate>
+                <hr></hr>
                 <p>
-                  “At the moment I need to be able to travel frequently so a job
-                  with regular hours isn’t an option. Being able to earn money
-                  completing tasks on-demand on Airtasker has made this
-                  possible.”
+                Echipa cu experienta asigura realizarea unor lucrari de reparatii si intretinere auto acoperite de garantie atat pentru piese cat si pentru manopera.
+Se pot realiza repratii mecanice la motoare ,sisteme de franare si directie -suspensie sau reparatii ale sistemelor electrice sau de climatizare.
                 </p>
-                <p>Ce spun clientii:</p>
-                <p> Un Service superb </p>
               </div>
             </div>
             <div className="service-container">
@@ -272,13 +270,14 @@ class Home extends Component {
             </div>
           </Carousel>
 
-          <Button className="hero-button btn-success"><Link to="/contact"> Devino un service partener</Link></Button>
+          <Button className="hero-button btn-success"><Link to="/service"> Devino un service partener</Link></Button>
         </div>
 
         <div className="services-list">
           <ul className="garaje">
             <h2>Gaseste garajul potrivit</h2>
-            <li>Garaje in Bucuresti</li>
+            
+            <li><Link to="/oras?Bucuresti">Garaje in Bucuresti</Link></li>
             <li>Garaje in Bacau</li>
             <li>Garaje in Iasi</li>
             <li>Garaje in Timisoara</li>
@@ -293,8 +292,6 @@ class Home extends Component {
             <li>Geometrie Roti</li>
           </ul>
         </div>
-
-
         {/* Modal politica de confidentialitate */}
 
         {/* Modal inscriere service pe site */}
@@ -304,9 +301,9 @@ class Home extends Component {
             <h3> Cu ce te putem ajuta ?</h3>
           </Modal.Header>
           <Modal.Body>
+          <p> Va rugam completati toate campurile marcate cu * </p>
             <div className="signup-container">
               <div className="signup-content">
-
                 <Form onSubmit={this.handleSubmit} className="signup-form">
                   <div className="carDetails-container">
                     <CarDetailsForm parentCallback={this.callbackFunction} />
@@ -316,6 +313,7 @@ class Home extends Component {
                     <FormItem
                       label="Alegeti categoria reparatiei *">
                       <Select
+                      required
                         mode="multiple"
                         size="large"
                         style={{ width: '100%' }}
@@ -333,6 +331,7 @@ class Home extends Component {
                       help={this.state.description.errorMsg}
                     >
                       <Input
+                      required
                         size="large"
                         name="description"
                         type="text"
@@ -347,6 +346,7 @@ class Home extends Component {
 
                     <FormItem label="Locatie *">
                       <PlacesAutocomplete
+                      required
                         searchOptions={searchOptions}
                         value={this.state.address}
                         onChange={this.handleChange}
@@ -417,7 +417,8 @@ class Home extends Component {
                       htmlType="submit"
                       size="large"
                       className="signup-form-button"
-                    // disabled={this.isFormInvalid()}
+                      disabled={!this.state.description.value || this.state.categories.length < 1 || !this.state.latLng}
+
                     >
                       Trimite
                     </Button>

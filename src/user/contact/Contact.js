@@ -1,5 +1,5 @@
 import React, { Component, createRef } from "react";
-import { Button, Input, Form, Select, notification, Icon } from 'antd';
+import { Button, Input, Form, Select, notification, } from 'antd';
 import "./Contact.css";
 import FormItem from "antd/lib/form/FormItem";
 import PlacesAutocomplete from 'react-places-autocomplete';

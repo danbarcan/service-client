@@ -20,6 +20,7 @@ import { Layout, notification } from "antd";
 import JobList from "../poll/JobList";
 import AddCar from "../util/AddCar";
 import "./App.css";
+import ByCities from "../user/home/ByCities";
 
 const { Content } = Layout;
 
@@ -245,6 +246,7 @@ class App extends Component {
               <Route path="/service" component={Service} />
               <Route path="/forgot-password" component={Forgot} />
               <Route path="/new-password/" component={NewPassword} />
+              <Route path="/oras" component={ByCities} />
 
               <Route
                 path="/users/:username"

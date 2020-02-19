@@ -11,7 +11,7 @@ import {
 } from "../../util/APIUtils";
 import "./Signup.css";
 import { withRouter } from "react-router-dom";
-import { Form, Button, notification, Select } from "antd";
+import { Form, Button, notification, Select, Rate } from "antd";
 import { Modal } from "react-bootstrap";
 import Chat from "../Chat";
 import TextArea from "antd/lib/input/TextArea";
@@ -36,7 +36,6 @@ getCategories().then(response => {
     children.push(<Option key={response[i].id}>{response[i].description.toString()}</Option>);
   }
 })
-
 
 class Job extends Component {
   constructor(props) {
@@ -245,9 +244,6 @@ class Job extends Component {
   }
 
   getOffers() {
-
-    console.log(this.state)
-
     let promise;
     promise = getOffers(this.props.currentUser.id);
     if (!promise) {
@@ -326,7 +322,6 @@ class Job extends Component {
   getOffers() {
     return (
       < div className="active-jobs" >
-
         {
           this.state.jobs.map(j => (
             <div className="job-container" key={j.id}>
@@ -355,7 +350,7 @@ class Job extends Component {
                   <div className="offer-container">
                     <h2> Service-ul care se va ocupa de reparatie : {j.acceptedService.name} </h2>
                     <img src={serviceImage} alt="Serviceimg" />
-                    <p className="ratingBackground">{j.acceptedService.rating} <Icon className="rating-star" type="star" theme="filled" /></p>
+                    <p className="ratingBackground"><Rate allowhalf disabled defaultValue={j.acceptedService.rating} /></p>
                     <p><Icon type="home" theme="filled"></Icon>Adresa: {j.location}</p>
                     <p><Icon type="phone" />Numar : <a href="tel:{j.acceptedService.phoneNumber}"> {j.acceptedService.phoneNumber}</a></p>
                     <p><Icon type="dollar" />Pret : {j.offers[0].cost} Ron </p>
@@ -371,7 +366,7 @@ class Job extends Component {
 
                         <div className="offer-container" key={o.id}>
                           <h3>Oferta de la {o.user.username}</h3>
-                          <p>{o.rating} <Icon className="rating-star" type="star" theme="filled" /></p>
+                          <p className="ratingBackground"><Rate allowhalf disabled defaultValue={o.rating} /></p>
                           <img src={serviceImage} alt="Serviceimg" />
 
                           <p><Icon type="pushpin"></Icon> Adresa: {o.user.serviceDetails.address}</p>
@@ -428,7 +423,9 @@ class Job extends Component {
             <Modal.Header closeButton>
               <h1 className="page-title">Cu ce te putem ajuta ? </h1>
             </Modal.Header>
+
             <Modal.Body>
+            <h6> Va rugam completati toate campurile marcate cu * </h6>
               <Form onSubmit={this.handleSubmit} className="signup-form">
                 <FormItem
                   label=" Alegeti masina *">
@@ -520,6 +517,7 @@ class Job extends Component {
                     htmlType="submit"
                     size="large"
                     className="signup-form-button"
+                    disabled={!this.state.description.value || this.state.categories.length < 1 || !this.state.latLng}
                   >
                     Trimite
                 </Button>

@@ -8,7 +8,7 @@ import {
   unhideJob,
   deleteOffer
 } from "../util/APIUtils";
-import { Button, notification, Form, Input, Icon } from "antd";
+import { Button, notification, Form, Input } from "antd";
 import { Modal } from "react-bootstrap";
 import Chat from "../user/Chat";
 import { RequestDetails } from '../util/Helpers';

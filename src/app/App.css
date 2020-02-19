@@ -2,6 +2,7 @@
   margin-top: 64px;
   width: 100%;
   margin: 0 auto;
+  padding-top:30px;
 }
 
 .transparent {
@@ -45,7 +46,8 @@ body {
 }
 
 .job-container .btn-danger {
-  width:100%;
+  width:90%;
+  margin:0 auto;
 }
 
 .job-container h2 {
@@ -54,8 +56,9 @@ body {
 }
 
 .job-container .btn{
-  width:100%;
-  margin-bottom:10px;
+  width:90%;
+  margin:auto;
+  display:block;
 }
 
 .job-container .text{
@@ -82,7 +85,7 @@ h1 {
 }
 
 .offer-container{
-  width:50%;
+  width:100%;
   padding:10px;
   text-align:center;
 }
@@ -98,6 +101,7 @@ h1 {
   }
   .offer-container{
     text-align:left;
+    width:50%;
   }
 
   .job-container h2 {
@@ -124,15 +128,15 @@ h1 {
 
 }
 
-.rating-star svg{
-  color:#ffe234;
-  width:20px;
-  height:20px;
-  vertical-align:sub;
+
+.ratingBackground .anticon-star {
+  margin:0;
+  padding:0;
+  margin-left:5px;
 }
 
-.ratingBackground{
-  padding:10px;
+.ratingBackground .ant-rate-star{
+  margin:0;
 }
 
 .services-menu{
