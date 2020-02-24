@@ -209,6 +209,14 @@ export function updateUser(userRequest) {
   });
 }
 
+export function updateServiceDetails(serviceDetails) {
+  return request({
+    url: API_BASE_URL + "/user/updateServiceProfile",
+    method: "POST",
+    body: JSON.stringify(serviceDetails)
+  });
+}
+
 // Chat functionality
 
 export function sendMessage(messageRequest) {

@@ -56,7 +56,7 @@ body {
 }
 
 .job-container .btn{
-  width:90%;
+  width:100%;
   margin:auto;
   display:block;
 }
@@ -107,6 +107,7 @@ h1 {
   .job-container h2 {
     text-align:left;
     width:80%;
+    margin-top:0;
   }
 
   .job-container {

@@ -17,11 +17,11 @@ class ByCities extends Component {
         {data.map((obj)=>
           <div className="cities-container__services">
             {/* <Img src={obj.img}></Img>   */}
-              <h2>{obj.name}</h2>  <p className="categories">{obj.categories}</p>
-              <p>{obj.cereri} cereri completate</p>
-              <Rate disabled value={obj.review} ></Rate>{obj.review}/5
-              <p>{obj.description}</p>
-            </div>
+            <h2>{obj.name}</h2>  <p className="categorie-reparatie">{obj.categories}</p>
+            <p>{obj.cereri} cereri completate</p>
+            <Rate disabled value={obj.review} ></Rate>{obj.review}/5
+            <p>{obj.description}</p>
+          </div>
         )}
      </div>
     )

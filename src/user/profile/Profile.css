@@ -37,6 +37,22 @@
   padding-top: 20px;
 }
 
+.profile-service{
+  width:100%;
+  margin:0 auto;
+}
+
+.profile-service Form{
+  background-color:white;
+  border:1px solid #d3d3d3;
+  padding:20px;
+  margin-top:20px;
+
+}
+
+
+
+
 @media (min-width: 576px) {
   .user-details {
     text-align: left;
@@ -73,11 +89,24 @@
   margin-top: 5px;
 }
 
+@media(min-width:768px){
+  .profile-service Form{
+    width:50%;
+    margin-right:15px;  
+  }
+
+  .service__forms{
+    display:flex;
+  }
+}
+
 @media (max-width: 768px) {
   .user-summary .full-name {
     font-size: 24px;
   }
 }
+
+
 
 @media(min-width:1200px){
   .profile{
@@ -86,7 +115,6 @@
 }
 
 .profile-form-button {
-  margin-bottom: 50px;
   width: 200px;
   background-color: #28a745;
   border-color: #28a745;
@@ -94,4 +122,10 @@
 
 .ant-input-affix-wrapper .ant-input-prefix{
   left:0;
+}
+
+
+.avatar-uploader > .ant-upload {
+  width: 128px;
+  height: 128px;
 }

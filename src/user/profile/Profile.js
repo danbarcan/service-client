@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import { updateUser } from "../../util/APIUtils";
+import { updateUser, updateServiceDetails } from "../../util/APIUtils";
 import { Redirect } from 'react-router';
-import { Form, Input, Button, Icon, notification } from "antd";
+import { Form, Input, Button, Icon, notification, Upload, message } from "antd";
 import {
   NAME_MIN_LENGTH,
   NAME_MAX_LENGTH,
@@ -12,6 +12,25 @@ import {
 } from "../../constants";
 import "./Profile.css";
 const FormItem = Form.Item;
+
+
+function getBase64(img, callback) {
+  const reader = new FileReader();
+  reader.addEventListener('load', () => callback(reader.result));
+  reader.readAsDataURL(img);
+}
+
+function beforeUpload(file) {
+  const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+  if (!isJpgOrPng) {
+    message.error('Pot fi uploadate numai poze in format JPG sau PNG');
+  }
+  const isLt2M = file.size / 1024 / 1024 < 2;
+  if (!isLt2M) {
+    message.error('Imaginea trebuie sa fie mai mica de 2MB !');
+  }
+  return isJpgOrPng && isLt2M;
+}
 
 export class Profile extends Component {
   constructor(props) {
@@ -39,6 +58,10 @@ export class Profile extends Component {
       address: {
         value: ""
       },
+      companyDescription: {
+        value: " "
+      },
+      loading: false,
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -51,6 +74,7 @@ export class Profile extends Component {
     const target = event.target;
     const inputName = target.name;
     const inputValue = target.value;
+    console.log(this.state);
 
     this.setState({
       [inputName]: {
@@ -80,43 +104,84 @@ export class Profile extends Component {
     // }
   }
 
+  handleImageChange = info => {
+    if (info.file.status === 'uploading') {
+      this.setState({ loading: true });
+      return;
+    }
+    if (info.file.status === 'done') {
+
+      // Get this url from response in real world.
+      getBase64(info.file.originFileObj, imageUrl =>
+        
+        this.setState({
+          imageUrl,
+          loading: false,
+        }),
+      );
+    }
+  };
+
   handleSubmit(event) {
     event.preventDefault();
 
-    if (this.state.newpw === this.state.pw) {
-      this.setState({
-        incorrectPassword: true
-      })
-    } else {
-      const userRequest = {
-        id: this.props.currentUser.id,
-        name: this.state.name.value,
-        username: this.props.currentUser.username,
-        oldPassword: this.state.pw.value,
-        password: this.state.newpw.value,
-        phone: this.state.phone.value,
-        email: this.state.email.value,
+    if(this.state.society.value || this.state.address.value || this.state.companyDescription.value || this.state.imageUrl){
+      console.log(this.state);
+      const serviceDetails = {
         serviceName: this.state.society.value,
         serviceAddress: this.state.address.value,
-        redirectHome: false
+        companyDescription: this.state.companyDescription.value,
+        image: this.state.imageUrl
       };
-      updateUser(userRequest)
-        .then(response => {
-          notification.success({
-            message: "Smart Service",
-            description: "Multumim ! Noile detalii au fost salvate!"
-          });
-          this.setState({
-            redirectHome: true
-          })
-        })
-        .catch(error => {
-          notification.error({
-            message: "Smart Service",
-            description:
-              "Oups! Va rugam sa introduceti parola actuala corecta!"
-          });
+
+      updateServiceDetails(serviceDetails)
+      .then(response => {
+        notification.success({
+          message: "Smart Service",
+          description: "Multumim ! Noile detalii au fost salvate!"
         });
+      })
+      .catch(error => {
+        notification.error({
+          message: "Smart Service",
+          description:
+            "Oups! Ceva nu a functionat corect!"
+        });
+      });
+    } else{
+      if (this.state.newpw === this.state.pw) {
+        this.setState({
+          incorrectPassword: true
+        })
+      } else {
+        const userRequest = {
+          id: this.props.currentUser.id,
+          name: this.state.name.value,
+          username: this.props.currentUser.username,
+          oldPassword: this.state.pw.value,
+          password: this.state.newpw.value,
+          phone: this.state.phone.value,
+          email: this.state.email.value,
+          redirectHome: false
+        };
+        updateUser(userRequest)
+          .then(response => {
+            notification.success({
+              message: "Smart Service",
+              description: "Multumim ! Noile detalii au fost salvate!"
+            });
+            this.setState({
+              redirectHome: true
+            })
+          })
+          .catch(error => {
+            notification.error({
+              message: "Smart Service",
+              description:
+                "Oups! Va rugam sa introduceti parola actuala corecta!"
+            });
+          });
+      }
     }
   }
 
@@ -144,6 +209,15 @@ export class Profile extends Component {
   // }
 
   render() {
+
+    const { TextArea } = Input;
+    const uploadButton = (
+      <div>
+        <Icon type={this.state.loading ? 'loading' : 'plus'} />
+        <div className="ant-upload-text">Upload</div>
+      </div>
+    );
+    const { imageUrl } = this.state;
 
     const redirectHome = this.state.redirectHome;
     if (redirectHome === true) {
@@ -236,81 +310,92 @@ export class Profile extends Component {
       );
     } else {
       return (
-        <div className="profile">
+        <div className="profile-service">
           <h2> Editare Profil </h2>
           <h3> Nume utilizator : {this.props.currentUser.username}</h3>
-
-          <Form onSubmit={this.handleSubmit} className="profile-form">
-          <FormItem
-              label="Nume"
-              validateStatus={this.state.name.validateStatus}
-              help={this.state.name.errorMsg}>
-              <Input
-                prefix={<Icon type="profile" />}
-                size="large"
-                name="name"
-                type="text"
-                value={this.state.name.value}
-                placeholder="Nume de utilizator"
-                onChange={event => this.handleChange(event, this.validateName)}
-              />
+          <div className="service__forms">
+            <Form onSubmit={this.handleSubmit} className="profile-form">
+              <FormItem
+                  label="Nume"
+                  validateStatus={this.state.name.validateStatus}
+                  help={this.state.name.errorMsg}>
+                  <Input
+                    prefix={<Icon type="profile" />}
+                    size="large"
+                    name="name"
+                    type="text"
+                    value={this.state.name.value}
+                    placeholder="Nume de utilizator"
+                    onChange={event => this.handleChange(event, this.validateName)}
+                  />
+                  </FormItem>
+              <FormItem label="Parola curenta:"
+                validateStatus={this.state.pw.validateStatus}
+                help={this.state.pw.errorMsg}>
+                <Input
+                  prefix={<Icon type="lock" />}
+                  size="large"
+                  name="pw"
+                  type="password"
+                  value={this.state.pw.value}
+                  placeholder="Parola curenta"
+                  onChange={event => this.handleChange(event, this.validatePw)}
+                />
               </FormItem>
-            <FormItem label="Parola curenta:"
-              validateStatus={this.state.pw.validateStatus}
-              help={this.state.pw.errorMsg}>
-              <Input
-                prefix={<Icon type="lock" />}
-                size="large"
-                name="pw"
-                type="password"
-                value={this.state.pw.value}
-                placeholder="Parola curenta"
-                onChange={event => this.handleChange(event, this.validatePw)}
-              />
-            </FormItem>
-            <FormItem label="Parola noua:"
-              validateStatus={this.state.newpw.validateStatus}
-              help={this.state.newpw.errorMsg}>
-              <Input
-                prefix={<Icon type="lock" />}
-                size="large"
-                name="newpw"
-                type="password"
-                value={this.state.newpw.value}
-                placeholder="Parola noua"
-                onChange={event => this.handleChange(event, this.validateNewPw)}
+              <FormItem label="Parola noua:"
+                validateStatus={this.state.newpw.validateStatus}
+                help={this.state.newpw.errorMsg}>
+                <Input
+                  prefix={<Icon type="lock" />}
+                  size="large"
+                  name="newpw"
+                  type="password"
+                  value={this.state.newpw.value}
+                  placeholder="Parola noua"
+                  onChange={event => this.handleChange(event, this.validateNewPw)}
 
-              />
-            </FormItem>
-            <FormItem label="Numar de telefon:"
-              validateStatus={this.state.phone.validateStatus}
-              help={this.state.phone.errorMsg}>
-              <Input
-                prefix={<Icon type="phone" />}
-                size="large"
-                name="phone"
-                type="number"
-                value={this.state.phone.value}
-                placeholder="Numar de telefon"
-                onChange={event => this.handleChange(event, this.validatePhone)}
+                />
+              </FormItem>
+              <FormItem label="Numar de telefon:"
+                validateStatus={this.state.phone.validateStatus}
+                help={this.state.phone.errorMsg}>
+                <Input
+                  prefix={<Icon type="phone" />}
+                  size="large"
+                  name="phone"
+                  type="number"
+                  value={this.state.phone.value}
+                  placeholder="Numar de telefon"
+                  onChange={event => this.handleChange(event, this.validatePhone)}
 
-              />
-            </FormItem>
-            <FormItem label="Adresa de email:"
-              validateStatus={this.state.email.validateStatus}
-              help={this.state.email.errorMsg}>
-              <Input
-                prefix={<Icon type="mail" />}
-                size="large"
-                name="email"
-                type="email"
-                value={this.state.email.value}
-                placeholder="Adresa de email"
-                onChange={event => this.handleChange(event, this.validateEmail)}
+                />
+              </FormItem>
+              <FormItem label="Adresa de email:"
+                  validateStatus={this.state.email.validateStatus}
+                  help={this.state.email.errorMsg}>
+                  <Input
+                    prefix={<Icon type="mail" />}
+                    size="large"
+                    name="email"
+                    type="email"
+                    value={this.state.email.value}
+                    placeholder="Adresa de email"
+                    onChange={event => this.handleChange(event, this.validateEmail)}
 
-              />
-            </FormItem>
-            <FormItem label="Nume firma:"
+                  />
+                </FormItem>
+              <Button
+                type="primary"
+                htmlType="submit"
+                size="large"
+                className="profile-form-button"
+              >
+                Salvare
+              </Button>
+            </Form>
+
+            <Form onSubmit={this.handleSubmit}>
+              <FormItem label="Nume firma:"
               validateStatus={this.state.society.validateStatus}
               help={this.state.society.errorMsg}>
               <Input
@@ -321,33 +406,56 @@ export class Profile extends Component {
                 value={this.state.society.value}
                 placeholder="Nume firma"
                 onChange={event => this.handleChange(event, this.validateCompanyName)}
-
               />
-            </FormItem>
-            <FormItem label="Adresa"
-              validateStatus={this.state.address.validateStatus}
-              help={this.state.address.errorMsg}>
-              <Input
-                prefix={<Icon type="search" />}
+              </FormItem>
+              <FormItem label="Adresa"
+                validateStatus={this.state.address.validateStatus}
+                help={this.state.address.errorMsg}>
+                <Input
+                  prefix={<Icon type="search" />}
+                  size="large"
+                  name="address"
+                  type="text"
+                  value={this.state.address.value}
+                  placeholder="Adresa firma"
+                  onChange={event => this.handleChange(event, this.validateCompanyAddress)}
+              />
+                </FormItem>
+              <FormItem label="Poza profil service">
+                  <Upload
+                    name="avatar"
+                    listType="picture-card"
+                    className="avatar-uploader"
+                    showUploadList={false}
+                    action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                    beforeUpload={beforeUpload}
+                    onChange={this.handleImageChange}
+                  >
+                    {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
+                  </Upload>
+                </FormItem>
+              <FormItem label="Descriere Service"
+                  help={this.state.companyDescription.errorMsg}>
+                  <Input
+                    prefix={<Icon type="align-center" />}
+                    size="large"
+                    name="companyDescription"
+                    type="text"
+                    value={this.state.companyDescription.value}
+                    placeholder="Descrierea Service"
+                    onChange={event => this.handleChange(event, this.validateCompanyDescription)}
+                  />
+                </FormItem>
+              <Button
+                type="primary"
+                htmlType="submit"
                 size="large"
-                name="address"
-                type="text"
-                value={this.state.address.value}
-
-                placeholder="Adresa firma"
-                onChange={event => this.handleChange(event, this.validateCompanyAddress)}
-
-              />
-            </FormItem>
-            <Button
-              type="primary"
-              htmlType="submit"
-              size="large"
-              className="profile-form-button"
-            >
-              Salvare
-            </Button>
-          </Form>
+                className="profile-form-button"
+                >
+                  Salvare
+              </Button>
+            </Form>
+          </div>
         </div>
       );
     }
@@ -482,6 +590,19 @@ export class Profile extends Component {
       return {
         validateStatus: "error",
         errorMsg: `Adresa companiei este prea scurta`
+      };
+    }
+    return {
+      validateStatus: 'success',
+      errorMsg: null
+    };
+  }
+
+  validateCompanyDescription = companyDescription => {
+    if (companyDescription.length < 10) {
+      return {
+        validateStatus: "error",
+        errorMsg: `Descrierea companiei trebuie sa fie mai lunga.`
       };
     }
     return {
