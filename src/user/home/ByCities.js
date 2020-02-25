@@ -17,7 +17,9 @@ class ByCities extends Component {
         {data.map((obj)=>
           <div className="cities-container__services">
             {/* <Img src={obj.img}></Img>   */}
-            <h2>{obj.name}</h2>  <p className="categorie-reparatie">{obj.categories}</p>
+            <h2>{obj.name}</h2>
+            <p>
+            {obj.categories.map((cat) => { return <span className="categorie-reparatie">{cat}</span>})}</p>
             <p>{obj.cereri} cereri completate</p>
             <Rate disabled value={obj.review} ></Rate>{obj.review}/5
             <p>{obj.description}</p>

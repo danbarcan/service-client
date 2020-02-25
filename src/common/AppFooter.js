@@ -65,10 +65,10 @@ class AppFooter extends Component {
 
         <Modal size="lg" show={this.state.confidentialityShow} onHide={() => this.setState({ show: false, termeniShow: false, confidentialityShow: false })}>
           <Modal.Header closeButton>
-            <h3> Cu ce te putem ajuta ?</h3>
+            <h3> Prelucrarea datelor cu caracter personal </h3>
           </Modal.Header>
           <Modal.Body>
-            <p><strong>Politicile de protecție și de confidențialitate Rădăcini Grup* în conformitate cu Regulamentul General de Protecție a Datelor nr. 679/2016 (GDPR) aplicabil în Uniunea Europeana.</strong></p>
+            <p><strong>Politicile de protecție și de confidențialitate Smart-Service în conformitate cu Regulamentul General de Protecție a Datelor nr. 679/2016 (GDPR) aplicabil în Uniunea Europeana.</strong></p>
             <p>Societățile ce fac parte din Rădăcini Grup*, denumite individual în cele ce urmează Operatorul procesează datele personale ale clienților și partenerilor de afaceri prezenți, trecuți și potențiali, ca parte a desfășurării activității economice de zi cu zi.</p>
             <p>Operatorul procesează datele personale ale clienților și partenerilor de afaceri prezenți, trecuți și potențiali, ca parte a desfășurării activității economice de zi de zi.</p>
             <p>Operatorul poate deține informații despre dvs, pe care ni le-ati oferit și prelucrează datele dvs. personale în concordanta cu Regulamentul General de Protecție a Datelor nr. 679/2016 (GDPR) aplicabil în Uniunea Europeana începând cu data de 25.05.2018.</p>
@@ -116,7 +116,6 @@ class AppFooter extends Component {
             <p>O terță parte sau un organ, atunci când dezvăluirea respectivă este necesară pentru îndeplinirea oricărei legi aplicabile sau a altei cerințe legale sau de reglementare</p>
             <p>Agenții de colectare a datoriilor sau alte organizații de recuperare a datoriilor</p>
             <p>Agenții de aplicare a legii, organe guvernamentale, organizații de reglementare, instanțe sau alte autorități publice dacă avem această obligație legală sau suntem autorizați prin lege</p>
-            <p>O lista detaliata cu partenerii se poate consulta <a href="https://radacini.ro/wp-content/uploads/2018/09/lista-parteneri-date-confidentiale.pdf">aici</a></p>
             <p>&nbsp;</p>
             <p><strong>4. Transferul de date într-o alta țară</strong></p>
             <p>Operatorul nu efectuează toate prelucrările datelor cu caracter personal în regim propriu, ci beneficiază de sprijin de la parteneri profesionali pentru prelucrarea datelor în scopul executării unui contract și a obligațiilor ce deriva din acesta, ca de exemplu producători, diverse agenții de marketing și societăți de sondare a opiniei, în scopurile menționate în prezenta politica.</p>
@@ -139,21 +138,21 @@ class AppFooter extends Component {
             <p>Dreptul de a nu fi evaluat pe baza unei prelucrări automate.</p>
             <p>&nbsp;</p>
             <p><strong>Dreptul de a ști ce date personale va sunt procesate/Dreptul de acces</strong></p>
-            <p>Aveți dreptul de a solicita o copie a datelor cu caracter personal pe care le deține Operatorul în legătură cu dvs., prin posta la Rădăcini Grup, B-dul Iuliu Maniu nr. 246, sector 6 București, dep. Relații Clienți – GDPR sau prin email (gdpr@radacini-grup.ro) pentru a primi în format electronic toate datele dvs. deținute de Operator.</p>
+            <p>Aveți dreptul de a solicita o copie a datelor cu caracter personal pe care le deține Operatorul în legătură cu dvs., (contact@smart-service.ro) pentru a primi în format electronic toate datele dvs. deținute de Operator.</p>
             <p><strong>Dreptul de a rectifica datele</strong></p>
-            <p>Aveți dreptul de a rectifica datele deținute în legătură cu dvs, dacă acestea nu sunt corecte. Dacă datele pe care le deținem trebuie actualizate sau în cazul în care considerați că acestea pot fi incorecte, va puteți adresa Operatorului la gdpr@radacini-grup.ro sau prin posta la Rădăcini Grup, B-dul Iuliu Maniu nr. 246, sector 6 București dep. Relații Clienți – GDPR</p>
+            <p>Aveți dreptul de a rectifica datele deținute în legătură cu dvs, dacă acestea nu sunt corecte. Dacă datele pe care le deținem trebuie actualizate sau în cazul în care considerați că acestea pot fi incorecte, va puteți adresa Operatorului la contact@smart-service.ro</p>
             <p>Nu se pot face rectificări asupra datelor privind produsele achiziționate/închiriate, valoarea facturilor, vizitele în showroom sau service sau altele care ar contraveni legilor.</p>
             <p><strong>Dreptul de a fi uitat – de a fi șters din baza de date</strong></p>
             <p>Operatorul urmărește să prelucreze și să păstreze datele doar atât timp cât acest lucru este necesar. În anumite circumstanțe, aveți dreptul de a ne solicita să ștergem datele tale cu caracter personal pe care le deținem.</p>
-            <p>În cazul în care considerați că păstrăm datele mai mult decât este necesar, puteți sa va adresați Operatorului la gdpr@radacini-grup.ro sau prin posta la Rădăcini Grup, B-dul Iuliu Maniu nr. 246, sector 6 București dep. Relații Clienți – GDPR. Dacă perioada cuprinsa în consimțământ a trecut, este posibil să avem în continuare temeiuri legale pentru prelucrarea datelor dumneavoastră cu caracter personal.</p>
-            <p>Puteți solicita ștergerea datelor personale în scris prin scrisoare sau email Operatorului la gdpr@radacini-grup.ro sau prin posta la Rădăcini Grup, B-dul Iuliu Maniu nr. 246, sector 6 București dep. Relații Clienți – GDPR.</p>
+            <p>În cazul în care considerați că păstrăm datele mai mult decât este necesar, puteți sa va adresați Operatorului la contact@smart-service.ro. Dacă perioada cuprinsa în consimțământ a trecut, este posibil să avem în continuare temeiuri legale pentru prelucrarea datelor dumneavoastră cu caracter personal.</p>
+            <p>Puteți solicita ștergerea datelor personale în scris prin scrisoare sau email Operatorului la contact@smart-service.ro </p>
             <p>Solicitarea dumneavoastră trebuie trimisa și la producătorul produsului dvs. în cazul în care acesta a fost achiziționat de la noi (ex. Opel, Suzuki, Mazda, Citroen, Peugeot, Honda).</p>
             <p>Acesta se va asigura ca în o luna de zile solicitarea clientului va fi îndeplinită și clientul a fost șters din toate aplicațiile. Termenul poate fi extins la 2 luni cu informarea în prealabil a clientului.</p>
             <p>Nu se vor șterge datele personale ale clienților care au datorii către firma sau către un partener direct (ex.firma de leasing financiar).</p>
             <p>Nu se vor șterge acele date care trebuiesc păstrate ca urmare a dispozițiilor legale (facturi, contracte etc).</p>
             <p><strong>Dreptul de retragere a consimțământului</strong></p>
             <p>Aveți dreptul în orice moment sa cereți retragerea consimțământului de comunicare.</p>
-            <p>Retragerea consimțământului se va face doar în mod scris prin transmiterea cererii Operatorului la gdpr@radacini-grup.ro sau prin posta la Rădăcini Grup, B-dul Iuliu Maniu nr. 246, sector 6 București dep. Relații Clienți – GDPR.</p>
+            <p>Retragerea consimțământului se va face doar în mod scris prin transmiterea cererii Operatorului la contact@smart-service.ro.</p>
             <p><strong>Dreptul la portabilitatea datelor</strong></p>
             <p>Aveți dreptul de a primi datele cu caracter personal care va privesc și pe care le-ati furnizat operatorului într-un format structurat, utilizat în mod curent şi care poate fi citit automat şi aveți dreptul de a cere transmiterea acestor date altui operator, dacă ele au fost prelucrate pe baza de consimțământ și prelucrarea se face prin mijloace automate</p>
             <p><strong>Dreptul de restricționare la utilizarea datelor cu caracter personal</strong></p>
@@ -178,8 +177,7 @@ class AppFooter extends Component {
             <p><strong>8. Puncte de contact</strong></p>
             <p>În cazul în care doriți sa va exercitați unul sau mai multe drepturi ale dumneavoastră enumerate la punctul 6 sau doriți sa aflați mai multe informații referitoare la colectarea și procesarea și protejarea datelor dumneavoastră va rog sa contactați Operatorul prin Ofițerul de Date Personal numit conform Regulamentului GDPR.</p>
             <p>Adresa: B-dul Iuliu Maniu Nr. 246, sector 6, București, dep. Relații Clienți – GDPR.</p>
-            <p>Adresa de email gdpr@radacini-grup.ro</p>
-            <p>* Radacini Motors SRL, Radacini Auto Motor SRL, Arian Motors SRL, Radacini SRL, Radacini Motors Brasov SRL, Darius Motors SRL, Irmex SA, Radacini Auto Trading SRL, Radacini Equipment SRL, Radacini Diesel Center SRL, Interlease Operational SRL, Radacini Leasing IFN SA, Grupul de formare profesionala Master SRL, Master SA, Utrec SA, Irmex Trading SRL, Rally BM Com SRL, Sama Service Team SRL, Sama Service Grup SRL.</p>
+            <p>Adresa de email contact@smart-service.ro</p>
           </Modal.Body>
         </Modal>
 
@@ -190,7 +188,7 @@ class AppFooter extends Component {
           </Modal.Header>
           <Modal.Body>
             <div className="row">
-              <div className="col-lg border border-light p-5">
+              <div>
                 <p>Site-ul (numit in continuare “site”) este administrat de DD Web & Software Solutions SRL.</p>
                 <p>&nbsp;</p>
                 <p>1. <strong>Drepturi de proprietate intelectuala</strong></p>
@@ -209,6 +207,28 @@ class AppFooter extends Component {
                   Acest site a fost creat si functioneaza in concordanta cu legile in vigoare in Romania. Pentru reglarea oricaror dispute referitoare la acest site, legile si tribunalele din Romania vor avea jurisdictie exclusiva.</p>
               </div>
             </div>
+
+            <div className="row">
+              <h3>Politica de utilizare a cookie-urilor</h3>
+              <p>
+              Site-ul www.smart-service.ro utilizează că majoritatea website-urilor cookies pentru a ajuta vizitatorii să se bucure de o experienţă mai bună de navigare. Acest site foloseşte cookie pentru a oferi servicii mai bune utilizatorilor şi pentru a le prezenta conţinut atractiv şi util.
+              Cookie-urile sunt folosite pentru a facilita accesul şi livrarea unor servicii diverse, de care se bucura un utilizator normal pe internet. Printre acestea se numără:
+              Personalizarea unor setări de limbă: cum puteţi selecta pe site-ul vizitat limba în care doriţi să fie dispus conţinutul său simplă accesare a paginii vizitate anterior prin apăsarea butonului „înapoi”. Cookie-urile ne oferă informaţii despre cum utilizatorul foloseşte site-ul nostru. Aceste informaţii sunt utilizate pentru a aranja, edita conţinutul site-ului pentru a fi mai util.
+              </p>
+              <p>
+              Ce este un „cookie”?
+              Definiţia unui „internet cookie”, recunoscut şi sub denumirea de „browser cookie” sau „HTTP cookie” este un fişier mic, format din numere şi litere, care este stocat pe computerul sau dispozitivul folosit de utilizator pentru a accesa internetul. Acest cookie este instalat prin solicitară emisă de către un web-server unui browser. În funcţie de ce browser folosiţi dumneavoastră (Safari, Edge, Chrome sau Mozilla) cookie-ul este pasiv. Acesta nu are programe software precum viruşi sau spyware. De asemenea cookie-ul nu are capacitatea de a accesa informaţii prezente pe hard drive-ul utilizatorului.
+              Ar trebui să menţionăm că durata de existenţa a unui internet cookie este determinată şi este format din două părţi: numele şi conţinutul sau valoarea lui. Important: Un cookie în sine nu solicită informaţii cu caracter personal pentru a fi utilizate. De asemenea în majoritatea cazurilor, un cookie nu identifica personal un utilizator de internet.
+              Sunt două categorii de cookie-uri:
+              Cookie de sesiune – acest tip de cookie este stocat temporar în folderul de cookie al browserului utilizat de utilizator. Aici este memorat până în momentul în care utilizatorul părăseşte site-ul sau optează pentru închiderea ferestrei browserului.
+              Cookie persistent – acest tip de cookie este stocat pe hard drive-ul unui computer (cu o durată de viaţă prestabilită). Aici sunt şi cookie plasate de un alt website decât cel pe care utilizatorul îl vizitează, cunoscute în limbajul general sub numele de „third party cookies”. Astfel de cookies pot memora interesele unui utilizator, pentru că ulterior să ofere publicitate relevanta.
+              Care este utilitatea unui cookie?
+              </p>
+              <p>
+              Cookie-urile le asigura utilizatorilor o experienţă plăcută de navigare şi în majoritatea cazurilor ajuta alte website-uri pentru a oferi servicii bune userilor (în funcţie de interesele şi preferinţele acestora).
+              Utilizatorul are posibilitatea de a şterge oricând cookie-urile folosind setările browserului utilizat cel mai des. Să ştiţi că toate browserele moderne – Safari, Mozilla, Edge, Internet Explorer, Opera sau Chrome – oferă utilizatorilor posibilitatea de a schimba setările cookie-urilor. În majoritatea cazurilor aceste setări le puteţi găsi în secţiunea de opţiuni sau în meniul de preferinţe (în funcţie de browserul folosit)
+              </p>
+            </div>
           </Modal.Body>
         </Modal>
 
@@ -217,37 +237,5 @@ class AppFooter extends Component {
   }
 }
 
-// function ProfileDropdownMenu(props) {
-//   const dropdownMenu = (
-//     <Menu onClick={props.handleMenuClick} className="profile-dropdown-menu">
-//       <Menu.Item key="user-info" className="dropdown-item" disabled>
-//         <div className="user-full-name-info">{props.currentUser.name}</div>
-//         <div className="username-info">@{props.currentUser.username}</div>
-//       </Menu.Item>
-//       <Menu.Divider />
-//       <Menu.Item key="profile" className="dropdown-item">
-//         <Link to={`/users/${props.currentUser.username}`}>Profile</Link>
-//       </Menu.Item>
-//       <Menu.Item key="logout" className="dropdown-item">
-//         <Link to="/home">Logout</Link>
-//       </Menu.Item>
-//     </Menu>
-//   );
-
-//   return (
-//     <Dropdown
-//       overlay={dropdownMenu}
-//       trigger={["click"]}
-//       getPopupContainer={() =>
-//         document.getElementsByClassName("profile-menu")[0]
-//       }
-//     >
-//       <a className="ant-dropdown-link">
-//         <Icon type="user" className="nav-icon" style={{ marginRight: 0 }} />{" "}
-//         <Icon type="down" />
-//       </a>
-//     </Dropdown>
-//   );
-// }
 
 export default withRouter(AppFooter);
