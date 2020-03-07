@@ -1,35 +1,73 @@
-import React, { Component } from "react";
-import { updateUser, updateServiceDetails } from "../../util/APIUtils";
-import { Redirect } from 'react-router';
-import { Form, Input, Button, Icon, notification, Upload, message } from "antd";
+import React, {Component} from "react";
+import {updateServiceDetails, updateUser} from "../../util/APIUtils";
+import {Redirect} from 'react-router';
+import {Button, Form, Icon, Input, message, notification, Upload} from "antd";
 import {
-  NAME_MIN_LENGTH,
-  NAME_MAX_LENGTH,
+  AVATAR_MAX_SIZE,
   EMAIL_MAX_LENGTH,
+  NAME_MAX_LENGTH,
+  NAME_MIN_LENGTH,
   PASSWORD_MIN_LENGTH,
   PHONE_MAX_LENGTH,
   PHONE_MIN_LENGTH
 } from "../../constants";
 import "./Profile.css";
+
 const FormItem = Form.Item;
 
 
 function getBase64(img, callback) {
   const reader = new FileReader();
-  reader.addEventListener('load', () => callback(reader.result));
   reader.readAsDataURL(img);
+  reader.onload = function (event) {
+    var dataUrl = event.target.result;
+
+    var image = new Image();
+    image.src = dataUrl;
+    image.onload = function () {
+      var resizedDataUrl = resizeImage(image, AVATAR_MAX_SIZE,);
+      callback(resizedDataUrl);
+    };
+  };
+}
+
+function resizeImage(image, maxSize) {
+  var canvas = document.createElement('canvas');
+
+  var width = image.width;
+  var height = image.height;
+
+  if (width > height) {
+    if (width > maxSize) {
+      height = Math.round(height * maxSize / width);
+      width = maxSize;
+    }
+  } else {
+    if (height > maxSize) {
+      width = Math.round(width * maxSize / height);
+      height = maxSize;
+    }
+  }
+
+  canvas.width = width;
+  canvas.height = height;
+
+  var ctx = canvas.getContext("2d");
+  ctx.drawImage(image, 0, 0, width, height);
+  return canvas.toDataURL("image/jpeg");
 }
 
 function beforeUpload(file) {
   const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
   if (!isJpgOrPng) {
-    message.error('Pot fi uploadate numai poze in format JPG sau PNG');
+    message.error('Pot fi uploadate numai fisiere in format JPG sau PNG');
   }
-  const isLt2M = file.size / 1024 / 1024 < 2;
-  if (!isLt2M) {
-    message.error('Imaginea trebuie sa fie mai mica de 2MB !');
-  }
-  return isJpgOrPng && isLt2M;
+  // const isLt2M = file.size / 1024 / 1024 < 10;
+  // if (!isLt2M) {
+  //   message.error('Imaginea trebuie sa fie mai mica de 10MB !');
+  // }
+  // console.log(file);
+  return isJpgOrPng;// && isLt2M;
 }
 
 export class Profile extends Component {
@@ -113,7 +151,7 @@ export class Profile extends Component {
 
       // Get this url from response in real world.
       getBase64(info.file.originFileObj, imageUrl =>
-        
+
         this.setState({
           imageUrl,
           loading: false,
@@ -128,6 +166,7 @@ export class Profile extends Component {
     if(this.state.society.value || this.state.address.value || this.state.companyDescription.value || this.state.imageUrl){
       console.log(this.state);
       const serviceDetails = {
+        id : this.props.currentUser.id,
         serviceName: this.state.society.value,
         serviceAddress: this.state.address.value,
         companyDescription: this.state.companyDescription.value,
@@ -148,40 +187,40 @@ export class Profile extends Component {
             "Oups! Ceva nu a functionat corect!"
         });
       });
-    } else{
-      if (this.state.newpw === this.state.pw) {
-        this.setState({
-          incorrectPassword: true
-        })
-      } else {
-        const userRequest = {
-          id: this.props.currentUser.id,
-          name: this.state.name.value,
-          username: this.props.currentUser.username,
-          oldPassword: this.state.pw.value,
-          password: this.state.newpw.value,
-          phone: this.state.phone.value,
-          email: this.state.email.value,
-          redirectHome: false
-        };
-        updateUser(userRequest)
-          .then(response => {
-            notification.success({
-              message: "Smart Service",
-              description: "Multumim ! Noile detalii au fost salvate!"
-            });
-            this.setState({
-              redirectHome: true
-            })
-          })
-          .catch(error => {
-            notification.error({
-              message: "Smart Service",
-              description:
-                "Oups! Va rugam sa introduceti parola actuala corecta!"
-            });
+    }
+
+    if (this.state.newpw === this.state.pw) {
+      this.setState({
+        incorrectPassword: true
+      })
+    } else {
+      const userRequest = {
+        id: this.props.currentUser.id,
+        name: this.state.name.value,
+        username: this.props.currentUser.username,
+        oldPassword: this.state.pw.value,
+        password: this.state.newpw.value,
+        phone: this.state.phone.value,
+        email: this.state.email.value,
+        redirectHome: false
+      };
+      updateUser(userRequest)
+        .then(response => {
+          notification.success({
+            message: "Smart Service",
+            description: "Multumim ! Noile detalii au fost salvate!"
           });
-      }
+          this.setState({
+            redirectHome: true
+          })
+        })
+        .catch(error => {
+          notification.error({
+            message: "Smart Service",
+            description:
+              "Oups! Va rugam sa introduceti parola actuala corecta!"
+          });
+        });
     }
   }
 

@@ -1,12 +1,6 @@
-// export const API_BASE_URL = "https://serice-api.herokuapp.com";
-// export const API_BASE_URL = 'http://localhost:9876';
-export const API_BASE_URL = 'http://serviceapi-env-1.zwv3pxuujw.eu-central-1.elasticbeanstalk.com';
+// export const API_BASE_URL = 'http://localhost:5000';
+export const API_BASE_URL = 'http://46.101.148.108:5000/service-api';
 export const ACCESS_TOKEN = "accessToken";
-
-export const POLL_LIST_SIZE = 30;
-export const MAX_CHOICES = 6;
-export const POLL_QUESTION_MAX_LENGTH = 140;
-export const POLL_CHOICE_MAX_LENGTH = 40;
 
 export const NAME_MIN_LENGTH = 4;
 export const NAME_MAX_LENGTH = 40;
@@ -21,3 +15,5 @@ export const PASSWORD_MAX_LENGTH = 20;
 
 export const PHONE_MIN_LENGTH = 10;
 export const PHONE_MAX_LENGTH = 15;
+
+export const AVATAR_MAX_SIZE = 300;
